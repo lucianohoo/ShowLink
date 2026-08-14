@@ -59,7 +59,8 @@ body { background: var(--ink); color: var(--paper); }
     <h1>E aí, fã. <em>Aqui você manda.</em></h1>
     <p class="lede">Você é a estrela — traz a banda que nunca veio, a cidade inteira enxerga que a demanda existe, você vota, reserva, e o show acontece. Camarote, prioridade, foto com a galera.</p>
     <div class="herobtns">
-      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
+      <button class="btn" onclick="window.location='hall-shows.html'">🎸 Ver Shows Próximos</button>
+      <button class="btn ghost" onclick="document.getElementById('cap1').scrollIntoView()">Como funciona</button>
       <button class="btn ghost" onclick="alert('Seguir banda: integração com Supabase')">+ Seguir Banda</button>
     </div>
   </div>
@@ -133,6 +134,12 @@ body { background: var(--ink); color: var(--paper); }
 <div class="content" style="margin-top: 40px;">
 
   <section class="section">
+    <div style="background: linear-gradient(135deg, rgba(255,61,127,.15), rgba(255,61,127,.08)); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 32px; text-align: center;">
+      <div style="font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px;">Encontre seus artistas</div>
+      <div style="font-size: 1rem; font-weight: 600; margin-bottom: 12px;">Veja quando e onde suas bandas estão tocando</div>
+      <button class="btn" onclick="window.location='hall-shows.html'" style="background: var(--fa); color: white;">🎸 Explorar Shows por Cidade</button>
+    </div>
+
     <h2 class="sectiontitle">Bandas que você segue</h2>
     <p class="sectionsubtitle">Até 5 bandas acompanhadas. ShowLink te avisa quando uma lança música, abre campanha, ou vai tocar perto.</p>
     <div class="bandgrid">
