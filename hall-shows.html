@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShowLink — Baladas Cascavel</title>
+<script src="js/auth-check.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -81,240 +82,334 @@ body { background: var(--ink); color: var(--paper); }
   <div class="city-name">🎸 Baladas em Cascavel</div>
   <div class="city-meta">Paraná · Hooligans Cascavel (Casa oficial) · Próximos 30 dias</div>
   <div class="city-tabs">
-    <button class="active" onclick="switchTab('personalized')">Suas bandas</button>
-    <button onclick="switchTab('all')">Todos os shows</button>
-    <button onclick="switchTab('map')">Mapa de bandas</button>
+    <button class="active" onclick="switchTab('personalized')">Motor 1: Rateio</button>
+    <button onclick="switchTab('all')">Motor 2: Validação</button>
+    <button onclick="switchTab('map')">Shows Confirmados</button>
   </div>
 </div>
 
-<!-- TAB 1: Shows personalizados (bandas que segue) -->
+<!-- TAB 1: Motor 1 — Rateio por Proximidade -->
 <div id="personalized-tab">
-  <div class="section-title">🎵 Shows das bandas que você segue</div>
-  <div class="section-sub">Seus 5 artistas aparecem aqui assim que agendarem algo em Cascavel ou próximo (300 km)</div>
+  <div class="section-title">⚡ Motor 1: Bandas em Trânsito (Rateio Próximo)</div>
+  <div class="section-sub">Uma banda foi contratada em outra cidade. Veja as datas livres aqui e divida o cachê + transporte</div>
 
   <div class="carousel-wrap">
     <div class="carousel">
-      <!-- Show 1: Rock4Roots (Hooligans Cascavel) -->
-      <div class="show-card">
-        <div class="show-poster">🎸</div>
+      <!-- Rateio 1: Acústicos & Valvulados em passagem -->
+      <div class="show-card" style="background: linear-gradient(180deg, rgba(16,185,129,0.1), var(--navy)); border-color: var(--artista);">
+        <div class="show-poster" style="background: linear-gradient(135deg, var(--artista), var(--artista));">🎤</div>
         <div class="show-info">
-          <div class="show-band">Rock4Roots</div>
-          <div class="show-genre">Rock</div>
-          <div class="show-when">📅 15 ago · 22h</div>
-          <div class="show-where">Hooligans Cascavel</div>
-          <button class="show-cta">Reservar ingresso</button>
+          <div class="show-band">Acústicos & Valvulados</div>
+          <div class="show-genre" style="color: var(--artista); font-weight: 600;">💚 PASSAGEM CONFIRMADA</div>
+          <div style="font-size: 0.75rem; color: var(--mut); margin-top: 8px; line-height: 1.4;">
+            <div>🔴 Maringá · 24 ago (contratado)</div>
+            <div style="color: var(--artista); font-weight: 600;">📍 Cascavel · 25 ago (LIVRE)</div>
+            <div>🟡 Foz · 26 ago (LIVRE)</div>
+          </div>
+          <div style="margin-top: 12px; font-family: var(--data); font-size: 0.8rem; color: var(--paper);">
+            Cachê total: R$ 35k → <strong>÷3 casas = R$ 11.7k</strong>
+          </div>
+          <button class="show-cta" style="background: var(--artista); margin-top: 12px;">Propor divisão</button>
         </div>
       </div>
 
-      <!-- Show 2: Plutão Já Foi Planeta -->
-      <div class="show-card">
-        <div class="show-poster">🎭</div>
+      <!-- Rateio 2: Tianastácia -->
+      <div class="show-card" style="background: linear-gradient(180deg, rgba(16,185,129,0.1), var(--navy)); border-color: var(--artista);">
+        <div class="show-poster" style="background: linear-gradient(135deg, var(--artista), var(--artista));">🎭</div>
         <div class="show-info">
-          <div class="show-band">Plutão Já Foi Planeta</div>
-          <div class="show-genre">Rock Alt</div>
-          <div class="show-when">📅 22 ago · 21h</div>
-          <div class="show-where">Hooligans Cascavel</div>
-          <button class="show-cta">Reservar ingresso</button>
+          <div class="show-band">Tianastácia</div>
+          <div class="show-genre" style="color: var(--artista); font-weight: 600;">💚 PASSAGEM CONFIRMADA</div>
+          <div style="font-size: 0.75rem; color: var(--mut); margin-top: 8px; line-height: 1.4;">
+            <div>🔴 Maringá · Corporativo (contratado)</div>
+            <div style="color: var(--artista); font-weight: 600;">📍 Cascavel · Quinta ou Sexta (LIVRE)</div>
+            <div>🟡 Foz · Sábado (LIVRE)</div>
+          </div>
+          <div style="margin-top: 12px; font-family: var(--data); font-size: 0.8rem; color: var(--paper);">
+            Cachê: R$ 40k · Transporte: R$ 3.5k
+          </div>
+          <button class="show-cta" style="background: var(--artista); margin-top: 12px;">Encaixar rota</button>
         </div>
       </div>
 
-      <!-- Show 3: VICKA em Maringá (viajando) -->
-      <div class="show-card">
-        <div class="show-poster">🎤</div>
+      <!-- Rateio 3: Vanguart -->
+      <div class="show-card" style="background: linear-gradient(180deg, rgba(16,185,129,0.1), var(--navy)); border-color: var(--artista);">
+        <div class="show-poster" style="background: linear-gradient(135deg, var(--artista), var(--artista));">🎸</div>
         <div class="show-info">
-          <div class="show-band">VICKA</div>
-          <div class="show-genre">MPB</div>
-          <div class="show-when">📅 29 ago · 20h</div>
-          <div class="show-where">MPB Bar (Maringá) · 168 km</div>
-          <button class="show-cta">Reservar ingresso</button>
-        </div>
-      </div>
-
-      <!-- Show 4: The Mônic em Curitiba -->
-      <div class="show-card">
-        <div class="show-poster">🎸</div>
-        <div class="show-info">
-          <div class="show-band">The Mônic</div>
-          <div class="show-genre">Rock Alt</div>
-          <div class="show-when">📅 05 set · 22h</div>
-          <div class="show-where">Crossroad (Curitiba) · 620 km</div>
-          <button class="show-cta">Reservar ingresso</button>
-        </div>
-      </div>
-
-      <!-- Show 5: Jam Session em Foz -->
-      <div class="show-card">
-        <div class="show-poster">🎵</div>
-        <div class="show-info">
-          <div class="show-band">Jam Session</div>
-          <div class="show-genre">Pop-Rock</div>
-          <div class="show-when">📅 12 set · 21h</div>
-          <div class="show-where">Zepellin (Foz) · 98 km</div>
-          <button class="show-cta">Reservar ingresso</button>
+          <div class="show-band">Vanguart</div>
+          <div class="show-genre" style="color: var(--artista); font-weight: 600;">💚 DISPONÍVEL</div>
+          <div style="font-size: 0.75rem; color: var(--mut); margin-top: 8px; line-height: 1.4;">
+            <div>🔴 Toledo · Prefeitura (contratado)</div>
+            <div style="color: var(--artista); font-weight: 600;">📍 Cascavel · Domingo (LIVRE)</div>
+            <div>🟡 Foz · Segunda (LIVRE)</div>
+          </div>
+          <div style="margin-top: 12px; font-family: var(--data); font-size: 0.8rem; color: var(--paper);">
+            Cachê: R$ 30k · 2 casas já interessadas
+          </div>
+          <button class="show-cta" style="background: var(--artista); margin-top: 12px;">Cotar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- TAB 2: Todos os shows agendados -->
+<!-- TAB 2: Motor 2 — Validação Antecipada -->
 <div id="all-tab" style="display: none;">
-  <div class="section-title">📅 Todos os shows agendados em Cascavel</div>
-  <div class="section-sub">Até 10 eventos principais desta semana · Filtre por interesse</div>
+  <div class="section-title">🎯 Motor 2: Campanhas de Validação (Pré-Venda)</div>
+  <div class="section-sub">Bandas fazendo turnê. Primeira a 400 ingressos → sábado. Segunda → sexta. Terceira → domingo</div>
+
+  <div style="max-width: var(--maxw); margin: 32px auto; padding: 0 24px;">
+    <!-- Campanha 1: Plutão Já Foi Planeta -->
+    <div style="background: var(--navy); border: 2px solid var(--patro); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
+        <div style="font-family: var(--display); font-weight: 700; font-size: 1.3rem;">Plutão Já Foi Planeta</div>
+        <div style="font-size: 0.75rem; color: var(--patro); font-weight: 600;">🎯 CAMPANHA ATIVA</div>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 20px;">Rock Alt · Meta: 400 ingressos por cidade · Valor: R$ 80</div>
+
+      <!-- Cidades na campanha -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <!-- Cascavel -->
+        <div style="background: linear-gradient(180deg, rgba(53,167,255,0.1), transparent); border: 1px solid var(--line); border-radius: 12px; padding: 16px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">📍 Cascavel</div>
+          <div style="font-family: var(--data); font-size: 1.1rem; font-weight: 700; color: var(--paper); margin-bottom: 8px;">
+            <span style="color: var(--patro);">389</span> / 400 ingressos
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--navy-2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: 97.25%; height: 100%; background: var(--patro);"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--mut); text-align: right;">97,25% · Faltam 11 ingressos</div>
+        </div>
+
+        <!-- Toledo -->
+        <div style="background: linear-gradient(180deg, rgba(53,167,255,0.1), transparent); border: 1px solid var(--line); border-radius: 12px; padding: 16px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">📍 Toledo</div>
+          <div style="font-family: var(--data); font-size: 1.1rem; font-weight: 700; color: var(--paper); margin-bottom: 8px;">
+            <span style="color: var(--patro);">287</span> / 400 ingressos
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--navy-2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: 71.75%; height: 100%; background: var(--patro);"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--mut); text-align: right;">71,75% · Faltam 113 ingressos</div>
+        </div>
+
+        <!-- Foz do Iguaçu -->
+        <div style="background: linear-gradient(180deg, rgba(53,167,255,0.1), transparent); border: 1px solid var(--line); border-radius: 12px; padding: 16px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">📍 Foz do Iguaçu</div>
+          <div style="font-family: var(--data); font-size: 1.1rem; font-weight: 700; color: var(--paper); margin-bottom: 8px;">
+            <span style="color: var(--patro);">156</span> / 400 ingressos
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--navy-2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: 39%; height: 100%; background: var(--patro);"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--mut); text-align: right;">39% · Faltam 244 ingressos</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);">
+        <button class="show-cta" style="background: var(--patro); width: auto; margin-right: 8px;">Pré-comprar em Cascavel</button>
+        <span style="font-size: 0.75rem; color: var(--mut);">Cobrança suspensa até validação</span>
+      </div>
+    </div>
+
+    <!-- Campanha 2: Acústicos & Valvulados -->
+    <div style="background: var(--navy); border: 2px solid var(--fa); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
+        <div style="font-family: var(--display); font-weight: 700; font-size: 1.3rem;">Acústicos & Valvulados</div>
+        <div style="font-size: 0.75rem; color: var(--fa); font-weight: 600;">🎯 CAMPANHA ATIVA</div>
+      </div>
+      <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 20px;">Rock · Meta: 400 ingressos por cidade · Valor: R$ 100</div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <!-- Cascavel -->
+        <div style="background: linear-gradient(180deg, rgba(255,61,127,0.1), transparent); border: 1px solid var(--line); border-radius: 12px; padding: 16px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">📍 Cascavel</div>
+          <div style="font-family: var(--data); font-size: 1.1rem; font-weight: 700; color: var(--paper); margin-bottom: 8px;">
+            <span style="color: var(--fa);">412</span> / 400 ingressos
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--navy-2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: 100%; height: 100%; background: var(--fa);"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--fa); font-weight: 600; text-align: right;">✅ VALIDADO · Data: Sábado 29 ago</div>
+        </div>
+
+        <!-- Maringá -->
+        <div style="background: linear-gradient(180deg, rgba(255,61,127,0.1), transparent); border: 1px solid var(--line); border-radius: 12px; padding: 16px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">📍 Maringá</div>
+          <div style="font-family: var(--data); font-size: 1.1rem; font-weight: 700; color: var(--paper); margin-bottom: 8px;">
+            <span style="color: var(--fa);">398</span> / 400 ingressos
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--navy-2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: 99.5%; height: 100%; background: var(--fa);"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--mut); text-align: right;">99,5% · Faltam 2 ingressos</div>
+        </div>
+
+        <!-- Foz do Iguaçu -->
+        <div style="background: linear-gradient(180deg, rgba(255,61,127,0.1), transparent); border: 1px solid var(--line); border-radius: 12px; padding: 16px;">
+          <div style="font-weight: 600; margin-bottom: 8px;">📍 Foz do Iguaçu</div>
+          <div style="font-family: var(--data); font-size: 1.1rem; font-weight: 700; color: var(--paper); margin-bottom: 8px;">
+            <span style="color: var(--fa);">234</span> / 400 ingressos
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--navy-2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+            <div style="width: 58.5%; height: 100%; background: var(--fa);"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--mut); text-align: right;">58,5% · Faltam 166 ingressos</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);">
+        <button class="show-cta" style="background: var(--fa); width: auto; margin-right: 8px;">Já pré-comprei em Cascavel</button>
+        <span style="font-size: 0.75rem; color: var(--mut);">Acompanhe Maringá (faltam 2!) e Foz</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="shows-grid" style="display: none;">
+    <!-- Show 1: Acústicos & Valvulados (Motor 2 validado) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--fa), var(--fa));">🎤</div>
+      <div class="show-info">
+        <div class="show-band">Acústicos & Valvulados</div>
+        <div class="show-genre">Rock</div>
+        <div style="font-size: 0.7rem; color: var(--fa); font-weight: 600; margin-top: 4px;">✅ Motor 2 (412/400)</div>
+        <div class="show-when">📅 29 ago · 20h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta" style="background: var(--fa);">Ingressos</button>
+      </div>
+    </div>
+
+    <!-- Show 2: Plutão Já Foi Planeta (Motor 1 + Motor 2 próximo) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--patro), var(--patro));">🎭</div>
+      <div class="show-info">
+        <div class="show-band">Plutão Já Foi Planeta</div>
+        <div class="show-genre">Rock Alt</div>
+        <div style="font-size: 0.7rem; color: var(--patro); font-weight: 600; margin-top: 4px;">⚡ Motor 2 (389/400 · Falta 11)</div>
+        <div class="show-when">📅 22 ago · 21h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta" style="background: var(--patro);">Pré-comprar</button>
+      </div>
+    </div>
+
+    <!-- Show 3: VICKA (Motor 1 rateio) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--artista), var(--artista));">🎤</div>
+      <div class="show-info">
+        <div class="show-band">VICKA</div>
+        <div class="show-genre">MPB</div>
+        <div style="font-size: 0.7rem; color: var(--artista); font-weight: 600; margin-top: 4px;">💚 Motor 1 (Rateio Maringá)</div>
+        <div class="show-when">📅 29 ago · 20h</div>
+        <div class="show-where">MPB Bar (Maringá) · 168 km</div>
+        <button class="show-cta" style="background: var(--artista);">Cotar rateio</button>
+      </div>
+    </div>
+
+    <!-- Show 4: Rock4Roots (Local validado) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--realizador), var(--realizador));">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Rock4Roots</div>
+        <div class="show-genre">Rock</div>
+        <div style="font-size: 0.7rem; color: var(--realizador); font-weight: 600; margin-top: 4px;">🏠 Casa Local (Hooligans)</div>
+        <div class="show-when">📅 15 ago · 22h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta" style="background: var(--realizador);">Comprar</button>
+      </div>
+    </div>
+
+    <!-- Show 5: Vanguart (Motor 1 em formação) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--artista), var(--artista));">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Vanguart</div>
+        <div class="show-genre">Folk</div>
+        <div style="font-size: 0.7rem; color: var(--artista); font-weight: 600; margin-top: 4px;">💚 Motor 1 (Prefeitura Toledo)</div>
+        <div class="show-when">📅 Domingo (data aberta)</div>
+        <div class="show-where">Cascavel · Foz (rateio)</div>
+        <button class="show-cta" style="background: var(--artista);">Propor data</button>
+      </div>
+    </div>
+
+    <!-- Show 6: Tianastácia (Motor 2 + Motor 1) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--patro), var(--patro));">🎭</div>
+      <div class="show-info">
+        <div class="show-band">Tianastácia</div>
+        <div class="show-genre">MPB</div>
+        <div style="font-size: 0.7rem; color: var(--patro); font-weight: 600; margin-top: 4px;">⚡ Motor 2 (Maringá quase)</div>
+        <div class="show-when">📅 25 ago (Roteio)</div>
+        <div class="show-where">3 cidades · Corporativo + casas</div>
+        <button class="show-cta" style="background: var(--patro);">Ver datas</button>
+      </div>
+    </div>
+
+    <!-- Show 7: Electricmob (Local) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--realizador), var(--realizador));">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Electricmob</div>
+        <div class="show-genre">Rock</div>
+        <div style="font-size: 0.7rem; color: var(--realizador); font-weight: 600; margin-top: 4px;">🏠 Casa Local</div>
+        <div class="show-when">📅 17 ago · 23h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta" style="background: var(--realizador);">Comprar</button>
+      </div>
+    </div>
+
+    <!-- Show 8: Jam Session (Motor 1) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--artista), var(--artista));">🎵</div>
+      <div class="show-info">
+        <div class="show-band">Jam Session</div>
+        <div class="show-genre">Pop-Rock</div>
+        <div style="font-size: 0.7rem; color: var(--artista); font-weight: 600; margin-top: 4px;">💚 Motor 1 (Rateio Foz)</div>
+        <div class="show-when">📅 12 set · 21h</div>
+        <div class="show-where">Zepellin (Foz) · 98 km</div>
+        <button class="show-cta" style="background: var(--artista);">Participar</button>
+      </div>
+    </div>
+
+    <!-- Show 9: The Mônic (Motor 2) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--patro), var(--patro));">🎤</div>
+      <div class="show-info">
+        <div class="show-band">The Mônic</div>
+        <div class="show-genre">Rock Alt</div>
+        <div style="font-size: 0.7rem; color: var(--patro); font-weight: 600; margin-top: 4px;">⚡ Motor 2 (Curitiba)</div>
+        <div class="show-when">📅 05 set · 22h</div>
+        <div class="show-where">Crossroad (Curitiba) · 620 km</div>
+        <button class="show-cta" style="background: var(--patro);">Pré-comprar</button>
+      </div>
+    </div>
+
+    <!-- Show 10: Nega Fulo (Local) -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster" style="background: linear-gradient(135deg, var(--realizador), var(--realizador));">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Nega Fulo</div>
+        <div class="show-genre">Rock 80/90</div>
+        <div style="font-size: 0.7rem; color: var(--realizador); font-weight: 600; margin-top: 4px;">🏠 Casa Local</div>
+        <div class="show-when">📅 07 set · 22h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta" style="background: var(--realizador);">Comprar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: Shows Confirmados (resultado dos dois motores) -->
+<div id="map-tab" style="display: none;">
+  <div class="section-title">✅ Shows Confirmados</div>
+  <div class="section-sub">Resultado das campanhas: bandas que já atingiram meta ou foram rateadas entre casas</div>
 
   <div class="filter-bar">
     <button class="filter-btn active" onclick="filterGenre('all', this)">Tudo</button>
     <button class="filter-btn" onclick="filterGenre('rock', this)">Rock</button>
-    <button class="filter-btn" onclick="filterGenre('mpb', this)">MPB/Forró</button>
+    <button class="filter-btn" onclick="filterGenre('mpb', this)">MPB/Folk</button>
     <button class="filter-btn" onclick="filterGenre('metal', this)">Metal</button>
-    <button class="filter-btn" onclick="filterGenre('pop', this)">Pop</button>
   </div>
 
   <div class="shows-grid">
-    <!-- Show 1 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎸</div>
-      <div class="show-info">
-        <div class="show-band">Rock4Roots</div>
-        <div class="show-genre">Rock</div>
-        <div class="show-when">📅 15 ago · 22h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 2 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎭</div>
-      <div class="show-info">
-        <div class="show-band">Electricmob</div>
-        <div class="show-genre">Rock</div>
-        <div class="show-when">📅 17 ago · 23h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 3 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎵</div>
-      <div class="show-info">
-        <div class="show-band">Plutão Já Foi Planeta</div>
-        <div class="show-genre">Rock Alt</div>
-        <div class="show-when">📅 22 ago · 21h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 4 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎤</div>
-      <div class="show-info">
-        <div class="show-band">Acústicos & Valvulados</div>
-        <div class="show-genre">Rock</div>
-        <div class="show-when">📅 24 ago · 20h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 5 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎸</div>
-      <div class="show-info">
-        <div class="show-band">Metallica Cover</div>
-        <div class="show-genre">Heavy Metal</div>
-        <div class="show-when">📅 29 ago · 22h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 6 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎭</div>
-      <div class="show-info">
-        <div class="show-band">VICKA</div>
-        <div class="show-genre">MPB</div>
-        <div class="show-when">📅 31 ago · 20h</div>
-        <div class="show-where">Casa Cultural (Cascavel)</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 7 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎵</div>
-      <div class="show-info">
-        <div class="show-band">Cometz Tributo Queen</div>
-        <div class="show-genre">Tributo</div>
-        <div class="show-when">📅 05 set · 21h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 8 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎸</div>
-      <div class="show-info">
-        <div class="show-band">Nega Fulo</div>
-        <div class="show-genre">Rock 80/90</div>
-        <div class="show-when">📅 07 set · 22h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 9 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎤</div>
-      <div class="show-info">
-        <div class="show-band">Vanguart</div>
-        <div class="show-genre">Folk</div>
-        <div class="show-when">📅 12 set · 20h</div>
-        <div class="show-where">Casa Cultural (Cascavel)</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-
-    <!-- Show 10 -->
-    <div class="show-card show-card-grid">
-      <div class="show-poster">🎵</div>
-      <div class="show-info">
-        <div class="show-band">Iron Cover The Beast</div>
-        <div class="show-genre">Rock</div>
-        <div class="show-when">📅 14 set · 21h</div>
-        <div class="show-where">Hooligans Cascavel</div>
-        <button class="show-cta">Reservar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- TAB 3: Mapa -->
-<div id="map-tab" style="display: none;">
-  <div class="section-title">🗺️ Onde suas bandas estão tocando</div>
-  <div class="section-sub">Geolocalização automática · Veja próximas apresentações num raio de 300 km</div>
-
-  <div class="map-section">
-    <div class="map-label">Mapa interativo (integração com Mapbox/Google Maps)</div>
-    <div class="map-placeholder">📍</div>
-  </div>
-
-  <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px 48px;">
-    <div style="background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-      <div style="font-family: var(--display); font-weight: 700; margin-bottom: 12px;">Sua localização atual: Cascavel, PR</div>
-      <div style="font-size: 0.9rem; color: var(--mut); line-height: 1.6;">
-        <div>• <strong>0 km</strong> — Rock4Roots · Hooligans Cascavel · 15 ago</div>
-        <div>• <strong>168 km</strong> — VICKA · MPB Bar (Maringá) · 29 ago</div>
-        <div>• <strong>98 km</strong> — Jam Session · Zepellin (Foz) · 12 set</div>
-        <div>• <strong>620 km</strong> — The Mônic · Crossroad (Curitiba) · 05 set</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 function switchTab(tab) {
