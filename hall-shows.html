@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowLink — Baladas Cascavel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+body { background: var(--ink); color: var(--paper); }
+.modes { display: none; }
+
+/* Header com cidade */
+.city-header { max-width: var(--maxw); margin: 0 auto; padding: 40px 24px 32px; border-bottom: 1px solid var(--line); }
+.city-name { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: -0.03em; margin-bottom: 8px; }
+.city-meta { font-size: 0.9rem; color: var(--mut); margin-bottom: 20px; }
+.city-tabs { display: flex; gap: 16px; }
+.city-tabs button { font-family: var(--body); font-size: 0.9rem; padding: 8px 16px; border: 0; background: transparent; color: var(--mut); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.city-tabs button.active { color: var(--paper); border-color: var(--lime); }
+
+/* Carousel de shows personalizados */
+.section-title { max-width: var(--maxw); margin: 48px auto 24px; padding: 0 24px; font-family: var(--display); font-weight: 600; font-size: 1.4rem; letter-spacing: -0.02em; }
+.section-sub { max-width: var(--maxw); margin: 0 auto 24px; padding: 0 24px; font-size: 0.9rem; color: var(--mut); }
+
+.carousel-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+.carousel { display: flex; gap: 14px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 12px; }
+.carousel::-webkit-scrollbar { height: 4px; }
+.carousel::-webkit-scrollbar-track { background: var(--navy-2); border-radius: 99px; }
+.carousel::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 99px; }
+
+.show-card { flex: 0 0 280px; min-height: 340px; background: var(--navy); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; position: relative; transition: all 0.2s; cursor: pointer; }
+.show-card:hover { transform: translateY(-4px); border-color: var(--lime); }
+.show-poster { width: 100%; height: 200px; background: linear-gradient(135deg, var(--lime), var(--lime-deep)); display: grid; place-items: center; font-size: 2.2rem; font-weight: 700; }
+.show-info { padding: 16px; }
+.show-band { font-family: var(--display); font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
+.show-genre { font-size: 0.75rem; color: var(--mut); margin-bottom: 12px; }
+.show-when { display: flex; gap: 8px; align-items: center; font-family: var(--data); font-size: 0.8rem; color: var(--paper); margin-bottom: 8px; }
+.show-where { font-size: 0.75rem; color: var(--mut); }
+.show-cta { margin-top: 12px; padding: 8px 12px; background: var(--lime); color: var(--ink); border: 0; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; width: 100%; transition: transform 0.15s; }
+.show-cta:hover { transform: scale(1.02); }
+
+/* Grid de todos os shows */
+.shows-grid { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.show-card-grid { flex: none; }
+
+/* Filtros */
+.filter-bar { max-width: var(--maxw); margin: 32px auto; padding: 0 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+.filter-btn { font-family: var(--body); font-size: 0.85rem; padding: 8px 14px; background: var(--navy); border: 1px solid var(--line); border-radius: 20px; color: var(--mut); cursor: pointer; transition: all 0.2s; }
+.filter-btn.active { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+.filter-btn:hover { border-color: var(--lime); color: var(--paper); }
+
+/* Mapa (placeholder) */
+.map-section { max-width: var(--maxw); margin: 48px auto; padding: 32px 24px; background: var(--navy); border: 1px solid var(--line); border-radius: 16px; text-align: center; }
+.map-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 16px; }
+.map-placeholder { height: 300px; background: linear-gradient(135deg, rgba(199,247,62,.08), rgba(199,247,62,.02)); border-radius: 12px; display: grid; place-items: center; font-size: 2rem; color: var(--mut); }
+
+@media (max-width: 880px) {
+  .show-card { flex: 0 0 240px; min-height: 300px; }
+  .city-tabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
+<header>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#" class="on">Cascavel</a>
+    </nav>
+    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  </div>
+</header>
+
+<div class="city-header">
+  <div class="city-name">🎸 Baladas em Cascavel</div>
+  <div class="city-meta">Paraná · Hooligans Cascavel (Casa oficial) · Próximos 30 dias</div>
+  <div class="city-tabs">
+    <button class="active" onclick="switchTab('personalized')">Suas bandas</button>
+    <button onclick="switchTab('all')">Todos os shows</button>
+    <button onclick="switchTab('map')">Mapa de bandas</button>
+  </div>
+</div>
+
+<!-- TAB 1: Shows personalizados (bandas que segue) -->
+<div id="personalized-tab">
+  <div class="section-title">🎵 Shows das bandas que você segue</div>
+  <div class="section-sub">Seus 5 artistas aparecem aqui assim que agendarem algo em Cascavel ou próximo (300 km)</div>
+
+  <div class="carousel-wrap">
+    <div class="carousel">
+      <!-- Show 1: Rock4Roots (Hooligans Cascavel) -->
+      <div class="show-card">
+        <div class="show-poster">🎸</div>
+        <div class="show-info">
+          <div class="show-band">Rock4Roots</div>
+          <div class="show-genre">Rock</div>
+          <div class="show-when">📅 15 ago · 22h</div>
+          <div class="show-where">Hooligans Cascavel</div>
+          <button class="show-cta">Reservar ingresso</button>
+        </div>
+      </div>
+
+      <!-- Show 2: Plutão Já Foi Planeta -->
+      <div class="show-card">
+        <div class="show-poster">🎭</div>
+        <div class="show-info">
+          <div class="show-band">Plutão Já Foi Planeta</div>
+          <div class="show-genre">Rock Alt</div>
+          <div class="show-when">📅 22 ago · 21h</div>
+          <div class="show-where">Hooligans Cascavel</div>
+          <button class="show-cta">Reservar ingresso</button>
+        </div>
+      </div>
+
+      <!-- Show 3: VICKA em Maringá (viajando) -->
+      <div class="show-card">
+        <div class="show-poster">🎤</div>
+        <div class="show-info">
+          <div class="show-band">VICKA</div>
+          <div class="show-genre">MPB</div>
+          <div class="show-when">📅 29 ago · 20h</div>
+          <div class="show-where">MPB Bar (Maringá) · 168 km</div>
+          <button class="show-cta">Reservar ingresso</button>
+        </div>
+      </div>
+
+      <!-- Show 4: The Mônic em Curitiba -->
+      <div class="show-card">
+        <div class="show-poster">🎸</div>
+        <div class="show-info">
+          <div class="show-band">The Mônic</div>
+          <div class="show-genre">Rock Alt</div>
+          <div class="show-when">📅 05 set · 22h</div>
+          <div class="show-where">Crossroad (Curitiba) · 620 km</div>
+          <button class="show-cta">Reservar ingresso</button>
+        </div>
+      </div>
+
+      <!-- Show 5: Jam Session em Foz -->
+      <div class="show-card">
+        <div class="show-poster">🎵</div>
+        <div class="show-info">
+          <div class="show-band">Jam Session</div>
+          <div class="show-genre">Pop-Rock</div>
+          <div class="show-when">📅 12 set · 21h</div>
+          <div class="show-where">Zepellin (Foz) · 98 km</div>
+          <button class="show-cta">Reservar ingresso</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: Todos os shows agendados -->
+<div id="all-tab" style="display: none;">
+  <div class="section-title">📅 Todos os shows agendados em Cascavel</div>
+  <div class="section-sub">Até 10 eventos principais desta semana · Filtre por interesse</div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterGenre('all', this)">Tudo</button>
+    <button class="filter-btn" onclick="filterGenre('rock', this)">Rock</button>
+    <button class="filter-btn" onclick="filterGenre('mpb', this)">MPB/Forró</button>
+    <button class="filter-btn" onclick="filterGenre('metal', this)">Metal</button>
+    <button class="filter-btn" onclick="filterGenre('pop', this)">Pop</button>
+  </div>
+
+  <div class="shows-grid">
+    <!-- Show 1 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Rock4Roots</div>
+        <div class="show-genre">Rock</div>
+        <div class="show-when">📅 15 ago · 22h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 2 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎭</div>
+      <div class="show-info">
+        <div class="show-band">Electricmob</div>
+        <div class="show-genre">Rock</div>
+        <div class="show-when">📅 17 ago · 23h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 3 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎵</div>
+      <div class="show-info">
+        <div class="show-band">Plutão Já Foi Planeta</div>
+        <div class="show-genre">Rock Alt</div>
+        <div class="show-when">📅 22 ago · 21h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 4 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎤</div>
+      <div class="show-info">
+        <div class="show-band">Acústicos & Valvulados</div>
+        <div class="show-genre">Rock</div>
+        <div class="show-when">📅 24 ago · 20h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 5 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Metallica Cover</div>
+        <div class="show-genre">Heavy Metal</div>
+        <div class="show-when">📅 29 ago · 22h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 6 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎭</div>
+      <div class="show-info">
+        <div class="show-band">VICKA</div>
+        <div class="show-genre">MPB</div>
+        <div class="show-when">📅 31 ago · 20h</div>
+        <div class="show-where">Casa Cultural (Cascavel)</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 7 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎵</div>
+      <div class="show-info">
+        <div class="show-band">Cometz Tributo Queen</div>
+        <div class="show-genre">Tributo</div>
+        <div class="show-when">📅 05 set · 21h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 8 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎸</div>
+      <div class="show-info">
+        <div class="show-band">Nega Fulo</div>
+        <div class="show-genre">Rock 80/90</div>
+        <div class="show-when">📅 07 set · 22h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 9 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎤</div>
+      <div class="show-info">
+        <div class="show-band">Vanguart</div>
+        <div class="show-genre">Folk</div>
+        <div class="show-when">📅 12 set · 20h</div>
+        <div class="show-where">Casa Cultural (Cascavel)</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+
+    <!-- Show 10 -->
+    <div class="show-card show-card-grid">
+      <div class="show-poster">🎵</div>
+      <div class="show-info">
+        <div class="show-band">Iron Cover The Beast</div>
+        <div class="show-genre">Rock</div>
+        <div class="show-when">📅 14 set · 21h</div>
+        <div class="show-where">Hooligans Cascavel</div>
+        <button class="show-cta">Reservar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: Mapa -->
+<div id="map-tab" style="display: none;">
+  <div class="section-title">🗺️ Onde suas bandas estão tocando</div>
+  <div class="section-sub">Geolocalização automática · Veja próximas apresentações num raio de 300 km</div>
+
+  <div class="map-section">
+    <div class="map-label">Mapa interativo (integração com Mapbox/Google Maps)</div>
+    <div class="map-placeholder">📍</div>
+  </div>
+
+  <div style="max-width: var(--maxw); margin: 0 auto; padding: 0 24px 48px;">
+    <div style="background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+      <div style="font-family: var(--display); font-weight: 700; margin-bottom: 12px;">Sua localização atual: Cascavel, PR</div>
+      <div style="font-size: 0.9rem; color: var(--mut); line-height: 1.6;">
+        <div>• <strong>0 km</strong> — Rock4Roots · Hooligans Cascavel · 15 ago</div>
+        <div>• <strong>168 km</strong> — VICKA · MPB Bar (Maringá) · 29 ago</div>
+        <div>• <strong>98 km</strong> — Jam Session · Zepellin (Foz) · 12 set</div>
+        <div>• <strong>620 km</strong> — The Mônic · Crossroad (Curitiba) · 05 set</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tab) {
+  // Hide all tabs
+  document.getElementById('personalized-tab').style.display = 'none';
+  document.getElementById('all-tab').style.display = 'none';
+  document.getElementById('map-tab').style.display = 'none';
+
+  // Show selected tab
+  document.getElementById(tab + '-tab').style.display = 'block';
+
+  // Update button states
+  document.querySelectorAll('.city-tabs button').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function filterGenre(genre, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // TODO: Implement filter logic
+}
+
+// Scroll effect
+(function(){
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
