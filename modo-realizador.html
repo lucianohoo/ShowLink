@@ -3,345 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShowLink · Modo Realizador — guiado pelo Shoowme</title>
-<script src="js/auth-check.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --org:#FF8A00; --org2:#FFB347; --sand:#FFD9A6;
-    --ok:#3EDC6C;
-    --bg1:#1F1206; --bg2:#2E1A08; --card:#33200C; --cb:#5C3A12;
-    --txt:#FFF7EC; --mut:#D6B894; --deep:#0E0802; --onorg:#241300;
-  }
-  [data-theme="blackout"]{
-    --bg1:#050505; --bg2:#0C0803; --card:#141008; --cb:#42290C;
-    --org:#FF9A1F; --deep:#000;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:'Poppins',sans-serif; color:var(--txt);
-    background:linear-gradient(160deg,var(--bg2),var(--bg1) 55%,var(--deep));
-    min-height:100vh; padding-bottom:170px; transition:background .5s;
-  }
-  body::before{content:'';position:fixed;inset:0;pointer-events:none;
-    background:radial-gradient(60% 40% at 80% -5%,rgba(255,138,0,.16),transparent 70%);}
-  header{
-    position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
-    padding:14px 16px;background:color-mix(in srgb,var(--bg1) 82%,transparent);
-    backdrop-filter:blur(10px);border-bottom:1px solid var(--cb);
-  }
-  .logo{font-family:'Unbounded';font-weight:800;font-size:1.05rem;font-style:italic;letter-spacing:-.5px}
-  .logo em{font-style:italic;background:linear-gradient(90deg,var(--org),var(--org2));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  .mode{font-size:.62rem;font-weight:700;letter-spacing:.14em;color:var(--sand);
-    border:1px solid var(--cb);border-radius:20px;padding:4px 10px}
-  .spacer{flex:1}
-  .bell{position:relative;background:var(--card);border:1px solid var(--cb);border-radius:12px;
-    width:38px;height:38px;font-size:1.05rem;display:grid;place-items:center;cursor:pointer;color:var(--txt)}
-  .bell i{position:absolute;top:6px;right:7px;width:9px;height:9px;border-radius:50%;
-    background:var(--org);animation:pulse 1.6s infinite}
-  @keyframes pulse{50%{transform:scale(1.5);opacity:.5}}
-  .themes{display:flex;background:var(--card);border:1px solid var(--cb);border-radius:20px;padding:3px}
-  .themes button{border:0;background:transparent;color:var(--mut);font-family:inherit;font-weight:600;
-    font-size:.62rem;padding:6px 10px;border-radius:16px;cursor:pointer}
-  .themes button.on{background:linear-gradient(90deg,var(--org),var(--org2));color:var(--onorg)}
-
-  main{max-width:520px;margin:0 auto;padding:20px 16px}
-  .eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.16em;color:var(--sand);margin-bottom:6px}
-  h1{font-family:'Unbounded';font-weight:800;font-size:1.45rem;line-height:1.2;margin-bottom:4px}
-  h1 b{background:linear-gradient(90deg,var(--org),var(--sand),var(--org2));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--mut);font-size:.85rem;margin-bottom:16px}
-
-  .roles{display:flex;background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:4px;margin-bottom:22px}
-  .roles button{flex:1;border:0;background:transparent;color:var(--mut);font-family:inherit;font-weight:700;
-    font-size:.78rem;padding:11px 6px;border-radius:12px;cursor:pointer}
-  .roles button.on{background:linear-gradient(90deg,var(--org),var(--org2));color:var(--onorg)}
-
-  section{margin-bottom:26px;border-radius:20px;transition:box-shadow .35s,transform .35s}
-  section h2{font-family:'Unbounded';font-weight:600;font-size:.92rem;margin-bottom:12px;
-    display:flex;align-items:baseline;gap:8px}
-  section h2 small{font-family:'Poppins';font-weight:500;font-size:.68rem;color:var(--mut)}
-  .card{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:14px;margin-bottom:10px}
-
-  .amb{border:2px solid var(--org);background:
-    linear-gradient(140deg,color-mix(in srgb,var(--org) 16%,var(--card)),var(--card));text-align:center;padding:18px 16px}
-  .amb h3{font-family:'Unbounded';font-weight:800;font-size:1rem;
-    background:linear-gradient(90deg,var(--org),var(--sand));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .amb p{font-size:.76rem;color:var(--mut);margin-top:4px}
-
-  .btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;cursor:pointer;
-    font-family:inherit;font-weight:700;font-size:.92rem;color:var(--onorg);text-align:center;
-    background:linear-gradient(90deg,var(--org),var(--org2));box-shadow:0 6px 22px rgba(255,138,0,.3)}
-  .btn.ghost{background:transparent;border:2px solid var(--org);color:var(--sand);box-shadow:none}
-
-  .band{display:flex;align-items:center;gap:12px}
-  .avatar{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
-    font-weight:700;color:var(--onorg);background:linear-gradient(135deg,var(--org),var(--org2));font-size:.9rem}
-  .band .info{flex:1;min-width:0}
-  .band .nm{font-weight:600;font-size:.88rem}
-  .band .tag{font-size:.72rem;color:var(--mut)}
-  .band .tag.ok{color:var(--ok);font-weight:600}
-  .badge5{flex:none;font-family:'Unbounded';font-size:.72rem;font-weight:800;color:var(--org2)}
-  .badge5 small{display:block;font-family:'Poppins';font-size:.54rem;font-weight:500;color:var(--mut);text-align:right}
-
-  .check{list-style:none;columns:2;column-gap:14px}
-  .check li{display:flex;gap:8px;align-items:center;padding:4px 0;font-size:.78rem;color:var(--txt);break-inside:avoid}
-  .check i{width:19px;height:19px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.6rem;
-    font-weight:800;border:2px solid var(--org2);color:var(--org2)}
-
-  .tabs{display:flex;gap:6px;margin-bottom:10px}
-  .tabs span{border:1.5px solid var(--cb);border-radius:20px;padding:5px 12px;font-size:.68rem;
-    font-weight:600;color:var(--mut)}
-  .tabs span.on{border-color:var(--org);color:var(--sand);background:rgba(255,138,0,.1)}
-
-  .stat{display:flex;gap:10px}
-  .stat .card{flex:1;text-align:center;margin:0}
-  .stat b{font-family:'Unbounded';font-size:1.1rem;color:var(--org2);display:block}
-  .stat span{font-size:.64rem;color:var(--mut)}
-
-  .ag{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--cb);font-size:.8rem}
-  .ag:last-child{border:0}
-  .ag .dt{flex:none;width:52px;font-family:'Unbounded';font-size:.66rem;font-weight:800;color:var(--org2)}
-  .ag .w{flex:1}
-  .ag .w b{display:block;font-size:.82rem}
-  .ag .w span{font-size:.68rem;color:var(--mut)}
-
-  .dem{margin-bottom:10px}
-  .dem .r{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:5px}
-  .dem .r b{font-weight:600}
-  .dem .r span{color:var(--sand);font-weight:700;font-size:.72rem}
-  .bar{height:9px;border-radius:6px;background:var(--cb);overflow:hidden}
-  .bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--org),var(--org2))}
-
-  .hl{border:2px solid var(--org);background:
-    linear-gradient(140deg,color-mix(in srgb,var(--org) 18%,var(--card)),var(--card))}
-  .hl h3{font-family:'Unbounded';font-size:.92rem;font-weight:800;color:var(--sand)}
-  .hl p{font-size:.78rem;color:var(--mut);margin:6px 0 10px}
-  .okline{color:var(--ok);font-size:.76rem;font-weight:600;margin-top:8px}
-
-  /* ---- Shoowme ---- */
-  #dim{position:fixed;inset:0;background:rgba(6,3,1,.62);z-index:40;opacity:0;pointer-events:none;transition:opacity .35s}
-  body.touring #dim{opacity:1}
-  .spot{position:relative;z-index:45;box-shadow:0 0 0 3px var(--org),0 0 40px rgba(255,138,0,.45);transform:scale(1.012)}
-  #hoo{position:fixed;right:16px;bottom:16px;z-index:60;width:62px;height:62px;border-radius:50%;
-    border:0;cursor:pointer;font-size:2rem;display:grid;place-items:center;
-    background:linear-gradient(135deg,var(--org),var(--org2));
-    box-shadow:0 8px 28px rgba(255,138,0,.45);animation:bob 3s ease-in-out infinite}
-  @keyframes bob{50%{transform:translateY(-6px)}}
-  #bubble{position:fixed;left:14px;right:90px;bottom:24px;z-index:60;max-width:430px;
-    background:#fff;color:#2E1A08;border-radius:18px 18px 4px 18px;padding:14px 15px 12px;
-    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transform:translateY(14px);
-    transition:opacity .3s,transform .3s}
-  #bubble.on{opacity:1;pointer-events:auto;transform:none}
-  #bubble::after{content:'';position:absolute;right:-9px;bottom:10px;border:10px solid transparent;
-    border-left-color:#fff;border-bottom-color:#fff}
-  #bubble .who{font-family:'Unbounded';font-weight:800;font-size:.7rem;color:#C46A00;margin-bottom:4px}
-  #bubble p{font-size:.84rem;line-height:1.45;font-weight:500}
-  #bubble .row{display:flex;align-items:center;gap:10px;margin-top:10px}
-  #bubble .dots{flex:1;display:flex;gap:4px}
-  #bubble .dots i{width:6px;height:6px;border-radius:50%;background:#F5DFC2}
-  #bubble .dots i.on{background:#C46A00}
-  #bubble .next{border:0;border-radius:12px;padding:8px 16px;font-family:inherit;font-weight:700;
-    font-size:.78rem;color:var(--onorg);cursor:pointer;background:linear-gradient(90deg,var(--org),var(--org2))}
-  #menu{position:fixed;right:16px;bottom:88px;z-index:60;background:var(--card);border:1px solid var(--cb);
-    border-radius:16px;overflow:hidden;display:none;min-width:190px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
-  #menu.on{display:block}
-  #menu button{display:flex;gap:9px;width:100%;border:0;background:none;color:var(--txt);
-    font-family:inherit;font-size:.82rem;font-weight:500;padding:12px 15px;cursor:pointer;text-align:left}
-  #menu button:hover{background:rgba(255,138,0,.12)}
-  :focus-visible{outline:3px solid var(--org);outline-offset:2px}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
-</style>
+<title>ShowLink · Modo Realizador — sua casa, sua agenda</title>
+<meta name="description" content="ShowLink: o fã vota, a demanda aparece, o show acontece. Só paga se acontecer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
 <header>
-  <div class="logo">SHOW<em>LINK</em></div>
-  <div class="mode">MODO REALIZADOR</div>
-  <div class="spacer"></div>
-  <div class="themes" role="group" aria-label="Tema">
-    <button id="t1" class="on" onclick="setTheme('laranja')">Âmbar Noite</button>
-    <button id="t2" onclick="setTheme('blackout')">Blackout</button>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <span class="mode">CASA / SECRETARIA</span>
+      
+    </nav>
+    <button class="hcta" onclick="window.location.href='auth.html'">Entrar</button>
   </div>
-  <button class="bell" aria-label="Notificações" onclick="notif()">🔔<i></i></button>
 </header>
 
-<main>
-  <div class="eyebrow">SUA ÁREA</div>
-  <h1>E aí, realizador. <b>Quem valida, ganha.</b></h1>
-  <p class="sub">Dono de casa, produtor local ou secretaria de cultura — o palco começa aqui.</p>
-
-  <div class="roles" role="group" aria-label="Papel">
-    <button id="r1" class="on" onclick="setRole('casa')">🍺 Dono de Casa</button>
-    <button id="r2" onclick="setRole('sec')">🏛️ Secretaria de Cultura</button>
+<section class="hero">
+  <div>
+    <div class="eyebrow">VOCÊ É CASA EMBAIXADORA</div>
+    <h1>Bandas validadas pela sua casa. <em>Você ganha repasse de cada show.</em></h1>
+    <p class="lede">Valide as bandas da sua região. Quando elas forem contratadas (Motor 1 ou Motor 2), você ganha comissão. Sua casa vira referência de qualidade.</p>
+    <div class="herobtns"><button class="btn" onclick="window.location.href='hall-shows.html'">Ver bandas da região</button>
+      <button class="btn ghost" onclick="window.location.href='hall-shows.html'">Validar nova banda</button></div>
   </div>
+  <figure class="herovid">
+    <video id="herovideo" src="videos/05_realizador_casas.mp4" poster="videos/05_realizador_casas_poster.jpg" loop playsinline preload="metadata"></video>
+    <div class="playwrap" id="playwrap" onclick="playHero()">
+      <button class="playbtn" aria-label="Assistir ao vídeo de apresentação">▶</button>
+      <span class="playtag">O FILME · 2 MIN · COM SOM</span>
+    </div>
+  </figure>
+</section>
 
-  <!-- ================= VISÃO CASA ================= -->
-  <div id="view-casa">
-    <section id="s-emb">
-      <div class="card amb">
-        <h3>★ CASA EMBAIXADORA · CASCAVEL</h3>
-        <p>Hooligans Pub · valida novas bandas num raio de 300 km — 17 anos de palco viram curadoria oficial.</p>
-      </div>
-    </section>
-
-    <section id="s-validadas">
-      <h2>Bandas validadas na casa <small>14 de 30 cadastradas</small></h2>
-      <div class="card band"><div class="avatar">PP</div>
-        <div class="info"><div class="nm">Plutão Já Foi Planeta</div><div class="tag ok">contratada 3x no raio este ano</div></div>
-        <div class="badge5">5%<small>sempre, em cada contratação</small></div></div>
-      <div class="card band"><div class="avatar">VL</div>
-        <div class="info"><div class="nm">Vento Leste</div><div class="tag">validada no seu palco · mar/2026</div></div>
-        <div class="badge5">5%<small>sempre, em cada contratação</small></div></div>
-      <div class="card band"><div class="avatar">MN</div>
-        <div class="info"><div class="nm">Manacá</div><div class="tag">validada no seu palco · jun/2026</div></div>
-        <div class="badge5">5%<small>sempre, em cada contratação</small></div></div>
-      <button class="btn ghost">+ Cadastrar banda validada</button>
-    </section>
-
-    <section id="s-curadoria">
-      <h2>Sua curadoria <small>banda vendável = seu 5% maior</small></h2>
-      <div class="card">
-        <p style="font-size:.78rem;color:var(--mut);margin-bottom:10px">Como padrinho, você exige o material completo de cada banda:</p>
-        <ul class="check">
-          <li><i>✓</i> Fotos alta qualidade</li>
-          <li><i>✓</i> Release</li>
-          <li><i>✓</i> Setlist</li>
-          <li><i>✓</i> Hotel / hospedagem</li>
-          <li><i>✓</i> Alimentação</li>
-          <li><i>✓</i> Camarim</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="s-contratar">
-      <h2>Contratar banda</h2>
-      <div class="card">
-        <div style="border:1.5px solid var(--cb);border-radius:12px;padding:11px 14px;font-size:.86rem;color:var(--sand);font-weight:600;margin-bottom:10px">📍 Cascavel · PR</div>
-        <div class="tabs"><span class="on">Nacionais · 100</span><span class="on">Locais · 14</span><span class="on">Afilhadas · 22</span></div>
-        <p style="font-size:.74rem;color:var(--mut)">O hall inteiro se abre pra sua cidade: o catálogo nacional da ShowLink, as bandas validadas pelas casas da região e as afilhadas com selo de madrinha. Em Curitiba? O hall mostra as validadas do Crossroads.</p>
-      </div>
-    </section>
-
-    <section id="s-ganhos">
-      <h2>Seus repasses</h2>
-      <div class="stat">
-        <div class="card"><b>R$ 4.320</b><span>em 5% este ano</span></div>
-        <div class="card"><b>9</b><span>contratações no raio</span></div>
-        <div class="card"><b>300 km</b><span>seu raio de validação</span></div>
-      </div>
-    </section>
+<div class="strip" id="numeros">
+  <div class="stripwrap">
+    <div class="stat"><b>17 anos</b><span>de Hooligans Pub sem interrupção</span></div>
+    <div class="stat"><b>5.000+</b><span>shows produzidos</span></div>
+    <div class="stat"><b>1.000+</b><span>artistas contratados</span></div>
+    <div class="stat"><b>23 → 100</b><span>bandas no catálogo</span></div>
   </div>
+</div>
 
-  <!-- ================= VISÃO SECRETARIA ================= -->
-  <div id="view-sec" style="display:none">
-    <section id="s-agenda">
-      <h2>Agenda da região <small>o Paraná inteiro na sua tela</small></h2>
-      <div class="card">
-        <div class="ag"><div class="dt">12 SET</div><div class="w"><b>Fresno</b><span>Empório Santa Maria · Toledo</span></div></div>
-        <div class="ag"><div class="dt">14 SET</div><div class="w"><b>Plutão Já Foi Planeta</b><span>Hooligans Pub · Cascavel</span></div></div>
-        <div class="ag"><div class="dt">18 SET</div><div class="w"><b>Scalene</b><span>Crossroads · Curitiba</span></div></div>
-        <div class="ag"><div class="dt">21 SET</div><div class="w"><b>Terra Celta</b><span>Ruddicas · Cascavel</span></div></div>
-      </div>
-    </section>
+<section class="chapters" id="como">
+  <h2 class="secttl">Como um voto vira um show</h2>
+  <p class="secsub">Seis etapas, cada uma com o trecho do filme que a explica. O vídeo carrega o peso; o texto é curto e no mesmo contexto. Assista na ordem ou pule para a que te interessa.</p>
 
-    <section id="s-carona">
-      <h2>Aproveite a vinda</h2>
-      <div class="card hl">
-        <h3>🚌 Fresno passa a 50 km em 12 set</h3>
-        <p>O transporte já está na região. Traga o show pra sua cidade no dia 13 e <b style="color:var(--txt)">rateie os custos</b> — a conta cai pra menos da metade.</p>
-        <button class="btn">Propor data casada</button>
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 01 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 01 — O FÃ SUGERE</div>
+      <h3>Você sugere a banda. A galera vota junto.</h3>
+      <p>Toda semana a cidade monta sua pré-lista das dez. Você indica a banda que quer ver perto, e cada voto empurra ela para cima. As três mais votadas viram campanha. Quem indicou primeiro vira Fundador.</p>
+      <div class="flow">
+        <span>RASCUNHO</span><span class="hot">VOTAÇÃO</span><span>PRÉ-VENDA</span><span>APROVADO</span><span>REALIZADO</span>
       </div>
-    </section>
+      <div class="gauge" data-fill="82">
+        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>1.247 VOTOS</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Pré-lista das 10</span><span>Voto coletivo</span><span>Top 3 vira campanha</span></div>
+    </div>
+  </article>
 
-    <section id="s-demanda">
-      <h2>Demanda real <small>campanhas de pré-venda do PR inteiro</small></h2>
-      <div class="card">
-        <div class="dem"><div class="r"><b>1. Plutão Já Foi Planeta</b><span>1.960 pré-vendas</span></div>
-          <div class="bar"><i style="width:90%"></i></div></div>
-        <div class="dem"><div class="r"><b>2. Fresno</b><span>1.410 pré-vendas</span></div>
-          <div class="bar"><i style="width:66%"></i></div></div>
-        <div class="dem"><div class="r"><b>3. Vento Leste</b><span>840 pré-vendas</span></div>
-          <div class="bar"><i style="width:40%"></i></div></div>
-        <p style="font-size:.74rem;color:var(--mut);margin-top:8px">Nunca mais contrate no escuro pro aniversário da cidade: as campanhas mostram quem o público realmente quer.</p>
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 02 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 02 — A CAMPANHA ABRE</div>
+      <h3>Reserva o ingresso. Só paga se o show acontecer.</h3>
+      <p>A campanha abre em cinco cidades ao mesmo tempo. Você reserva por Pix e só é cobrado quando o show é viabilizado. Não bateu a meta, ninguém paga — nem você, nem o produtor.</p>
+      <div class="flow">
+        <span>RASCUNHO</span><span>VOTAÇÃO</span><span class="hot">PRÉ-VENDA</span><span>APROVADO</span><span>REALIZADO</span><span class="bad">NÃO ATINGIU → ESTORNO</span>
       </div>
-    </section>
+      <div class="motors">
+        <div class="motor dem">
+          <div class="h">MOTOR 1 · DEMANDA</div>
+          <div class="track"><i data-fill="95"></i></div>
+          <p>Votos e pré-ingressos dos fãs da região.</p>
+        </div>
+        <div class="motor apo">
+          <div class="h">MOTOR 2 · APOIO</div>
+          <div class="track"><i data-fill="60"></i></div>
+          <p>Cotas de patrocinador já sinalizadas.</p>
+        </div>
+      </div>
+      <div class="tags"><span>Pré-ingresso reservado</span><span>Só paga se acontecer</span><span>Estorno automático</span></div>
+    </div>
+  </article>
 
-    <section id="s-avisar">
-      <h2>Fechou? Avisa as casas</h2>
-      <div class="card">
-        <p style="font-size:.82rem;color:var(--mut);margin-bottom:12px">Você usou a demanda das casas pra decidir — agora devolve: avise o que fechou com antecedência e <b style="color:var(--txt)">todo mundo rateia custos na mesma vinda</b>.</p>
-        <button class="btn">Avisar casas da região</button>
-        <div class="okline">✓ Aviso enviado: Fresno na Festa da Cidade — 4 casas interessadas em datas casadas</div>
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/05_realizador_casas.mp4" poster="videos/05_realizador_casas_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 03 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 03 — A CASA RECEBE</div>
+      <h3>A casa entra com o palco. A ShowLink entra com o público.</h3>
+      <p>O bar, o teatro e a secretaria de cultura ficam no mesmo sistema, vendo a mesma demanda. A casa sabe qual banda a cidade quer antes de assinar o contrato — e agenda com fila já formada.</p>
+      <div class="gauge" data-fill="91">
+        <div class="lbl"><span>OCUPAÇÃO MÉDIA</span><b>91%</b></div>
+        <div class="track"><i></i></div>
       </div>
-    </section>
+      <div class="tags"><span>Casa Embaixadora</span><span>Agenda com demanda</span><span>Secretarias no sistema</span></div>
+    </div>
+  </article>
 
-    <section id="s-vitrine">
-      <h2>Vitrine dos eventos</h2>
-      <div class="card">
-        <p style="font-size:.82rem;color:var(--mut)">Seus eventos públicos entram na vitrine da ShowLink — <b style="color:var(--txt)">todo fã e usuário da plataforma vê</b> a Festa da Cidade, o aniversário, o festival. Divulgação que já nasce com público.</p>
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 04 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 04 — A BANDA RODA</div>
+      <h3>Uma campanha vira turnê pelo estado inteiro.</h3>
+      <p>O que começou como voto em uma cidade abre pré-venda nas vizinhas. A banda sai de um show isolado para uma rota montada — cidade após cidade, casa cheia, sem risco de rodar no prejuízo.</p>
+      <div class="days">
+        <div><span>1ª casa a validar · sábado</span><b>VALOR CHEIO</b></div>
+        <div><span>2ª casa · sexta</span><b>−10 A 20%</b></div>
+        <div><span>3ª casa · quinta ou domingo</span><b>−15 A 30%</b></div>
       </div>
-    </section>
+      <div class="tags"><span>Raio de 300 km</span><span>Rateio 40/25/25/10</span><span>Encaixe pelo produtor</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/07_transmissao.mp4" poster="videos/07_transmissao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 05 · transmissão</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 05 — UM SHOW VIRA MUITOS</div>
+      <h3>A casa que não recebeu a banda pode receber o show.</h3>
+      <p>Toda casa escolhe transmitir o próprio show para outras, receber a transmissão de outra, ou as duas coisas. Um show em Cascavel acende telas em cidades que nunca teriam aquela banda — e um show a mais de mil quilômetros chega na sua rua.</p>
+      <div class="tags"><span>Casa transmissora</span><span>Casa receptora</span><span>Selo AO VIVO no evento</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 06 · 4s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 06 — O PALCO É SEU</div>
+      <h3>De espectador, você virou a estrela principal.</h3>
+      <p>O show que você trouxe fica no seu nome. Fundador daquela campanha, com prioridade na fila, camarote e foto com a banda quando ela chegar na sua cidade. Quem puxou o show entra por outra porta.</p>
+      <div class="gauge" data-fill="74">
+        <div class="lbl"><span>CURADOR ESPECIAL</span><b>2.480 PTS</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Selo de fundador</span><span>Camarote</span><span>Foto com a banda</span></div>
+    </div>
+  </article>
+</section>
+
+<section class="modes" id="modos">
+  <h2 class="secttl">SOU:</h2>
+  <p class="secsub">A primeira pergunta da plataforma. Cada perfil vê e preenche só o que é dele — depois daqui ninguém cai numa home genérica, cada um entra na ShowLink dele.</p>
+  <div class="modegrid">
+    <a class="mode" style="--tone:var(--realizador)" href="modo-fa.html" data-mode="fa">
+      <div class="k">MODO 01</div>
+      <h4>Fã</h4>
+      <p>Siga até 5 bandas, indique até 5 novas, vote e reserve o pré-ingresso.</p>
+      <div class="go">Sou fã →</div>
+    </a>
+    <a class="mode" style="--tone:var(--realizador)" href="modo-artista.html" data-mode="artista">
+      <div class="k">MODO 02</div>
+      <h4>Artista</h4>
+      <p>Mantenha agenda e produtos vivos, entre em campanhas e apadrinhe até 5 bandas.</p>
+      <div class="go">Sou artista →</div>
+    </a>
+    <a class="mode" style="--tone:var(--realizador)" href="modo-produtor.html" data-mode="produtor">
+      <div class="k">MODO 03</div>
+      <h4>Produtor</h4>
+      <p>Represente bandas com ficha completa e opere o encaixe de datas na região.</p>
+      <div class="go">Sou produtor →</div>
+    </a>
+    <a class="mode" style="--tone:var(--realizador)" href="modo-patrocinador.html" data-mode="patrocinador">
+      <div class="k">MODO 04</div>
+      <h4>Patrocinador</h4>
+      <p>Escolha artistas por faixa etária e sinalize cotas em dinheiro ou serviço.</p>
+      <div class="go">Sou patrocinador →</div>
+    </a>
+    <a class="mode" style="--tone:var(--realizador)" href="modo-realizador.html" data-mode="realizador">
+      <div class="k">MODO 05</div>
+      <h4>Casa ou secretaria</h4>
+      <p>Publique sua agenda, entre no rateio da região e aceite cotas de patrocínio.</p>
+      <div class="go">Sou casa ou secretaria →</div>
+    </a>
   </div>
-</main>
+</section>
 
-<div id="dim"></div>
+<footer>
+  <div class="fwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <p>O hub da música ao vivo · Cascavel, Paraná</p>
+  </div>
+</footer>
+
 <div id="bubble" role="dialog" aria-label="Shoowme">
   <div class="who">SHOOWME 🦝</div>
   <p id="btxt"></p>
-  <div class="row"><div class="dots" id="bdots"></div>
-    <button class="next" id="bnext" onclick="next()">Próximo</button></div>
+  <button onclick="fecha()">Fechar</button>
 </div>
-<div id="menu">
-  <button onclick="startTour()">🗺️ Refazer o tour</button>
-  <button onclick="notif()">🔔 Notificações</button>
-  <button onclick="say('Novidade: a Plutão foi contratada em Toledo — banda validada por você. Mais 5% na sua conta! 🍺')">✨ Novidades</button>
-  <button onclick="say('Manda a dúvida! Sou o guia daqui — te explico qualquer parte da ShowLink, é só perguntar. 🦝')">💬 Tirar dúvidas</button>
-</div>
-<button id="hoo" aria-label="Abrir o Shoowme" onclick="shoowTap()">🦝</button>
+<button id="hoo" aria-label="Falar com o Shoowme" onclick="tap()">🦝</button>
 
 <script>
-  const steps=[
-    {v:'casa', el:"s-emb", t:"Bem-vindo, realizador! 🎟️ Eu sou o Shoowme. Sua casa validou bandas a duras custas por anos — aqui, isso finalmente vira renda. Você é a Casa Embaixadora da sua região."},
-    {v:'casa', el:"s-validadas", t:"Cadastre de 10 a 30 bandas que já tocaram e foram validadas no seu palco. Cada vez que uma delas for contratada no raio de 300 km, você ganha 5%. Sempre."},
-    {v:'casa', el:"s-curadoria", t:"Você é o curador delas: exige fotos de alta qualidade, release, setlist, hospedagem, alimentação, camarim. Banda vendável vende mais — e o seu 5% cresce junto."},
-    {v:'casa', el:"s-contratar", t:"Pra contratar, digita sua cidade e o hall inteiro se abre: os nacionais da ShowLink, as bandas locais validadas e as afilhadas com selo. Em Curitiba, aparecem as do Crossroads."},
-    {v:'casa', el:"s-ganhos", t:"E seus repasses ficam à vista: cada contratação no raio, cada 5%, tudo somando."},
-    {v:'sec', el:"s-agenda", t:"Agora o outro chapéu: secretaria de cultura. Aqui você vê a agenda das casas do Paraná inteiro — Toledo, Cascavel, Foz, Curitiba. Sabe quem está vindo antes de todo mundo."},
-    {v:'sec', el:"s-carona", t:"Artista passando perto? Aproveita a vinda: o transporte já está na região — propõe a data casada e rateia os custos. O show da sua cidade sai por muito menos."},
-    {v:'sec', el:"s-demanda", t:"E olha o ouro: as campanhas de pré-venda de TODAS as casas do PR mostram a demanda real. Nunca mais contrate no escuro pro aniversário da cidade — o público já disse o que quer."},
-    {v:'sec', el:"s-avisar", t:"Fechou um artista? Avisa as casas com antecedência — elas pegam carona na mesma vinda e todo mundo divide custo. Você usa a inteligência do sistema e devolve pra ele."},
-    {v:'sec', el:"s-vitrine", t:"E seus eventos entram na vitrine da ShowLink: todo fã da plataforma vê a Festa da Cidade. Divulgação que já nasce com público."},
-    {v:null, el:null, t:"É isso! Qualquer dúvida, me chama aqui embaixo. Tô sempre por perto. 🦝🧡"}
-  ];
-  let i=-1, touring=false, role='casa';
-  const $=id=>document.getElementById(id);
-  function setRole(r){ role=r;
-    $('view-casa').style.display = r==='casa'?'':'none';
-    $('view-sec').style.display = r==='sec'?'':'none';
-    $('r1').classList.toggle('on',r==='casa'); $('r2').classList.toggle('on',r==='sec'); }
-  function paintDots(){ $('bdots').innerHTML=steps.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join(''); }
-  function clearSpot(){ document.querySelectorAll('.spot').forEach(e=>e.classList.remove('spot')); }
-  function show(k){
-    i=k; clearSpot(); const s=steps[i];
-    if(s.v && s.v!==role) setRole(s.v);
-    if(s.el){ const el=$(s.el); el.classList.add('spot'); el.scrollIntoView({block:'center'}); }
-    $('btxt').textContent=s.t; paintDots();
-    $('bnext').textContent = i===steps.length-1 ? 'Valeu!' : 'Próximo';
-    $('bubble').classList.add('on');
+(function(){
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
   }
-  function next(){ if(i<steps.length-1) show(i+1); else endTour(); }
-  function startTour(){ $('menu').classList.remove('on'); touring=true; document.body.classList.add('touring'); show(0); }
-  function endTour(){ touring=false; document.body.classList.remove('touring'); clearSpot(); $('bubble').classList.remove('on'); }
-  function say(t){ $('menu').classList.remove('on'); endTour(); $('btxt').textContent=t; $('bdots').innerHTML='';
-    $('bnext').textContent='Fechar'; $('bubble').classList.add('on');
-    $('bnext').onclick=()=>{ $('bubble').classList.remove('on'); $('bnext').onclick=next; }; }
-  function notif(){ say('🔔 A Fresno passa a 50 km da sua cidade em 12 set — proponha a data casada e rateie o transporte!'); }
-  function shoowTap(){ if(touring){ endTour(); return; } $('menu').classList.toggle('on'); }
-  function setTheme(t){ document.body.dataset.theme = t==='blackout' ? 'blackout' : '';
-    $('t1').classList.toggle('on',t==='laranja'); $('t2').classList.toggle('on',t==='blackout'); }
-  setTimeout(startTour, 900);
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var links = document.querySelectorAll('nav a');
+  var obsNav = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  ['como','modos','numeros'].forEach(function(id){ var el=document.getElementById(id); if(el) obsNav.observe(el); });
+
+  var obsG = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelector('.track i').style.width = e.target.dataset.fill + '%';
+      obsG.unobserve(e.target);
+    });
+  }, {threshold:.4});
+  document.querySelectorAll('.gauge').forEach(function(g){ obsG.observe(g); });
+
+  var obsM = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.style.width = e.target.dataset.fill + '%';
+      obsM.unobserve(e.target);
+    });
+  }, {threshold:.4});
+  document.querySelectorAll('.motor .track i').forEach(function(i){ obsM.observe(i); });
+
+  // capítulos: vídeo toca ao entrar na tela, pausa ao sair
+  var obsV = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var v = e.target.querySelector('video');
+      if(!v) return;
+      if(e.isIntersecting){ v.play().catch(function(){}); } else { v.pause(); }
+    });
+  }, {threshold:.35});
+  document.querySelectorAll('.chvid').forEach(function(f){ obsV.observe(f); });
+})();
+
+// hero: vídeo geral com som (só o hero tem botão de play, por ter narração)
+function playHero(){
+  var modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:var(--navy);border:1px solid var(--line);border-radius:20px;padding:40px;max-width:320px;text-align:center;font-family:var(--body)';
+
+  var title = document.createElement('h3');
+  title.textContent = 'Quer assistir?';
+  title.style.cssText = 'font-family:var(--display);font-weight:800;font-size:1.3rem;margin-bottom:12px;color:var(--paper)';
+
+  var desc = document.createElement('p');
+  desc.textContent = 'O filme tem som e narração. São 2 minutos que explicam o todo.';
+  desc.style.cssText = 'color:var(--mut);font-size:0.95rem;margin-bottom:28px;line-height:1.6';
+
+  var btnYes = document.createElement('button');
+  btnYes.textContent = 'Assistir com som';
+  btnYes.style.cssText = 'background:var(--lime);color:var(--ink);border:0;padding:12px 28px;border-radius:999px;font-weight:600;font-size:0.9rem;cursor:pointer;margin-right:10px;transition:transform 0.15s';
+  btnYes.onmouseover = function(){ this.style.transform = 'translateY(-2px)'; };
+  btnYes.onmouseout = function(){ this.style.transform = 'none'; };
+  btnYes.onclick = function(){
+    document.body.removeChild(modal);
+    var v = document.getElementById('herovideo');
+    var w = document.getElementById('playwrap');
+    v.muted = false; v.currentTime = 0;
+    v.play().catch(function(){ v.muted = true; v.play(); });
+    w.classList.add('hidden');
+  };
+
+  var btnNo = document.createElement('button');
+  btnNo.textContent = 'Cancelar';
+  btnNo.style.cssText = 'background:transparent;border:1.5px solid var(--line);color:var(--paper);padding:12px 28px;border-radius:999px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.15s';
+  btnNo.onmouseover = function(){ this.style.borderColor = 'var(--lime)'; this.style.color = 'var(--lime)'; };
+  btnNo.onmouseout = function(){ this.style.borderColor = 'var(--line)'; this.style.color = 'var(--paper)'; };
+  btnNo.onclick = function(){ document.body.removeChild(modal); };
+
+  var btns = document.createElement('div');
+  btns.style.cssText = 'display:flex;gap:8px;justify-content:center';
+  btns.appendChild(btnYes);
+  btns.appendChild(btnNo);
+
+  box.appendChild(title);
+  box.appendChild(desc);
+  box.appendChild(btns);
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+}
+
+var falas = {
+  fa:'O fã segue até 5 bandas e indica até 5 novas. Quem indica primeiro tem preferência para construir a página — e vira Fundador daquela banda.',
+  artista:'O artista mantém agenda, lançamentos e produtos vivos, e pode apadrinhar até 5 bandas — 5% de cada nova contratação delas por um ano.',
+  produtor:'O produtor mantém a ficha técnica completa de cada banda que representa e encaixa datas próximas para baratear a rota.',
+  patrocinador:'A marca acompanha bandas pela faixa etária do público. Quando abre campanha na área do fã, um card espelhado abre aqui — e só aqui se compra cota.',
+  realizador:'Casa ou secretaria publica a agenda, entra no rateio da região por dia e decide se transmite, recebe, ou os dois.'
+};
+var bubble = document.getElementById('bubble');
+var btxt = document.getElementById('btxt');
+function diz(t){ btxt.textContent = t; bubble.classList.add('on'); }
+function fecha(){ bubble.classList.remove('on'); }
+function tap(){
+  if(bubble.classList.contains('on')){ fecha(); return; }
+  diz('Opa! Sou o Shoowme, guia da casa. Role a página pra ver como um voto vira show — ou escolhe teu modo lá embaixo que eu te levo por dentro.');
+}
+document.querySelectorAll('.mode').forEach(function(m){
+  m.addEventListener('mouseenter', function(){ diz(falas[m.dataset.mode]); });
+});
+setTimeout(function(){
+  diz('E aí! Shoowme aqui 🦝 Aperta o play no filme lá em cima que eu te explico o todo — depois desce que eu abro em seis etapas.');
+}, 1400);
 </script>
 </body>
 </html>
