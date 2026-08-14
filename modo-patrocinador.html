@@ -8,61 +8,40 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
 <style>
 :root { --tone: var(--patro); }
 body { background: var(--ink); color: var(--paper); }
 
-.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
-.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
-.hero h1 span { color: var(--tone); }
-.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+.modes { display: none; }
 
-.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+.artistgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 32px; }
+.artistcard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 18px; position: relative; transition: all 0.2s; }
+.artistcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
+.artistcard:hover { transform: translateY(-2px); border-color: var(--tone); }
+.artistname { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+.artistmeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 14px; }
 
-.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+.match-section { background: var(--navy-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 12px; text-align: center; }
+.match-label { font-family: var(--data); font-size: 0.58rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-bottom: 4px; }
+.match-big { font-family: var(--display); font-weight: 800; font-size: 1.8rem; color: var(--tone); letter-spacing: -0.02em; }
 
-.section { margin-bottom: 80px; }
-.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
-.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
+.signaled-list { display: grid; gap: 12px; margin-top: 32px; }
+.signaled-item { background: var(--navy); border: 1px solid var(--line); border-radius: 10px; padding: 16px; position: relative; }
+.signaled-item::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
+.signaled-name { font-family: var(--display); font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+.signaled-meta { font-size: 0.75rem; color: var(--mut); margin-bottom: 12px; }
+.signaled-cota { background: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 12px; text-align: center; }
+.signaled-label { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-bottom: 4px; }
+.signaled-value { font-family: var(--data); font-weight: 700; font-size: 1.4rem; color: var(--tone); }
 
-.filters { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
-.filter-btn { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.1em; padding: 7px 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--mut); cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
-.filter-btn.active { border-color: var(--tone); color: var(--tone); background: rgba(53, 167, 255, 0.1); }
-.filter-btn:hover { border-color: var(--tone); }
+.final-score { background: linear-gradient(135deg, rgba(53,167,255,.12), rgba(53,167,255,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
+.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; }
+.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
 
-.artistgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-
-.artistcard { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: all 0.2s; }
-.artistcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
-.artistcard:hover { transform: translateY(-4px); border-color: var(--tone); }
-
-.artistname { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
-.artistmeta { color: var(--mut); font-size: 0.85rem; margin-bottom: 20px; }
-
-.matchscore { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align: center; }
-.matchscore-label { font-family: var(--data); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 6px; }
-.matchscore-value { font-family: var(--display); font-weight: 800; font-size: 1.8rem; color: var(--tone); font-variant-numeric: tabular-nums; }
-
-.actionbtn { width: 100%; padding: 12px; margin-top: 12px; font-family: var(--body); font-weight: 600; font-size: 0.8rem; border: 1.5px solid var(--tone); background: transparent; color: var(--tone); border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
-.actionbtn:hover { background: rgba(53, 167, 255, 0.1); }
-
-.myscore { background: linear-gradient(135deg, rgba(53, 167, 255, 0.1), rgba(53, 167, 255, 0.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
-.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
-
-.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
-.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
-.btn-primary { background: var(--tone); color: white; }
-.btn-primary:hover { transform: translateY(-2px); }
-.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
-.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
-
-.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
-.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
-
-@media (max-width: 760px) {
-  .artistgrid { grid-template-columns: 1fr; }
+@media (max-width: 880px) {
+  .artistgrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 }
 </style>
 </head>
@@ -82,89 +61,143 @@ body { background: var(--ink); color: var(--paper); }
 </header>
 
 <section class="hero">
-  <div class="verb">MODO 04 · PATROCINADOR</div>
-  <h1>E aí, patrocinador.<br><span>Agora o jogo começa por você.</span></h1>
-  <p>De última peça a fundamental. Você descobre o artista que casa com seu público, vê o match %, sinaliza cota — e seu interesse passa a criar o evento.</p>
-  <div class="actions">
-    <button class="btn btn-primary" onclick="alert('Filtrar artistas: integração com Supabase')">Filtrar por Público</button>
-    <button class="btn btn-ghost" onclick="alert('Ver meus investimentos: integração com Supabase')">Meus Investimentos</button>
+  <div>
+    <div class="eyebrow">DE ÚLTIMA PEÇA A FUNDAMENTAL</div>
+    <h1>E aí, patrocinador. <em>Agora o jogo começa por você.</em></h1>
+    <p class="lede">Você descobre o artista que casa com seu público, vê o match %, sinaliza cota — e seu interesse passa a criar o evento. Quanto mais cedo você entra, mais chance tem de que aconteça.</p>
+    <div class="herobtns">
+      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
+      <button class="btn ghost" onclick="alert('Filtrar artistas: integração com Supabase')">Filtrar por Público</button>
+    </div>
   </div>
 </section>
 
-<div class="content">
+<section class="chapters">
+  <h2 class="secttl">Sua jornada: de observador a promotor</h2>
+  <p class="secsub">Três etapas. Você descobre a banda certa, quantifica o match com sua marca, e sinaliza antes de ninguém.</p>
+
+  <article class="chapter" style="--tone:var(--patro)" id="cap1">
+    <figure class="chvid">
+      <video src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 01 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 01 — DESCOBRE ARTISTA</div>
+      <h3>Vê o mapa de demanda. A banda certa para sua marca está lá.</h3>
+      <p>Filtros por faixa etária, região, gênero. Você vê onde cada artista tem demanda e qual é o perfil do fã. Plutão Já Foi Planeta: 92% de match com seu público. Rock alternativo, 18-29, crescimento viral.</p>
+      <div class="gauge" data-fill="92">
+        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>92% MATCH</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Filtro demográfico</span><span>Match % automático</span><span>Demanda visível</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--patro)">
+    <figure class="chvid">
+      <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 02 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 02 — SINALIZA INTERESSE</div>
+      <h3>Você entra com uma cota. O produtor já sabe.</h3>
+      <p>Você vê: Plutão está aberta em 3 cidades. Você clica em "SINALIZAR INTERESSE" e oferece R$ 5.000. Produtor e casa já sabem que você quer a banda — aumenta chance de a campanha acontecer porque o financiamento já está sendo articulado.</p>
+      <div class="motors">
+        <div class="motor dem">
+          <div class="h">DEMANDA FÃS</div>
+          <div class="track"><i data-fill="95"></i></div>
+          <p>Votos e pré-ingressos acumulados.</p>
+        </div>
+        <div class="motor apo">
+          <div class="h">COTAS SINALIZADAS</div>
+          <div class="track"><i data-fill="60"></i></div>
+          <p>Você + outros patrocinadores.</p>
+        </div>
+      </div>
+      <div class="tags"><span>Cota flexível</span><span>Visibilidade ao produtor</span><span>Sem compromisso ainda</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--patro)">
+    <figure class="chvid">
+      <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 03 · 14s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 03 — SHOW ACONTECE</div>
+      <h3>A banda toca. Sua marca está no evento.</h3>
+      <p>Quando a meta bate (demanda + cotas sinalizadas), a banda é contratada. Você confirma seu investimento, sua marca aparece na promoção, você está no camarote. Seu logo no pré-evento, na transmissão, na ativação.</p>
+      <div class="gauge" data-fill="100">
+        <div class="lbl"><span>EVENTO REALIZADO</span><b>SHOW CONFIRMADO</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Logo no material</span><span>Presença no evento</span><span>Ativação garantida</span></div>
+    </div>
+  </article>
+
+</section>
+
+<div class="content" style="margin-top: 40px;">
 
   <section class="section">
     <h2 class="sectiontitle">Descobrir artistas</h2>
     <p class="sectionsubtitle">Filtre por faixa etária do seu público-alvo. O match mostra quanto o artista conversa com a sua marca.</p>
 
-    <div class="filters">
-      <button class="filter-btn active">18-24</button>
-      <button class="filter-btn">25-34</button>
-      <button class="filter-btn">35-44</button>
-      <button class="filter-btn">45+</button>
-      <button class="filter-btn">Região Sul</button>
-      <button class="filter-btn">Região Centro-Oeste</button>
-    </div>
-
     <div class="artistgrid">
       <div class="artistcard">
         <div class="artistname">Plutão Já Foi Planeta</div>
         <div class="artistmeta">Rock alternativo · Brasil</div>
-        <div class="matchscore">
-          <div class="matchscore-label">Match com sua marca</div>
-          <div class="matchscore-value">92%</div>
+        <div class="match-section">
+          <div class="match-label">Match com sua marca</div>
+          <div class="match-big">92%</div>
         </div>
-        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+        <div style="color: var(--mut); font-size: 0.8rem; line-height: 1.5;">
           <div>• Público 18-29 alinhado</div>
           <div>• Redes sociais crescentes</div>
           <div>• Campanha aberta em 3 cidades</div>
         </div>
-        <button class="actionbtn">Sinalizar Interesse</button>
       </div>
 
       <div class="artistcard">
         <div class="artistname">Dias de Luta</div>
         <div class="artistmeta">Pop punk · São Paulo</div>
-        <div class="matchscore">
-          <div class="matchscore-label">Match com sua marca</div>
-          <div class="matchscore-value">87%</div>
+        <div class="match-section">
+          <div class="match-label">Match com sua marca</div>
+          <div class="match-big">87%</div>
         </div>
-        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+        <div style="color: var(--mut); font-size: 0.8rem; line-height: 1.5;">
           <div>• Público 20-30 bem segmentado</div>
           <div>• Comunidade engajada</div>
           <div>• Sem campanha aberta ainda</div>
         </div>
-        <button class="actionbtn">Sinalizar Interesse</button>
       </div>
 
       <div class="artistcard">
         <div class="artistname">A Lenda do Herói</div>
         <div class="artistmeta">Forró eletrônico · Ceará</div>
-        <div class="matchscore">
-          <div class="matchscore-label">Match com sua marca</div>
-          <div class="matchscore-value">74%</div>
+        <div class="match-section">
+          <div class="match-label">Match com sua marca</div>
+          <div class="match-big">74%</div>
         </div>
-        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+        <div style="color: var(--mut); font-size: 0.8rem; line-height: 1.5;">
           <div>• Público 25-35 presente</div>
           <div>• Potencial regional alto</div>
           <div>• Campanha em 2 cidades</div>
         </div>
-        <button class="actionbtn">Sinalizar Interesse</button>
       </div>
 
       <div class="artistcard">
         <div class="artistname">Terminal Norte</div>
         <div class="artistmeta">Hip hop · Minas Gerais</div>
-        <div class="matchscore">
-          <div class="matchscore-label">Match com sua marca</div>
-          <div class="matchscore-value">81%</div>
+        <div class="match-section">
+          <div class="match-label">Match com sua marca</div>
+          <div class="match-big">81%</div>
         </div>
-        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+        <div style="color: var(--mut); font-size: 0.8rem; line-height: 1.5;">
           <div>• Público 18-28 forte</div>
           <div>• Crescimento viral</div>
           <div>• Campanha confirmada</div>
         </div>
-        <button class="actionbtn">Sinalizar Interesse</button>
       </div>
     </div>
   </section>
@@ -172,34 +205,31 @@ body { background: var(--ink); color: var(--paper); }
   <section class="section">
     <h2 class="sectiontitle">Suas sinalizações</h2>
     <p class="sectionsubtitle">Quando você sinaliza interesse, o produtor e a casa já sabem — aumenta chance de concrétizar a campanha.</p>
-    <div class="artistgrid">
-      <div class="artistcard">
-        <div class="artistname">Plutão Já Foi Planeta</div>
-        <div class="artistmeta">Rock alternativo · Campanha aberta</div>
-        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase;">
-          <div>Cota Sinalizada</div>
-          <div style="font-weight: 700; font-size: 1.3rem; color: var(--tone); margin-top: 6px;">R$ 5.000</div>
+    <div class="signaled-list">
+      <div class="signaled-item">
+        <div class="signaled-name">Plutão Já Foi Planeta</div>
+        <div class="signaled-meta">Rock alternativo · Campanha aberta em 3 cidades</div>
+        <div class="signaled-cota">
+          <div class="signaled-label">Cota Sinalizada</div>
+          <div class="signaled-value" data-count="5000">0</div>
         </div>
-        <button class="actionbtn">Confirmar Investimento</button>
       </div>
 
-      <div class="artistcard">
-        <div class="artistname">Terminal Norte</div>
-        <div class="artistmeta">Hip hop · Campanha aberta</div>
-        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase;">
-          <div>Cota Sinalizada</div>
-          <div style="font-weight: 700; font-size: 1.3rem; color: var(--tone); margin-top: 6px;">R$ 3.000</div>
+      <div class="signaled-item">
+        <div class="signaled-name">Terminal Norte</div>
+        <div class="signaled-meta">Hip hop · Campanha confirmada</div>
+        <div class="signaled-cota">
+          <div class="signaled-label">Cota Sinalizada</div>
+          <div class="signaled-value" data-count="3000">0</div>
         </div>
-        <button class="actionbtn">Confirmar Investimento</button>
       </div>
     </div>
   </section>
 
-  <section class="myscore">
-    <div class="myscore-label">SEU PORTFÓLIO</div>
-    <div class="myscore-big" data-count="8">0</div>
-    <div class="myscore-label">artistas no seu radar este mês</div>
-    <div class="myscore-desc">Quanto mais cedo você sinaliza, mais chances de que o evento aconteça — e sua marca estará lá desde o começo.</div>
+  <section class="final-score">
+    <div class="final-score-num" data-count="8">0</div>
+    <div class="final-score-label">SEU PORTFÓLIO</div>
+    <div class="final-score-desc">Artistas no seu radar este mês. Quanto mais cedo você sinaliza, mais chances de que o evento aconteça — e sua marca estará lá desde o começo.</div>
   </section>
 
   <div class="backhome">
@@ -232,6 +262,15 @@ body { background: var(--ink); color: var(--paper); }
   document.querySelectorAll('[data-count]').forEach(function(el){
     if(el.offsetParent !== null){ animateCount(el); }
   });
+
+  var obsG = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
+      obsG.unobserve(e.target);
+    });
+  }, {threshold: 0.3});
+  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
 })();
 </script>
 

@@ -8,68 +8,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
 <style>
 :root { --tone: var(--fa); }
 body { background: var(--ink); color: var(--paper); }
 
-.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
-.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
-.hero h1 span { color: var(--tone); }
-.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+.modes { display: none; } /* Hide mode selector from home.css */
 
-.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+/* Grid de bandas seguidas */
+.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 32px; }
+.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 16px; position: relative; transition: all 0.2s; }
+.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
+.bandcard:hover { transform: translateY(-2px); border-color: var(--tone); }
+.bandname { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+.bandmeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 12px; }
+.gauge-mini { font-family: var(--data); font-size: 0.58rem; color: var(--mut); margin-bottom: 4px; }
+.gauge-track-mini { height: 4px; border-radius: 99px; background: var(--navy-2); overflow: hidden; margin-bottom: 8px; }
+.gauge-track-mini i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 60%; }
+.status-badge { font-family: var(--data); font-size: 0.65rem; color: var(--tone); text-transform: uppercase; letter-spacing: 0.05em; }
 
-.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+/* Pontos finais */
+.final-score { background: linear-gradient(135deg, rgba(255,61,127,.12), rgba(255,61,127,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
+.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; }
+.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
 
-/* seção de bandas seguidas */
-.section { margin-bottom: 80px; }
-.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
-.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
-
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
-
-.card { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
-.card:hover { transform: translateY(-4px); border-color: var(--tone); }
-.card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
-
-.bandname { font-family: var(--display); font-weight: 700; font-size: 1.15rem; margin-bottom: 8px; }
-.bandinfo { font-size: 0.85rem; color: var(--mut); margin-bottom: 16px; }
-.bandstatus { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--tone); text-transform: uppercase; }
-
-/* gauge de progresso */
-.gauge { margin-top: 24px; }
-.gauge-label { display: flex; justify-content: space-between; font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--mut); margin-bottom: 8px; }
-.gauge-label b { color: var(--tone); }
-.gauge-track { height: 6px; border-radius: 99px; background: var(--navy-2); overflow: hidden; }
-.gauge-track i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 0%; transition: width 1s cubic-bezier(0.2, 0.7, 0.3, 1); }
-
-/* meu score */
-.myscore { background: linear-gradient(135deg, rgba(199,247,62,.1), rgba(199,247,62,.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
-.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
-
-/* jornada */
-.journey { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
-.journey-step { font-family: var(--data); font-size: 0.65rem; padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; color: var(--mut); letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.2s; }
-.journey-step.done { border-color: var(--tone); color: var(--tone); background: rgba(199,247,62,.08); }
-.journey-step.current { border-color: var(--tone); color: var(--tone); background: rgba(199,247,62,.15); }
-
-/* botões de ação */
-.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
-.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
-.btn-primary { background: var(--tone); color: var(--ink); }
-.btn-primary:hover { transform: translateY(-2px); }
-.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
-.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
-
-.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
-.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
-.backhome a:hover { text-decoration: underline; }
-
-@media (max-width: 760px) {
-  .grid { grid-template-columns: 1fr; }
-  .journey { gap: 6px; }
+@media (max-width: 880px) {
+  .bandgrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 }
 </style>
 </head>
@@ -89,106 +54,151 @@ body { background: var(--ink); color: var(--paper); }
 </header>
 
 <section class="hero">
-  <div class="verb">MODO 01 · FÃ</div>
-  <h1>E aí, fã.<br><span>Aqui você manda.</span></h1>
-  <p>A cara mais bonita da ShowLink é a sua. Você é a estrela — traz o show que nunca veio, e toda a cidade passa a enxergar que a demanda existe. Siga até 5 bandas, indique até 5 novas, vote e reserve.</p>
-  <div class="actions">
-    <button class="btn btn-primary" onclick="alert('Seguir banda: integração com Supabase')">+ Seguir Banda</button>
-    <button class="btn btn-ghost" onclick="alert('Indicar nova: integração com Supabase')">Indicar Nova</button>
+  <div>
+    <div class="eyebrow">DE SUGESTÃO A SHOW REALIZADO</div>
+    <h1>E aí, fã. <em>Aqui você manda.</em></h1>
+    <p class="lede">Você é a estrela — traz a banda que nunca veio, a cidade inteira enxerga que a demanda existe, você vota, reserva, e o show acontece. Camarote, prioridade, foto com a galera.</p>
+    <div class="herobtns">
+      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
+      <button class="btn ghost" onclick="alert('Seguir banda: integração com Supabase')">+ Seguir Banda</button>
+    </div>
   </div>
 </section>
 
-<div class="content">
+<section class="chapters">
+  <h2 class="secttl">Sua jornada: de fã invisível a curador especial</h2>
+  <p class="secsub">Cinco etapas, cada uma com o vídeo que a explica. Você começa sugerindo, passa a votar junto, e quando o show acontece, você ganhou poder na cidade.</p>
+
+  <article class="chapter" style="--tone:var(--fa)" id="cap1">
+    <figure class="chvid">
+      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 01 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 01 — VOCÊ SUGERE</div>
+      <h3>Sugere a banda. A galera vota junto.</h3>
+      <p>Toda semana sua cidade monta a pré-lista das dez. Você digita o nome da banda que quer ver perto, e cada voto empurra ela para cima. As três mais votadas viram campanha — e quem indicou primeira vira Fundador.</p>
+      <div class="gauge" data-fill="33">
+        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>1.247 VOTOS</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Pré-lista das 10</span><span>Voto coletivo</span><span>Você é Fundador</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--fa)">
+    <figure class="chvid">
+      <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 02 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 02 — CAMPANHA ABRE</div>
+      <h3>Reserva o ingresso. Só paga se o show acontecer.</h3>
+      <p>A campanha abre em cinco cidades ao mesmo tempo. Você clica em RESERVAR, paga por Pix (valor inteiro agora ou parcelado), e só é cobrado quando o show é viabilizado. Não bateu a meta? Seu dinheiro volta.</p>
+      <div class="motors">
+        <div class="motor dem">
+          <div class="h">MOTOR 1 · SEU VOTO</div>
+          <div class="track"><i data-fill="95"></i></div>
+          <p>Você + fãs da região reservando ingressos.</p>
+        </div>
+        <div class="motor apo">
+          <div class="h">MOTOR 2 · PATROCÍNIO</div>
+          <div class="track"><i data-fill="60"></i></div>
+          <p>Cotas de empresas já sinalizadas pra banda.</p>
+        </div>
+      </div>
+      <div class="tags"><span>Pré-ingresso reservado</span><span>Só paga se acontecer</span><span>Estorno em 48h</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--fa)">
+    <figure class="chvid">
+      <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 03 · 14s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 03 — SHOW ACONTECE</div>
+      <h3>Você está no palco. A banda está contratada.</h3>
+      <p>Quando a meta bate, a banda é contratada em múltiplas cidades ao mesmo tempo. Você vai no show, tira foto, aparece na transmissão. E você acumulou 2.480 pontos por ter indicado primeiro — vale camarote e prioridade para os próximos.</p>
+      <div class="gauge" data-fill="100">
+        <div class="lbl"><span>SUA JORNADA</span><b>100% REALIZADA</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Camarote garantido</span><span>Foto oficial com banda</span><span>Pontos acumulados</span></div>
+    </div>
+  </article>
+
+</section>
+
+<div class="content" style="margin-top: 40px;">
 
   <section class="section">
     <h2 class="sectiontitle">Bandas que você segue</h2>
-    <p class="sectionsubtitle">Até 5 bandas acompanhadas. A ShowLink te avisa quando uma solta release, abre campanha, ou vai tocar perto.</p>
-    <div class="grid">
-      <div class="card">
+    <p class="sectionsubtitle">Até 5 bandas acompanhadas. ShowLink te avisa quando uma lança música, abre campanha, ou vai tocar perto.</p>
+    <div class="bandgrid">
+      <div class="bandcard">
         <div class="bandname">Plutão Já Foi Planeta</div>
-        <div class="bandinfo">Rock alternativo · Brasil</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Jornada</span><b>TOP 3</b></div>
-          <div class="gauge-track"><i style="width: 73%"></i></div>
-        </div>
-        <div class="bandstatus">Campanha aberta em 3 cidades</div>
+        <div class="bandmeta">Rock alternativo · Brasil</div>
+        <div class="gauge-mini">Jornada: TOP 3</div>
+        <div class="gauge-track-mini"><i style="width: 73%"></i></div>
+        <div class="status-badge">Campanha aberta</div>
       </div>
-      <div class="card">
-        <div class="bandname">A Lenda do Herói</div>
-        <div class="bandinfo">Forró eletrônico · Ceará</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Jornada</span><b>PRÉ-VENDA</b></div>
-          <div class="gauge-track"><i style="width: 55%"></i></div>
-        </div>
-        <div class="bandstatus">Você votou 2 vezes</div>
-      </div>
-      <div class="card">
+      <div class="bandcard">
         <div class="bandname">Dias de Luta</div>
-        <div class="bandinfo">Pop punk · São Paulo</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Jornada</span><b>VOTAÇÃO</b></div>
-          <div class="gauge-track"><i style="width: 45%"></i></div>
-        </div>
-        <div class="bandstatus">Você indicou · Fundador</div>
+        <div class="bandmeta">Pop punk · São Paulo</div>
+        <div class="gauge-mini">Jornada: VOTAÇÃO</div>
+        <div class="gauge-track-mini"><i style="width: 45%"></i></div>
+        <div class="status-badge">Você indicou · Fundador</div>
       </div>
-      <div class="card">
+      <div class="bandcard">
+        <div class="bandname">A Lenda do Herói</div>
+        <div class="bandmeta">Forró eletrônico · Ceará</div>
+        <div class="gauge-mini">Jornada: PRÉ-VENDA</div>
+        <div class="gauge-track-mini"><i style="width: 55%"></i></div>
+        <div class="status-badge">Você votou 2x</div>
+      </div>
+      <div class="bandcard">
         <div class="bandname">Vira e Mexe</div>
-        <div class="bandinfo">Samba rock · Rio de Janeiro</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Jornada</span><b>TOP 10</b></div>
-          <div class="gauge-track"><i style="width: 38%"></i></div>
-        </div>
-        <div class="bandstatus">Está no catálogo há 8 meses</div>
+        <div class="bandmeta">Samba rock · Rio</div>
+        <div class="gauge-mini">Jornada: TOP 10</div>
+        <div class="gauge-track-mini"><i style="width: 38%"></i></div>
+        <div class="status-badge">8 meses</div>
       </div>
-      <div class="card">
+      <div class="bandcard">
         <div class="bandname">Maresia</div>
-        <div class="bandinfo">Reggae · Pernambuco</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Jornada</span><b>ROL</b></div>
-          <div class="gauge-track"><i style="width: 15%"></i></div>
-        </div>
-        <div class="bandstatus">Recém adicionada</div>
+        <div class="bandmeta">Reggae · Pernambuco</div>
+        <div class="gauge-mini">Jornada: ROL</div>
+        <div class="gauge-track-mini"><i style="width: 15%"></i></div>
+        <div class="status-badge">Recém adicionada</div>
       </div>
     </div>
   </section>
 
   <section class="section">
     <h2 class="sectiontitle">Suas indicações pendentes</h2>
-    <p class="sectionsubtitle">Você indicou 2 bandas. Quando chegarem a 50 votos, a ShowLink as valida e colocam em pré-venda.</p>
-    <div class="grid">
-      <div class="card">
+    <p class="sectionsubtitle">Você indicou 2 bandas novas. Quando chegarem a 50 votos, a ShowLink as valida e coloca em pré-venda.</p>
+    <div class="bandgrid">
+      <div class="bandcard">
         <div class="bandname">Ultravioleta</div>
-        <div class="bandinfo">Indie rock · Brasília</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Votos recebidos</span><b>28 / 50</b></div>
-          <div class="gauge-track"><i style="width: 56%"></i></div>
-        </div>
-        <div class="bandstatus">Indicação sua · Semanal</div>
+        <div class="bandmeta">Indie rock · Brasília</div>
+        <div class="gauge-mini">Votos: 28 de 50</div>
+        <div class="gauge-track-mini"><i style="width: 56%"></i></div>
+        <div class="status-badge">Indicação sua</div>
       </div>
-      <div class="card">
+      <div class="bandcard">
         <div class="bandname">Terminal Norte</div>
-        <div class="bandinfo">Hip hop · Minas Gerais</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Votos recebidos</span><b>12 / 50</b></div>
-          <div class="gauge-track"><i style="width: 24%"></i></div>
-        </div>
-        <div class="bandstatus">Indicação sua · Semanal</div>
+        <div class="bandmeta">Hip hop · Minas Gerais</div>
+        <div class="gauge-mini">Votos: 12 de 50</div>
+        <div class="gauge-track-mini"><i style="width: 24%"></i></div>
+        <div class="status-badge">Indicação sua</div>
       </div>
     </div>
   </section>
 
-  <section class="myscore">
-    <div class="myscore-big" data-count="2480">0</div>
-    <div class="myscore-label">PONTOS · CURADOR ESPECIAL</div>
-    <div class="myscore-desc">Você indicou a banda que viralizou. Camarote, prioridade na fila, foto com os artistas quando vierem na sua região.</div>
-    <div class="journey">
-      <div class="journey-step done">RASCUNHO</div>
-      <div class="journey-step done">VOTAÇÃO</div>
-      <div class="journey-step done">TOP 10</div>
-      <div class="journey-step done">TOP 3</div>
-      <div class="journey-step current">CAMPANHA</div>
-      <div class="journey-step">TOUR</div>
-    </div>
+  <section class="final-score">
+    <div class="final-score-num" data-count="2480">0</div>
+    <div class="final-score-label">PONTOS · CURADOR ESPECIAL</div>
+    <div class="final-score-desc">Você indicou a banda que viralizou. Ganhou camarote em todos os shows, prioridade na fila, foto oficial com os artistas quando vierem na sua região.</div>
   </section>
 
   <div class="backhome">
@@ -199,7 +209,6 @@ body { background: var(--ink); color: var(--paper); }
 
 <script>
 (function(){
-  // Demand meter no topo
   var bar = document.querySelector('#meter i');
   function onScroll(){
     var h = document.documentElement.scrollHeight - window.innerHeight;
@@ -209,7 +218,6 @@ body { background: var(--ink); color: var(--paper); }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  // Anima números grandes
   function animateCount(el){
     var target = parseInt(el.dataset.count, 10);
     var current = 0;
@@ -221,10 +229,9 @@ body { background: var(--ink); color: var(--paper); }
     }, 20);
   }
   document.querySelectorAll('[data-count]').forEach(function(el){
-    if(el.offsetParent !== null){ animateCount(el); } // só anima se visível
+    if(el.offsetParent !== null){ animateCount(el); }
   });
 
-  // Intersectionobserver pra gauges
   var obsG = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if(!e.isIntersecting) return;

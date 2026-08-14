@@ -8,58 +8,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
 <style>
 :root { --tone: var(--artista); }
 body { background: var(--ink); color: var(--paper); }
 
-.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
-.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
-.hero h1 span { color: var(--tone); }
-.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+.modes { display: none; }
 
-.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+.citygrid { display: grid; gap: 16px; margin-top: 32px; }
+.citycard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 20px; position: relative; transition: all 0.2s; }
+.citycard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
+.citycard:hover { transform: translateY(-2px); border-color: var(--tone); }
+.cityname { font-family: var(--display); font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+.citymeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 14px; }
+.demand-big { font-family: var(--data); font-weight: 700; font-size: 1.8rem; color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.demand-small { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-top: 6px; }
 
-.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+.godmother { background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(16,185,129,.05)); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 8px; }
+.godmother-band { font-family: var(--display); font-weight: 600; font-size: 0.95rem; margin-bottom: 10px; }
+.godmother-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--data); font-size: 0.68rem; }
+.godmother-stat { background: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px; text-align: center; }
+.godmother-num { font-weight: 700; font-size: 1.4rem; color: var(--tone); }
+.godmother-label { color: var(--mut); margin-top: 3px; }
 
-.section { margin-bottom: 80px; }
-.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
-.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
-
-.demandagrid { display: grid; gap: 16px; }
-
-.demand-card { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 28px; position: relative; overflow: hidden; }
-.demand-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
-
-.city-name { font-family: var(--display); font-weight: 700; font-size: 1.3rem; margin-bottom: 8px; }
-.city-meta { color: var(--mut); font-size: 0.85rem; margin-bottom: 24px; }
-
-.gauge { margin-bottom: 20px; }
-.gauge-label { display: flex; justify-content: space-between; font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--mut); margin-bottom: 8px; }
-.gauge-label b { color: var(--tone); }
-.gauge-track { height: 6px; border-radius: 99px; background: var(--navy-2); overflow: hidden; }
-.gauge-track i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 0%; transition: width 1s cubic-bezier(0.2, 0.7, 0.3, 1); }
-
-.demand-number { font-family: var(--data); font-weight: 700; font-size: 2rem; color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.demand-label { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-top: 4px; }
-
-.myscore { background: linear-gradient(135deg, rgba(199,247,62,.1), rgba(199,247,62,.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
-.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
-
-.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
-.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
-.btn-primary { background: var(--tone); color: var(--ink); }
-.btn-primary:hover { transform: translateY(-2px); }
-.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
-.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
-
-.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
-.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
-.backhome a:hover { text-decoration: underline; }
+.final-score { background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(16,185,129,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
+.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; }
+.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
 
 @media (max-width: 760px) {
-  .demand-card { padding: 20px; }
+  .godmother-stats { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -79,73 +57,122 @@ body { background: var(--ink); color: var(--paper); }
 </header>
 
 <section class="hero">
-  <div class="verb">MODO 02 · ARTISTA</div>
-  <h1>E aí, artista.<br><span>Seu fã trabalha pra você.</span></h1>
-  <p>A demanda que era invisível agora vira mapa. Você vê exatamente onde estão pedindo, completa sua página, abre a campanha — e o risco desaparece.</p>
-  <div class="actions">
-    <button class="btn btn-primary" onclick="alert('Editar página: integração com Supabase')">Editar Página</button>
-    <button class="btn btn-ghost" onclick="alert('Apadrinhar banda: integração com Supabase')">Apadrinhar Banda</button>
+  <div>
+    <div class="eyebrow">DE DESCONHECIDO A TURNÊ</div>
+    <h1>E aí, artista. <em>Seu fã trabalha pra você.</em></h1>
+    <p class="lede">A demanda que era invisível agora vira mapa — você vê exatamente onde estão pedindo. Completa sua página, abre a campanha, e o risco desaparece. Uma campanha vira turnê em 5 cidades.</p>
+    <div class="herobtns">
+      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
+      <button class="btn ghost" onclick="alert('Editar página: integração com Supabase')">Editar Página</button>
+    </div>
   </div>
 </section>
 
-<div class="content">
+<section class="chapters">
+  <h2 class="secttl">Sua jornada: de invisível a em turnê</h2>
+  <p class="secsub">Três etapas. Seus fãs trabalham pra você desde o dia 1. A demanda aparece no mapa, você lê e abre a campanha onde ela é viável.</p>
+
+  <article class="chapter" style="--tone:var(--artista)" id="cap1">
+    <figure class="chvid">
+      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 01 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 01 — SEUS FÃS PEDEM</div>
+      <h3>Fãs em múltiplas cidades aparecem pedindo você.</h3>
+      <p>Você cria sua página, e fãs começam a indicar você em cidades onde você pode rodar. Cada indicação é um voto invisível — o sistema contabiliza, e você vê em tempo real por onde estão te pedindo.</p>
+      <div class="motors">
+        <div class="motor dem">
+          <div class="h">FÃSNESTE MÊS</div>
+          <div class="track"><i data-fill="88"></i></div>
+          <p>Votos acumulados em 4 cidades.</p>
+        </div>
+        <div class="motor apo">
+          <div class="h">PÁGINA COMPLETA</div>
+          <div class="track"><i data-fill="87"></i></div>
+          <p>87% — faltam produtos/merchandise.</p>
+        </div>
+      </div>
+      <div class="tags"><span>Página pública</span><span>Mapa de demanda</span><span>Votos em tempo real</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--artista)">
+    <figure class="chvid">
+      <video src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 02 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 02 — DEMANDA VISÍVEL</div>
+      <h3>Você vê onde está viável rodar. Abre campanha.</h3>
+      <p>O mapa mostra exatamente onde seus fãs estão pedindo. Cascavel com 320 fãs? Viável já. Toledo com 184? Viável em 2 semanas. Você seleciona as cidades, abre a campanha nelas simultaneamente, e fãs que não indicaram ainda agora têm chance de reservar.</p>
+      <div class="gauge" data-fill="92">
+        <div class="lbl"><span>CASCAVEL · PRONTA</span><b>320 FÃNS PEDINDO</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Raio até 300 km</span><span>Múltiplas cidades</span><span>Produtor negocia rota</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--artista)">
+    <figure class="chvid">
+      <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 03 · 14s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 03 — TURNÊ REALIZADA</div>
+      <h3>Uma campanha virou rota. Casa após casa, você toca.</h3>
+      <p>O que começou como indicações em uma cidade abriu pré-venda em 5. Agora você tem uma turnê montada — Cascavel sábado, Toledo sexta, Foz domingo. Produtor negocia o encaixe, você só confirma as datas no seu calendário.</p>
+      <div class="days">
+        <div><span>1ª casa · sábado</span><b>VALOR CHEIO</b></div>
+        <div><span>2ª casa · sexta</span><b>−10 A 20%</b></div>
+        <div><span>3ª casa · domingo</span><b>−15 A 30%</b></div>
+      </div>
+      <div class="tags"><span>Rateio 40/25/25/10</span><span>Sem risco de prejuízo</span><span>Você ganha 40%</span></div>
+    </div>
+  </article>
+
+</section>
+
+<div class="content" style="margin-top: 40px;">
 
   <section class="section">
     <h2 class="sectiontitle">Onde estão te pedindo</h2>
-    <p class="sectionsubtitle">Sua página está 87% completa. Quanto mais completa, mais fãs trabalham pra você. Complete a setlist, adicione vídeos e a demanda explode.</p>
-    <div class="demandagrid">
-      <div class="demand-card">
-        <div class="city-name">Cascavel</div>
-        <div class="city-meta">Paraná · Distância: 0 km</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Fãs pedindo</span><b>VIÁVEL</b></div>
-          <div class="gauge-track"><i style="width: 88%"></i></div>
-        </div>
-        <div class="demand-number" data-count="320">0</div>
-        <div class="demand-label">fãs pedindo · já abre campanha</div>
+    <p class="sectionsubtitle">Seu mapa de demanda. Quanto mais completa sua página, mais fãs trabalham pra você e mais cidades aparecem aqui.</p>
+    <div class="citygrid">
+      <div class="citycard">
+        <div class="cityname">Cascavel</div>
+        <div class="citymeta">Paraná · 0 km</div>
+        <div class="demand-big" data-count="320">0</div>
+        <div class="demand-small">Fãs pedindo · já abre campanha</div>
       </div>
-
-      <div class="demand-card">
-        <div class="city-name">Toledo</div>
-        <div class="city-meta">Paraná · Distância: 54 km</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Fãs pedindo</span><b>FORTE</b></div>
-          <div class="gauge-track"><i style="width: 72%"></i></div>
-        </div>
-        <div class="demand-number" data-count="184">0</div>
-        <div class="demand-label">fãs pedindo · abre em 2 semanas</div>
+      <div class="citycard">
+        <div class="cityname">Toledo</div>
+        <div class="citymeta">Paraná · 54 km</div>
+        <div class="demand-big" data-count="184">0</div>
+        <div class="demand-small">Fãs pedindo · abre em 2 semanas</div>
       </div>
-
-      <div class="demand-card">
-        <div class="city-name">Foz do Iguaçu</div>
-        <div class="city-meta">Paraná · Distância: 98 km</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Fãs pedindo</span><b>MODERADO</b></div>
-          <div class="gauge-track"><i style="width: 54%"></i></div>
-        </div>
-        <div class="demand-number" data-count="127">0</div>
-        <div class="demand-label">fãs pedindo · monitore a evolução</div>
+      <div class="citycard">
+        <div class="cityname">Foz do Iguaçu</div>
+        <div class="citymeta">Paraná · 98 km</div>
+        <div class="demand-big" data-count="127">0</div>
+        <div class="demand-small">Fãs pedindo · monitore</div>
       </div>
-
-      <div class="demand-card">
-        <div class="city-name">Maringá</div>
-        <div class="city-meta">Paraná · Distância: 168 km</div>
-        <div class="gauge">
-          <div class="gauge-label"><span>Fãs pedindo</span><b>BAIXO</b></div>
-          <div class="gauge-track"><i style="width: 38%"></i></div>
-        </div>
-        <div class="demand-number" data-count="89">0</div>
-        <div class="demand-label">fãs pedindo · em fase de crescimento</div>
+      <div class="citycard">
+        <div class="cityname">Maringá</div>
+        <div class="citymeta">Paraná · 168 km</div>
+        <div class="demand-big" data-count="89">0</div>
+        <div class="demand-small">Fãs pedindo · em crescimento</div>
       </div>
     </div>
   </section>
 
   <section class="section">
     <h2 class="sectiontitle">Sua página · Completude</h2>
-    <p class="sectionsubtitle">87% pronta. O produtor já sabe o que esperar; os fãs sabem do que você é capaz.</p>
+    <p class="sectionsubtitle">87% pronta. Quanto mais completa, mais fãs te veem como viável — e mais aparecem pedindo.</p>
     <div class="demand-card" style="margin-bottom: 0;">
       <div class="gauge">
-        <div class="gauge-label"><span>Plutão Já Foi Planeta</span><b>PRONTA</b></div>
+        <div class="gauge-label"><span>Plutão Já Foi Planeta</span><b>87% PRONTA</b></div>
         <div class="gauge-track"><i style="width: 87%"></i></div>
       </div>
       <div style="color: var(--mut); font-size: 0.9rem; margin-top: 16px; display: flex; flex-direction: column; gap: 8px;">
@@ -161,44 +188,46 @@ body { background: var(--ink); color: var(--paper); }
   <section class="section">
     <h2 class="sectiontitle">Bandas que você apadrinhou</h2>
     <p class="sectionsubtitle">Você apadrinhou 2 bandas. Recebe 5% de cada contratação delas por 1 ano — e fica com o selo de madrinha.</p>
-    <div style="display: grid; gap: 16px;">
-      <div class="demand-card">
-        <div class="city-name">Dias de Luta</div>
-        <div class="city-meta">Pop punk · São Paulo · desde 4 meses</div>
-        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <div class="demand-label">Contratações</div>
-            <div class="demand-number" data-count="3">0</div>
-          </div>
-          <div style="text-align: right;">
-            <div class="demand-label">Seu ganho este mês</div>
-            <div class="demand-number" style="font-size: 1.5rem;" data-count="240">0</div>
+    <div class="citygrid">
+      <div class="citycard">
+        <div class="cityname">Dias de Luta</div>
+        <div class="citymeta">Pop punk · São Paulo · desde 4 meses</div>
+        <div class="godmother">
+          <div class="godmother-stats">
+            <div class="godmother-stat">
+              <div class="godmother-num" data-count="3">0</div>
+              <div class="godmother-label">Contratações</div>
+            </div>
+            <div class="godmother-stat">
+              <div class="godmother-num" data-count="240">0</div>
+              <div class="godmother-label">Seu ganho (R$)</div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="demand-card">
-        <div class="city-name">Terminal Norte</div>
-        <div class="city-meta">Hip hop · Minas Gerais · desde 1 mês</div>
-        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <div class="demand-label">Contratações</div>
-            <div class="demand-number" data-count="1">0</div>
-          </div>
-          <div style="text-align: right;">
-            <div class="demand-label">Seu ganho este mês</div>
-            <div class="demand-number" style="font-size: 1.5rem;" data-count="120">0</div>
+      <div class="citycard">
+        <div class="cityname">Terminal Norte</div>
+        <div class="citymeta">Hip hop · Minas Gerais · desde 1 mês</div>
+        <div class="godmother">
+          <div class="godmother-stats">
+            <div class="godmother-stat">
+              <div class="godmother-num" data-count="1">0</div>
+              <div class="godmother-label">Contratações</div>
+            </div>
+            <div class="godmother-stat">
+              <div class="godmother-num" data-count="120">0</div>
+              <div class="godmother-label">Seu ganho (R$)</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="myscore">
-    <div class="myscore-label">VOCÊ RECEBE 5% POR 1 ANO</div>
-    <div class="myscore-big" data-count="360">0</div>
-    <div class="myscore-label">royalty acumulado (ganho previsível)</div>
-    <div class="myscore-desc">Quanto mais bandas você apadrinhar, mais fonte de renda passa a ter — independente de tocar ou não.</div>
+  <section class="final-score">
+    <div class="final-score-num" data-count="360">0</div>
+    <div class="final-score-label">VOCÊ RECEBE 5% POR 1 ANO</div>
+    <div class="final-score-desc">Royalty acumulado de bandas que você apadrinhou. Quanto mais bandas você apadrinhar, mais fonte de renda — independente de você tocar ou não.</div>
   </section>
 
   <div class="backhome">

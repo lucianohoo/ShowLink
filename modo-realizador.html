@@ -8,65 +8,47 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
 <style>
 :root { --tone: var(--realizador); }
 body { background: var(--ink); color: var(--paper); }
 
-.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
-.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
-.hero h1 span { color: var(--tone); }
-.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+.modes { display: none; }
 
-.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 32px; }
+.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 18px; position: relative; transition: all 0.2s; }
+.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
+.bandcard:hover { transform: translateY(-2px); border-color: var(--tone); }
+.bandname { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+.bandmeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 14px; }
 
-.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+.pricingbox { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 12px; text-align: center; }
+.pricingbox-date { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-bottom: 4px; }
+.pricingbox-price { font-family: var(--data); font-weight: 700; font-size: 1.3rem; color: var(--tone); }
 
-.section { margin-bottom: 80px; }
-.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
-.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
+.rateiobox { background: var(--navy-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-top: 12px; font-family: var(--data); font-size: 0.68rem; color: var(--mut); line-height: 1.4; }
 
-.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.dates-list { display: grid; gap: 10px; margin-top: 32px; }
+.dateitem { background: var(--navy); border: 1px solid var(--line); border-radius: 10px; padding: 14px; position: relative; }
+.dateitem::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
+.datemonth { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; }
+.datecount { font-family: var(--display); font-weight: 700; font-size: 1.3rem; color: var(--tone); margin-top: 4px; }
 
-.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: all 0.2s; }
-.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
-.bandcard:hover { transform: translateY(-4px); border-color: var(--tone); }
+.transmissao-box { background: linear-gradient(135deg, rgba(255,138,52,.12), rgba(255,138,52,.06)); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 32px; text-align: center; }
+.transmissao-label { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px; }
+.transmissao-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.transmissao-stat { background: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.transmissao-num { font-family: var(--data); font-weight: 700; font-size: 1.5rem; color: var(--tone); }
+.transmissao-desc { font-family: var(--data); font-size: 0.62rem; color: var(--mut); margin-top: 4px; text-transform: uppercase; }
 
-.bandname { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
-.bandmeta { color: var(--mut); font-size: 0.85rem; margin-bottom: 16px; }
+.final-score { background: linear-gradient(135deg, rgba(255,138,52,.12), rgba(255,138,52,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
+.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
 
-.pricingbox { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
-.pricingbox-day { color: var(--mut); margin-bottom: 4px; }
-.pricingbox-price { font-weight: 700; font-size: 1.2rem; color: var(--tone); font-variant-numeric: tabular-nums; }
-
-.actionbtn { width: 100%; padding: 10px; margin-top: 12px; font-family: var(--body); font-weight: 600; font-size: 0.75rem; border: 1.5px solid var(--tone); background: transparent; color: var(--tone); border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
-.actionbtn:hover { background: rgba(255, 138, 52, 0.1); }
-
-.transmission { background: linear-gradient(135deg, rgba(255, 138, 52, 0.1), rgba(255, 138, 52, 0.05)); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-top: 16px; }
-.transmission-title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; margin-bottom: 12px; }
-.transmission-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.transmission-opt { padding: 12px; border: 1px solid var(--line); border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.2s; }
-.transmission-opt:hover { border-color: var(--tone); background: rgba(255, 138, 52, 0.08); }
-.transmission-opt small { display: block; color: var(--mut); font-size: 0.75rem; margin-top: 4px; }
-
-.myscore { background: linear-gradient(135deg, rgba(255, 138, 52, 0.1), rgba(255, 138, 52, 0.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
-.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.myscore-prefix { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-bottom: 6px; }
-.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
-
-.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
-.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
-.btn-primary { background: var(--tone); color: white; }
-.btn-primary:hover { transform: translateY(-2px); }
-.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
-.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
-
-.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
-.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
-
-@media (max-width: 760px) {
-  .bandgrid { grid-template-columns: 1fr; }
-  .transmission-opts { grid-template-columns: 1fr; }
+@media (max-width: 880px) {
+  .bandgrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .transmissao-stats { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -86,84 +68,146 @@ body { background: var(--ink); color: var(--paper); }
 </header>
 
 <section class="hero">
-  <div class="verb">MODO 05 · CASA / SECRETARIA</div>
-  <h1>E aí, realizador.<br><span>Quem valida, ganha.</span></h1>
-  <p>Dono de casa, produtor local ou secretaria — validar bandas por anos, de graça, finalmente vira renda. A demanda da região inteira aparece antes de você contratar.</p>
-  <div class="actions">
-    <button class="btn btn-primary" onclick="alert('Validar banda: integração com Supabase')">+ Validar Banda</button>
-    <button class="btn btn-ghost" onclick="alert('Ver agenda: integração com Supabase')">Ver Agenda</button>
+  <div>
+    <div class="eyebrow">DE CASA VAZIA A CASA CHEIA</div>
+    <h1>E aí, realizador. <em>Quem valida, ganha.</em></h1>
+    <p class="lede">Dono de casa, produtor local ou secretaria — validar bandas por anos, de graça, finalmente vira renda. A demanda da região inteira aparece antes de você contratar. Rateio por contratação + repasses de transmissão.</p>
+    <div class="herobtns">
+      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
+      <button class="btn ghost" onclick="alert('Validar banda: integração com Supabase')">+ Validar Banda</button>
+    </div>
   </div>
 </section>
 
-<div class="content">
+<section class="chapters">
+  <h2 class="secttl">Sua jornada: de casa vazia a casa cheia com lucro</h2>
+  <p class="secsub">Três etapas. Você valida banda, vê fãs pedindo, transmite pro Brasil inteiro, e ganha na hora.</p>
+
+  <article class="chapter" style="--tone:var(--realizador)" id="cap1">
+    <figure class="chvid">
+      <video src="videos/05_realizador_casas.mp4" poster="videos/05_realizador_casas_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 01 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 01 — VOCÊ VALIDA</div>
+      <h3>A casa entra com o palco. A ShowLink entra com o público.</h3>
+      <p>Bar, teatro e secretaria de cultura ficam no mesmo sistema, vendo a mesma demanda. Você sabe qual banda a cidade quer ANTES de assinar o contrato — e agenda com fila já formada. Validar vira fonte de renda.</p>
+      <div class="gauge" data-fill="91">
+        <div class="lbl"><span>OCUPAÇÃO MÉDIA</span><b>91%</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Casa Embaixadora</span><span>Agenda com demanda</span><span>Validação = renda</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 02 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 02 — DEMANDA MONTA FILA</div>
+      <h3>Fãs já sabem que a banda vai tocar em você.</h3>
+      <p>Enquanto você preenche a ficha, fãs em um raio de 300km veem que a banda está em você e começam a indicar, votar, reservar. Você não precisa fazer marketing — a demanda trabalha pra você. Casa cheia é garantida.</p>
+      <div class="motors">
+        <div class="motor dem">
+          <div class="h">DEMANDA BRASIL</div>
+          <div class="track"><i data-fill="88"></i></div>
+          <p>Fãs em seu raio indicando banda.</p>
+        </div>
+        <div class="motor apo">
+          <div class="h">PATROCÍNIO</div>
+          <div class="track"><i data-fill="62"></i></div>
+          <p>Cotas já sinalizadas pra sua casa.</p>
+        </div>
+      </div>
+      <div class="tags"><span>Raio 300 km</span><span>Fila automática</span><span>Sem risco de prejuízo</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/07_transmissao.mp4" poster="videos/07_transmissao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 03 · transmissão + repasse</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 03 — TRANSMISSÃO + REPASSE</div>
+      <h3>Você transmite pro Brasil. Ganha por cada show.</h3>
+      <p>Um show em uma casa vira muitos. Você transmite pro seu público, ou recebe transmissão de outras. Selo AO VIVO no evento. Ganha 40% do cachê + 5% de cada transmissão que sai de você pro Brasil. Dois motores de renda simultâneos.</p>
+      <div class="gauge" data-fill="100">
+        <div class="lbl"><span>REPASSES DIRETOS</span><b>GARANTIDO</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>40% do cachê</span><span>5% transmissão saída</span><span>Selo AO VIVO</span></div>
+    </div>
+  </article>
+
+</section>
+
+<div class="content" style="margin-top: 40px;">
 
   <section class="section">
-    <h2 class="sectiontitle">Casa Embaixadora</h2>
+    <h2 class="sectiontitle">Casa Embaixadora · Bandas validadas</h2>
     <p class="sectionsubtitle">Você valida bandas num raio de 300 km. 17 anos de palco viram curadoria oficial — renda recorrente.</p>
     <div class="bandgrid">
       <div class="bandcard">
         <div class="bandname">Plutão Já Foi Planeta</div>
         <div class="bandmeta">Rock alternativo · Validado há 8 meses</div>
         <div class="pricingbox">
-          <div class="pricingbox-day">SÁB 22H · VALOR CHEIO</div>
+          <div class="pricingbox-date">SÁB 22H · VALOR CHEIO</div>
           <div class="pricingbox-price">R$ 2.400</div>
         </div>
-        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
-          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        <div class="rateiobox">
+          40% (você) · 25% (produtor) · 25% (outro) · 10% (plataforma)
         </div>
-        <button class="actionbtn">Agendar Banda</button>
       </div>
 
       <div class="bandcard">
         <div class="bandname">Dias de Luta</div>
         <div class="bandmeta">Pop punk · Validado há 3 meses</div>
         <div class="pricingbox">
-          <div class="pricingbox-day">SEX 21H · −15 A 20%</div>
+          <div class="pricingbox-date">SEX 21H · −15 A 20%</div>
           <div class="pricingbox-price">R$ 1.920</div>
         </div>
-        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
-          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        <div class="rateiobox">
+          40% (você) · 25% (produtor) · 25% (outro) · 10% (plataforma)
         </div>
-        <button class="actionbtn">Agendar Banda</button>
       </div>
 
       <div class="bandcard">
         <div class="bandname">A Lenda do Herói</div>
         <div class="bandmeta">Forró eletrônico · Validado há 2 meses</div>
         <div class="pricingbox">
-          <div class="pricingbox-day">DOM 20H · −20 A 30%</div>
+          <div class="pricingbox-date">DOM 20H · −20 A 30%</div>
           <div class="pricingbox-price">R$ 1.680</div>
         </div>
-        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
-          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        <div class="rateiobox">
+          40% (você) · 25% (produtor) · 25% (outro) · 10% (plataforma)
         </div>
-        <button class="actionbtn">Agendar Banda</button>
       </div>
 
       <div class="bandcard">
         <div class="bandname">Terminal Norte</div>
         <div class="bandmeta">Hip hop · Validado há 1 mês</div>
         <div class="pricingbox">
-          <div class="pricingbox-day">SEX 20H · −15 A 20%</div>
+          <div class="pricingbox-date">SEX 20H · −15 A 20%</div>
           <div class="pricingbox-price">R$ 1.920</div>
         </div>
-        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
-          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        <div class="rateiobox">
+          40% (você) · 25% (produtor) · 25% (outro) · 10% (plataforma)
         </div>
-        <button class="actionbtn">Agendar Banda</button>
       </div>
 
       <div class="bandcard">
         <div class="bandname">Vira e Mexe</div>
         <div class="bandmeta">Samba rock · Validado há 1 semana</div>
         <div class="pricingbox">
-          <div class="pricingbox-day">SAB 21H · VALOR CHEIO</div>
+          <div class="pricingbox-date">SAB 21H · VALOR CHEIO</div>
           <div class="pricingbox-price">R$ 2.200</div>
         </div>
-        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
-          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        <div class="rateiobox">
+          40% (você) · 25% (produtor) · 25% (outro) · 10% (plataforma)
         </div>
-        <button class="actionbtn">Agendar Banda</button>
       </div>
     </div>
   </section>
@@ -171,18 +215,16 @@ body { background: var(--ink); color: var(--paper); }
   <section class="section">
     <h2 class="sectiontitle">Transmissão</h2>
     <p class="sectionsubtitle">Um show em uma casa vira muitos. Você transmite pro seu público, ou recebe transmissão de outras. Selo AO VIVO no evento.</p>
-    <div class="bandcard">
-      <div class="transmission">
-        <div class="transmission-title">Plutão Já Foi Planeta · Sábado 22h</div>
-        <div class="transmission-opts">
-          <div class="transmission-opt">
-            <div style="font-weight: 600; color: var(--tone);">📡 Transmitir</div>
-            <small>Seu show sai pra outras casas</small>
-          </div>
-          <div class="transmission-opt">
-            <div style="font-weight: 600; color: var(--tone);">📺 Receber</div>
-            <small>Recebe show de outra casa</small>
-          </div>
+    <div class="transmissao-box">
+      <div class="transmissao-label">Plutão Já Foi Planeta · Sábado 22h</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
+        <div style="background: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-weight: 600; color: var(--tone); font-size: 0.95rem;">📡 Transmitir</div>
+          <small style="color: var(--mut); font-size: 0.75rem; margin-top: 6px; display: block;">Seu show sai pra outras casas</small>
+        </div>
+        <div style="background: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 14px; text-align: center;">
+          <div style="font-weight: 600; color: var(--tone); font-size: 0.95rem;">📺 Receber</div>
+          <small style="color: var(--mut); font-size: 0.75rem; margin-top: 6px; display: block;">Recebe show de outra casa</small>
         </div>
       </div>
       <div style="margin-top: 12px; padding: 12px; background: var(--ink); border-radius: 8px; font-family: var(--data); font-size: 0.7rem; color: var(--mut); letter-spacing: 0.08em;">
@@ -193,25 +235,24 @@ body { background: var(--ink); color: var(--paper); }
 
   <section class="section">
     <h2 class="sectiontitle">Contratações confirmadas</h2>
-    <p class="sectionsubtitle">9 datas agendadas. Seu repasse anual vem dos 5% da plataforma sobre cada contratação.</p>
-    <div style="display: grid; gap: 8px;">
-      <div class="bandcard" style="padding: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="font-family: var(--data); font-size: 0.75rem; color: var(--mut);">AGOSTO</div>
-          <div style="font-weight: 700; color: var(--tone);">9 DATAS</div>
-        </div>
+    <p class="sectionsubtitle">9 datas agendadas. Seu repasse anual vem dos 40% sobre cada contratação + transmissões.</p>
+    <div class="dates-list">
+      <div class="dateitem">
+        <div class="datemonth">AGOSTO</div>
+        <div class="datecount" data-count="9">0</div>
+        <div style="font-family: var(--data); font-size: 0.68rem; color: var(--mut); margin-top: 8px;">DATAS CONFIRMADAS</div>
       </div>
     </div>
   </section>
 
-  <section class="myscore">
-    <div class="myscore-prefix">SEUS REPASSES ESTE ANO</div>
+  <section class="final-score">
+    <div style="font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px;">SEUS REPASSES ESTE ANO</div>
     <div style="display: flex; align-items: baseline; justify-content: center; gap: 6px;">
       <span style="font-family: var(--data); font-size: 1rem; color: var(--mut);">R$</span>
-      <div class="myscore-big" data-count="4320">0</div>
+      <div class="final-score-num" data-count="4320">0</div>
     </div>
-    <div class="myscore-label">em 5% do faturamento, no seu raio (300 km)</div>
-    <div class="myscore-desc">Quanto mais bandas você valida, mais datas acontecem — e mais renda recorrente entra. Validar vira profissão.</div>
+    <div class="final-score-label">em 40% do faturamento, no seu raio (300 km)</div>
+    <div class="final-score-desc">Quanto mais bandas você valida, mais datas acontecem — e mais renda recorrente entra. Validar vira profissão.</div>
   </section>
 
   <div class="backhome">
@@ -244,6 +285,15 @@ body { background: var(--ink); color: var(--paper); }
   document.querySelectorAll('[data-count]').forEach(function(el){
     if(el.offsetParent !== null){ animateCount(el); }
   });
+
+  var obsG = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
+      obsG.unobserve(e.target);
+    });
+  }, {threshold: 0.3});
+  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
 })();
 </script>
 
