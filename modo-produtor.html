@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowLink — Modo Produtor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+:root { --tone: var(--produtor); }
+body { background: var(--ink); color: var(--paper); }
+
+.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
+.hero h1 span { color: var(--tone); }
+.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+
+.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+
+.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+
+.section { margin-bottom: 80px; }
+.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
+.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
+
+.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+
+.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: all 0.2s; }
+.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
+.bandcard:hover { transform: translateY(-4px); border-color: var(--tone); }
+
+.bandname { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+.bandmeta { color: var(--mut); font-size: 0.85rem; margin-bottom: 20px; }
+
+.gauge { margin-bottom: 16px; }
+.gauge-label { display: flex; justify-content: space-between; font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--mut); margin-bottom: 8px; }
+.gauge-label b { color: var(--tone); }
+.gauge-track { height: 6px; border-radius: 99px; background: var(--navy-2); overflow: hidden; }
+.gauge-track i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 0%; transition: width 1s cubic-bezier(0.2, 0.7, 0.3, 1); }
+
+.bandstatus { font-family: var(--data); font-size: 0.65rem; color: var(--mut); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.datasection { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.dataitem { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.dataitem-label { font-family: var(--data); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 6px; }
+.dataitem-value { font-family: var(--data); font-weight: 700; font-size: 1.4rem; color: var(--tone); font-variant-numeric: tabular-nums; }
+
+.myscore { background: linear-gradient(135deg, rgba(155, 107, 255, 0.1), rgba(155, 107, 255, 0.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
+.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
+
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
+.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
+.btn-primary { background: var(--tone); color: white; }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
+.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
+
+.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
+.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
+
+@media (max-width: 760px) {
+  .bandgrid { grid-template-columns: 1fr; }
+  .datasection { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
+<header>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#" class="on">Modo Produtor</a>
+    </nav>
+    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="verb">MODO 03 · PRODUTOR</div>
+  <h1>E aí, produtor.<br><span>Seus artistas, o Brasil inteiro.</span></h1>
+  <p>O mais instrumento de todos — você opera. Ficha técnica completa fecha show na hora. Encaixe de datas baratea a rota. Antes de fechar, você já sabe quem está interessado.</p>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="alert('Adicionar banda: integração com Supabase')">+ Adicionar Banda</button>
+    <button class="btn btn-ghost" onclick="alert('Encaixar datas: integração com Supabase')">Encaixar Datas</button>
+  </div>
+</section>
+
+<div class="content">
+
+  <section class="section">
+    <h2 class="sectiontitle">Bandas que você representa</h2>
+    <p class="sectionsubtitle">Ficha técnica completa fecha show na hora. Quanto mais completa, mais casas interessadas surgem.</p>
+    <div class="bandgrid">
+      <div class="bandcard">
+        <div class="bandname">Plutão Já Foi Planeta</div>
+        <div class="bandmeta">Rock alternativo · 5 pessoas</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Ficha técnica</span><b>PRONTA</b></div>
+          <div class="gauge-track"><i style="width: 92%"></i></div>
+        </div>
+        <div class="datasection">
+          <div class="dataitem">
+            <div class="dataitem-label">Interessados</div>
+            <div class="dataitem-value" data-count="7">0</div>
+          </div>
+          <div class="dataitem">
+            <div class="dataitem-label">Próxima data</div>
+            <div class="dataitem-value">SAB</div>
+          </div>
+        </div>
+        <div class="bandstatus" style="margin-top: 16px;">Validada por 3 casas</div>
+      </div>
+
+      <div class="bandcard">
+        <div class="bandname">Dias de Luta</div>
+        <div class="bandmeta">Pop punk · 4 pessoas</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Ficha técnica</span><b>78%</b></div>
+          <div class="gauge-track"><i style="width: 78%"></i></div>
+        </div>
+        <div class="datasection">
+          <div class="dataitem">
+            <div class="dataitem-label">Interessados</div>
+            <div class="dataitem-value" data-count="3">0</div>
+          </div>
+          <div class="dataitem">
+            <div class="dataitem-label">Próxima data</div>
+            <div class="dataitem-value">18 SET</div>
+          </div>
+        </div>
+        <div class="bandstatus" style="margin-top: 16px;">Faltam: hospedagem, cachê rider</div>
+      </div>
+
+      <div class="bandcard">
+        <div class="bandname">A Lenda do Herói</div>
+        <div class="bandmeta">Forró eletrônico · 6 pessoas</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Ficha técnica</span><b>64%</b></div>
+          <div class="gauge-track"><i style="width: 64%"></i></div>
+        </div>
+        <div class="datasection">
+          <div class="dataitem">
+            <div class="dataitem-label">Interessados</div>
+            <div class="dataitem-value" data-count="2">0</div>
+          </div>
+          <div class="dataitem">
+            <div class="dataitem-label">Próxima data</div>
+            <div class="dataitem-value">—</div>
+          </div>
+        </div>
+        <div class="bandstatus" style="margin-top: 16px;">Recém adicionada</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="sectiontitle">Encaixe de datas (raio 300 km)</h2>
+    <p class="sectionsubtitle">Plutão Já Foi Planeta pode rodar em 6 cidades próximas. Quanto mais próximas, mais baratas ficam as viagens.</p>
+    <div style="display: grid; gap: 12px;">
+      <div class="bandcard">
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
+          <div>
+            <div class="bandname" style="font-size: 1rem;">Cascavel</div>
+            <div class="bandmeta">Casa Embaixadora · Sexta 22h</div>
+          </div>
+          <div style="font-family: var(--data); font-size: 0.75rem; text-align: right;">
+            <div style="color: var(--tone);">VALOR CHEIO</div>
+            <div style="font-weight: 700; font-size: 1.2rem;">R$ 2.400</div>
+          </div>
+        </div>
+      </div>
+      <div class="bandcard">
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
+          <div>
+            <div class="bandname" style="font-size: 1rem;">Toledo</div>
+            <div class="bandmeta">Casa privada · Quinta 21h</div>
+          </div>
+          <div style="font-family: var(--data); font-size: 0.75rem; text-align: right;">
+            <div style="color: #FF8A34;">−15 A 20%</div>
+            <div style="font-weight: 700; font-size: 1.2rem;">R$ 1.920</div>
+          </div>
+        </div>
+      </div>
+      <div class="bandcard">
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;">
+          <div>
+            <div class="bandname" style="font-size: 1rem;">Foz do Iguaçu</div>
+            <div class="bandmeta">Casa privada · Domingo 20h</div>
+          </div>
+          <div style="font-family: var(--data); font-size: 0.75rem; text-align: right;">
+            <div style="color: #FF8A34;">−20 A 30%</div>
+            <div style="font-weight: 700; font-size: 1.2rem;">R$ 1.680</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="myscore">
+    <div class="myscore-label">RADAR DE INTERESSE</div>
+    <div class="myscore-big" data-count="12">0</div>
+    <div class="myscore-label">casas + patrocinadores + secretarias de olho</div>
+    <div class="myscore-desc">Antes de você fechar contrato, o sistema já avisa quem quer a banda. Você negocia de posição forte.</div>
+  </section>
+
+  <div class="backhome">
+    <a href="index.html">← Voltar à home</a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function animateCount(el){
+    var target = parseInt(el.dataset.count, 10);
+    var current = 0;
+    var step = Math.ceil(target / 50);
+    var interval = setInterval(function(){
+      current += step;
+      if(current >= target){ current = target; clearInterval(interval); }
+      el.textContent = current;
+    }, 20);
+  }
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    if(el.offsetParent !== null){ animateCount(el); }
+  });
+
+  var obsG = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
+      obsG.unobserve(e.target);
+    });
+  }, {threshold: 0.3});
+  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
+})();
+</script>
+
+</body>
+</html>

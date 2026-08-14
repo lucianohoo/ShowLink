@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowLink — Modo Realizador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+:root { --tone: var(--realizador); }
+body { background: var(--ink); color: var(--paper); }
+
+.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
+.hero h1 span { color: var(--tone); }
+.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+
+.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+
+.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+
+.section { margin-bottom: 80px; }
+.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
+.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
+
+.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+
+.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: all 0.2s; }
+.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
+.bandcard:hover { transform: translateY(-4px); border-color: var(--tone); }
+
+.bandname { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+.bandmeta { color: var(--mut); font-size: 0.85rem; margin-bottom: 16px; }
+
+.pricingbox { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.pricingbox-day { color: var(--mut); margin-bottom: 4px; }
+.pricingbox-price { font-weight: 700; font-size: 1.2rem; color: var(--tone); font-variant-numeric: tabular-nums; }
+
+.actionbtn { width: 100%; padding: 10px; margin-top: 12px; font-family: var(--body); font-weight: 600; font-size: 0.75rem; border: 1.5px solid var(--tone); background: transparent; color: var(--tone); border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+.actionbtn:hover { background: rgba(255, 138, 52, 0.1); }
+
+.transmission { background: linear-gradient(135deg, rgba(255, 138, 52, 0.1), rgba(255, 138, 52, 0.05)); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-top: 16px; }
+.transmission-title { font-family: var(--display); font-weight: 700; font-size: 1.05rem; margin-bottom: 12px; }
+.transmission-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.transmission-opt { padding: 12px; border: 1px solid var(--line); border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.2s; }
+.transmission-opt:hover { border-color: var(--tone); background: rgba(255, 138, 52, 0.08); }
+.transmission-opt small { display: block; color: var(--mut); font-size: 0.75rem; margin-top: 4px; }
+
+.myscore { background: linear-gradient(135deg, rgba(255, 138, 52, 0.1), rgba(255, 138, 52, 0.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
+.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.myscore-prefix { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-bottom: 6px; }
+.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
+
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
+.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
+.btn-primary { background: var(--tone); color: white; }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
+.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
+
+.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
+.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
+
+@media (max-width: 760px) {
+  .bandgrid { grid-template-columns: 1fr; }
+  .transmission-opts { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
+<header>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#" class="on">Modo Realizador</a>
+    </nav>
+    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="verb">MODO 05 · CASA / SECRETARIA</div>
+  <h1>E aí, realizador.<br><span>Quem valida, ganha.</span></h1>
+  <p>Dono de casa, produtor local ou secretaria — validar bandas por anos, de graça, finalmente vira renda. A demanda da região inteira aparece antes de você contratar.</p>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="alert('Validar banda: integração com Supabase')">+ Validar Banda</button>
+    <button class="btn btn-ghost" onclick="alert('Ver agenda: integração com Supabase')">Ver Agenda</button>
+  </div>
+</section>
+
+<div class="content">
+
+  <section class="section">
+    <h2 class="sectiontitle">Casa Embaixadora</h2>
+    <p class="sectionsubtitle">Você valida bandas num raio de 300 km. 17 anos de palco viram curadoria oficial — renda recorrente.</p>
+    <div class="bandgrid">
+      <div class="bandcard">
+        <div class="bandname">Plutão Já Foi Planeta</div>
+        <div class="bandmeta">Rock alternativo · Validado há 8 meses</div>
+        <div class="pricingbox">
+          <div class="pricingbox-day">SÁB 22H · VALOR CHEIO</div>
+          <div class="pricingbox-price">R$ 2.400</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
+          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        </div>
+        <button class="actionbtn">Agendar Banda</button>
+      </div>
+
+      <div class="bandcard">
+        <div class="bandname">Dias de Luta</div>
+        <div class="bandmeta">Pop punk · Validado há 3 meses</div>
+        <div class="pricingbox">
+          <div class="pricingbox-day">SEX 21H · −15 A 20%</div>
+          <div class="pricingbox-price">R$ 1.920</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
+          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        </div>
+        <button class="actionbtn">Agendar Banda</button>
+      </div>
+
+      <div class="bandcard">
+        <div class="bandname">A Lenda do Herói</div>
+        <div class="bandmeta">Forró eletrônico · Validado há 2 meses</div>
+        <div class="pricingbox">
+          <div class="pricingbox-day">DOM 20H · −20 A 30%</div>
+          <div class="pricingbox-price">R$ 1.680</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
+          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        </div>
+        <button class="actionbtn">Agendar Banda</button>
+      </div>
+
+      <div class="bandcard">
+        <div class="bandname">Terminal Norte</div>
+        <div class="bandmeta">Hip hop · Validado há 1 mês</div>
+        <div class="pricingbox">
+          <div class="pricingbox-day">SEX 20H · −15 A 20%</div>
+          <div class="pricingbox-price">R$ 1.920</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
+          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        </div>
+        <button class="actionbtn">Agendar Banda</button>
+      </div>
+
+      <div class="bandcard">
+        <div class="bandname">Vira e Mexe</div>
+        <div class="bandmeta">Samba rock · Validado há 1 semana</div>
+        <div class="pricingbox">
+          <div class="pricingbox-day">SAB 21H · VALOR CHEIO</div>
+          <div class="pricingbox-price">R$ 2.200</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--mut); margin-bottom: 12px;">
+          • Rateio: 40% (você), 25% (produtor), 25% (outro), 10% (plataforma)
+        </div>
+        <button class="actionbtn">Agendar Banda</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="sectiontitle">Transmissão</h2>
+    <p class="sectionsubtitle">Um show em uma casa vira muitos. Você transmite pro seu público, ou recebe transmissão de outras. Selo AO VIVO no evento.</p>
+    <div class="bandcard">
+      <div class="transmission">
+        <div class="transmission-title">Plutão Já Foi Planeta · Sábado 22h</div>
+        <div class="transmission-opts">
+          <div class="transmission-opt">
+            <div style="font-weight: 600; color: var(--tone);">📡 Transmitir</div>
+            <small>Seu show sai pra outras casas</small>
+          </div>
+          <div class="transmission-opt">
+            <div style="font-weight: 600; color: var(--tone);">📺 Receber</div>
+            <small>Recebe show de outra casa</small>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 12px; padding: 12px; background: var(--ink); border-radius: 8px; font-family: var(--data); font-size: 0.7rem; color: var(--mut); letter-spacing: 0.08em;">
+        Já transmitindo 3 shows este mês. Já recebendo 2 shows este mês.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="sectiontitle">Contratações confirmadas</h2>
+    <p class="sectionsubtitle">9 datas agendadas. Seu repasse anual vem dos 5% da plataforma sobre cada contratação.</p>
+    <div style="display: grid; gap: 8px;">
+      <div class="bandcard" style="padding: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-family: var(--data); font-size: 0.75rem; color: var(--mut);">AGOSTO</div>
+          <div style="font-weight: 700; color: var(--tone);">9 DATAS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="myscore">
+    <div class="myscore-prefix">SEUS REPASSES ESTE ANO</div>
+    <div style="display: flex; align-items: baseline; justify-content: center; gap: 6px;">
+      <span style="font-family: var(--data); font-size: 1rem; color: var(--mut);">R$</span>
+      <div class="myscore-big" data-count="4320">0</div>
+    </div>
+    <div class="myscore-label">em 5% do faturamento, no seu raio (300 km)</div>
+    <div class="myscore-desc">Quanto mais bandas você valida, mais datas acontecem — e mais renda recorrente entra. Validar vira profissão.</div>
+  </section>
+
+  <div class="backhome">
+    <a href="index.html">← Voltar à home</a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function animateCount(el){
+    var target = parseInt(el.dataset.count, 10);
+    var current = 0;
+    var step = Math.ceil(target / 50);
+    var interval = setInterval(function(){
+      current += step;
+      if(current >= target){ current = target; clearInterval(interval); }
+      el.textContent = current;
+    }, 20);
+  }
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    if(el.offsetParent !== null){ animateCount(el); }
+  });
+})();
+</script>
+
+</body>
+</html>

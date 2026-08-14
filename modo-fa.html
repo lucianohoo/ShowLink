@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowLink — Modo Fã</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+:root { --tone: var(--fa); }
+body { background: var(--ink); color: var(--paper); }
+
+.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
+.hero h1 span { color: var(--tone); }
+.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+
+.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+
+.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+
+/* seção de bandas seguidas */
+.section { margin-bottom: 80px; }
+.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
+.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
+
+.card { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+.card:hover { transform: translateY(-4px); border-color: var(--tone); }
+.card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
+
+.bandname { font-family: var(--display); font-weight: 700; font-size: 1.15rem; margin-bottom: 8px; }
+.bandinfo { font-size: 0.85rem; color: var(--mut); margin-bottom: 16px; }
+.bandstatus { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--tone); text-transform: uppercase; }
+
+/* gauge de progresso */
+.gauge { margin-top: 24px; }
+.gauge-label { display: flex; justify-content: space-between; font-family: var(--data); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--mut); margin-bottom: 8px; }
+.gauge-label b { color: var(--tone); }
+.gauge-track { height: 6px; border-radius: 99px; background: var(--navy-2); overflow: hidden; }
+.gauge-track i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 0%; transition: width 1s cubic-bezier(0.2, 0.7, 0.3, 1); }
+
+/* meu score */
+.myscore { background: linear-gradient(135deg, rgba(199,247,62,.1), rgba(199,247,62,.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
+.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
+
+/* jornada */
+.journey { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; justify-content: center; }
+.journey-step { font-family: var(--data); font-size: 0.65rem; padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; color: var(--mut); letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.2s; }
+.journey-step.done { border-color: var(--tone); color: var(--tone); background: rgba(199,247,62,.08); }
+.journey-step.current { border-color: var(--tone); color: var(--tone); background: rgba(199,247,62,.15); }
+
+/* botões de ação */
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
+.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
+.btn-primary { background: var(--tone); color: var(--ink); }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
+.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
+
+.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
+.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
+.backhome a:hover { text-decoration: underline; }
+
+@media (max-width: 760px) {
+  .grid { grid-template-columns: 1fr; }
+  .journey { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
+<header>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#" class="on">Modo Fã</a>
+    </nav>
+    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="verb">MODO 01 · FÃ</div>
+  <h1>E aí, fã.<br><span>Aqui você manda.</span></h1>
+  <p>A cara mais bonita da ShowLink é a sua. Você é a estrela — traz o show que nunca veio, e toda a cidade passa a enxergar que a demanda existe. Siga até 5 bandas, indique até 5 novas, vote e reserve.</p>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="alert('Seguir banda: integração com Supabase')">+ Seguir Banda</button>
+    <button class="btn btn-ghost" onclick="alert('Indicar nova: integração com Supabase')">Indicar Nova</button>
+  </div>
+</section>
+
+<div class="content">
+
+  <section class="section">
+    <h2 class="sectiontitle">Bandas que você segue</h2>
+    <p class="sectionsubtitle">Até 5 bandas acompanhadas. A ShowLink te avisa quando uma solta release, abre campanha, ou vai tocar perto.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="bandname">Plutão Já Foi Planeta</div>
+        <div class="bandinfo">Rock alternativo · Brasil</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Jornada</span><b>TOP 3</b></div>
+          <div class="gauge-track"><i style="width: 73%"></i></div>
+        </div>
+        <div class="bandstatus">Campanha aberta em 3 cidades</div>
+      </div>
+      <div class="card">
+        <div class="bandname">A Lenda do Herói</div>
+        <div class="bandinfo">Forró eletrônico · Ceará</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Jornada</span><b>PRÉ-VENDA</b></div>
+          <div class="gauge-track"><i style="width: 55%"></i></div>
+        </div>
+        <div class="bandstatus">Você votou 2 vezes</div>
+      </div>
+      <div class="card">
+        <div class="bandname">Dias de Luta</div>
+        <div class="bandinfo">Pop punk · São Paulo</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Jornada</span><b>VOTAÇÃO</b></div>
+          <div class="gauge-track"><i style="width: 45%"></i></div>
+        </div>
+        <div class="bandstatus">Você indicou · Fundador</div>
+      </div>
+      <div class="card">
+        <div class="bandname">Vira e Mexe</div>
+        <div class="bandinfo">Samba rock · Rio de Janeiro</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Jornada</span><b>TOP 10</b></div>
+          <div class="gauge-track"><i style="width: 38%"></i></div>
+        </div>
+        <div class="bandstatus">Está no catálogo há 8 meses</div>
+      </div>
+      <div class="card">
+        <div class="bandname">Maresia</div>
+        <div class="bandinfo">Reggae · Pernambuco</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Jornada</span><b>ROL</b></div>
+          <div class="gauge-track"><i style="width: 15%"></i></div>
+        </div>
+        <div class="bandstatus">Recém adicionada</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="sectiontitle">Suas indicações pendentes</h2>
+    <p class="sectionsubtitle">Você indicou 2 bandas. Quando chegarem a 50 votos, a ShowLink as valida e colocam em pré-venda.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="bandname">Ultravioleta</div>
+        <div class="bandinfo">Indie rock · Brasília</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Votos recebidos</span><b>28 / 50</b></div>
+          <div class="gauge-track"><i style="width: 56%"></i></div>
+        </div>
+        <div class="bandstatus">Indicação sua · Semanal</div>
+      </div>
+      <div class="card">
+        <div class="bandname">Terminal Norte</div>
+        <div class="bandinfo">Hip hop · Minas Gerais</div>
+        <div class="gauge">
+          <div class="gauge-label"><span>Votos recebidos</span><b>12 / 50</b></div>
+          <div class="gauge-track"><i style="width: 24%"></i></div>
+        </div>
+        <div class="bandstatus">Indicação sua · Semanal</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="myscore">
+    <div class="myscore-big" data-count="2480">0</div>
+    <div class="myscore-label">PONTOS · CURADOR ESPECIAL</div>
+    <div class="myscore-desc">Você indicou a banda que viralizou. Camarote, prioridade na fila, foto com os artistas quando vierem na sua região.</div>
+    <div class="journey">
+      <div class="journey-step done">RASCUNHO</div>
+      <div class="journey-step done">VOTAÇÃO</div>
+      <div class="journey-step done">TOP 10</div>
+      <div class="journey-step done">TOP 3</div>
+      <div class="journey-step current">CAMPANHA</div>
+      <div class="journey-step">TOUR</div>
+    </div>
+  </section>
+
+  <div class="backhome">
+    <a href="index.html">← Voltar à home</a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Demand meter no topo
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Anima números grandes
+  function animateCount(el){
+    var target = parseInt(el.dataset.count, 10);
+    var current = 0;
+    var step = Math.ceil(target / 50);
+    var interval = setInterval(function(){
+      current += step;
+      if(current >= target){ current = target; clearInterval(interval); }
+      el.textContent = current;
+    }, 20);
+  }
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    if(el.offsetParent !== null){ animateCount(el); } // só anima se visível
+  });
+
+  // Intersectionobserver pra gauges
+  var obsG = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
+      obsG.unobserve(e.target);
+    });
+  }, {threshold: 0.3});
+  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowLink — Modo Patrocinador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+:root { --tone: var(--patro); }
+body { background: var(--ink); color: var(--paper); }
+
+.hero { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px 60px; text-align: center; }
+.hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); margin: 24px 0 18px; letter-spacing: -0.03em; }
+.hero h1 span { color: var(--tone); }
+.hero p { font-size: 1.05rem; color: var(--mut); max-width: 60ch; margin: 0 auto 40px; }
+
+.verb { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--tone); text-transform: uppercase; font-weight: 700; }
+
+.content { max-width: var(--maxw); margin: 0 auto; padding: 0 24px 80px; }
+
+.section { margin-bottom: 80px; }
+.sectiontitle { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.02em; }
+.sectionsubtitle { color: var(--mut); font-size: 0.98rem; margin-bottom: 32px; max-width: 70ch; }
+
+.filters { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.filter-btn { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.1em; padding: 7px 16px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--mut); cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+.filter-btn.active { border-color: var(--tone); color: var(--tone); background: rgba(53, 167, 255, 0.1); }
+.filter-btn:hover { border-color: var(--tone); }
+
+.artistgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+
+.artistcard { background: var(--navy); border: 1px solid var(--line); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: all 0.2s; }
+.artistcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--tone); }
+.artistcard:hover { transform: translateY(-4px); border-color: var(--tone); }
+
+.artistname { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
+.artistmeta { color: var(--mut); font-size: 0.85rem; margin-bottom: 20px; }
+
+.matchscore { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align: center; }
+.matchscore-label { font-family: var(--data); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 6px; }
+.matchscore-value { font-family: var(--display); font-weight: 800; font-size: 1.8rem; color: var(--tone); font-variant-numeric: tabular-nums; }
+
+.actionbtn { width: 100%; padding: 12px; margin-top: 12px; font-family: var(--body); font-weight: 600; font-size: 0.8rem; border: 1.5px solid var(--tone); background: transparent; color: var(--tone); border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+.actionbtn:hover { background: rgba(53, 167, 255, 0.1); }
+
+.myscore { background: linear-gradient(135deg, rgba(53, 167, 255, 0.1), rgba(53, 167, 255, 0.05)); border: 1px solid var(--line); border-radius: 18px; padding: 40px 24px; text-align: center; margin-top: 60px; }
+.myscore-big { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.myscore-label { font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
+.myscore-desc { color: var(--mut); font-size: 0.95rem; margin-top: 20px; }
+
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
+.btn { font-family: var(--body); font-weight: 600; font-size: 0.85rem; padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; transition: transform 0.15s; }
+.btn-primary { background: var(--tone); color: white; }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--paper); }
+.btn-ghost:hover { border-color: var(--tone); color: var(--tone); }
+
+.backhome { text-align: center; padding: 40px 24px 60px; border-top: 1px solid var(--line); }
+.backhome a { color: var(--tone); text-decoration: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.05em; }
+
+@media (max-width: 760px) {
+  .artistgrid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
+<header>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#" class="on">Modo Patrocinador</a>
+    </nav>
+    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="verb">MODO 04 · PATROCINADOR</div>
+  <h1>E aí, patrocinador.<br><span>Agora o jogo começa por você.</span></h1>
+  <p>De última peça a fundamental. Você descobre o artista que casa com seu público, vê o match %, sinaliza cota — e seu interesse passa a criar o evento.</p>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="alert('Filtrar artistas: integração com Supabase')">Filtrar por Público</button>
+    <button class="btn btn-ghost" onclick="alert('Ver meus investimentos: integração com Supabase')">Meus Investimentos</button>
+  </div>
+</section>
+
+<div class="content">
+
+  <section class="section">
+    <h2 class="sectiontitle">Descobrir artistas</h2>
+    <p class="sectionsubtitle">Filtre por faixa etária do seu público-alvo. O match mostra quanto o artista conversa com a sua marca.</p>
+
+    <div class="filters">
+      <button class="filter-btn active">18-24</button>
+      <button class="filter-btn">25-34</button>
+      <button class="filter-btn">35-44</button>
+      <button class="filter-btn">45+</button>
+      <button class="filter-btn">Região Sul</button>
+      <button class="filter-btn">Região Centro-Oeste</button>
+    </div>
+
+    <div class="artistgrid">
+      <div class="artistcard">
+        <div class="artistname">Plutão Já Foi Planeta</div>
+        <div class="artistmeta">Rock alternativo · Brasil</div>
+        <div class="matchscore">
+          <div class="matchscore-label">Match com sua marca</div>
+          <div class="matchscore-value">92%</div>
+        </div>
+        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+          <div>• Público 18-29 alinhado</div>
+          <div>• Redes sociais crescentes</div>
+          <div>• Campanha aberta em 3 cidades</div>
+        </div>
+        <button class="actionbtn">Sinalizar Interesse</button>
+      </div>
+
+      <div class="artistcard">
+        <div class="artistname">Dias de Luta</div>
+        <div class="artistmeta">Pop punk · São Paulo</div>
+        <div class="matchscore">
+          <div class="matchscore-label">Match com sua marca</div>
+          <div class="matchscore-value">87%</div>
+        </div>
+        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+          <div>• Público 20-30 bem segmentado</div>
+          <div>• Comunidade engajada</div>
+          <div>• Sem campanha aberta ainda</div>
+        </div>
+        <button class="actionbtn">Sinalizar Interesse</button>
+      </div>
+
+      <div class="artistcard">
+        <div class="artistname">A Lenda do Herói</div>
+        <div class="artistmeta">Forró eletrônico · Ceará</div>
+        <div class="matchscore">
+          <div class="matchscore-label">Match com sua marca</div>
+          <div class="matchscore-value">74%</div>
+        </div>
+        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+          <div>• Público 25-35 presente</div>
+          <div>• Potencial regional alto</div>
+          <div>• Campanha em 2 cidades</div>
+        </div>
+        <button class="actionbtn">Sinalizar Interesse</button>
+      </div>
+
+      <div class="artistcard">
+        <div class="artistname">Terminal Norte</div>
+        <div class="artistmeta">Hip hop · Minas Gerais</div>
+        <div class="matchscore">
+          <div class="matchscore-label">Match com sua marca</div>
+          <div class="matchscore-value">81%</div>
+        </div>
+        <div style="color: var(--mut); font-size: 0.85rem; margin-bottom: 12px;">
+          <div>• Público 18-28 forte</div>
+          <div>• Crescimento viral</div>
+          <div>• Campanha confirmada</div>
+        </div>
+        <button class="actionbtn">Sinalizar Interesse</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="sectiontitle">Suas sinalizações</h2>
+    <p class="sectionsubtitle">Quando você sinaliza interesse, o produtor e a casa já sabem — aumenta chance de concrétizar a campanha.</p>
+    <div class="artistgrid">
+      <div class="artistcard">
+        <div class="artistname">Plutão Já Foi Planeta</div>
+        <div class="artistmeta">Rock alternativo · Campanha aberta</div>
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase;">
+          <div>Cota Sinalizada</div>
+          <div style="font-weight: 700; font-size: 1.3rem; color: var(--tone); margin-top: 6px;">R$ 5.000</div>
+        </div>
+        <button class="actionbtn">Confirmar Investimento</button>
+      </div>
+
+      <div class="artistcard">
+        <div class="artistname">Terminal Norte</div>
+        <div class="artistmeta">Hip hop · Campanha aberta</div>
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--data); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase;">
+          <div>Cota Sinalizada</div>
+          <div style="font-weight: 700; font-size: 1.3rem; color: var(--tone); margin-top: 6px;">R$ 3.000</div>
+        </div>
+        <button class="actionbtn">Confirmar Investimento</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="myscore">
+    <div class="myscore-label">SEU PORTFÓLIO</div>
+    <div class="myscore-big" data-count="8">0</div>
+    <div class="myscore-label">artistas no seu radar este mês</div>
+    <div class="myscore-desc">Quanto mais cedo você sinaliza, mais chances de que o evento aconteça — e sua marca estará lá desde o começo.</div>
+  </section>
+
+  <div class="backhome">
+    <a href="index.html">← Voltar à home</a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function animateCount(el){
+    var target = parseInt(el.dataset.count, 10);
+    var current = 0;
+    var step = Math.ceil(target / 50);
+    var interval = setInterval(function(){
+      current += step;
+      if(current >= target){ current = target; clearInterval(interval); }
+      el.textContent = current;
+    }, 20);
+  }
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    if(el.offsetParent !== null){ animateCount(el); }
+  });
+})();
+</script>
+
+</body>
+</html>

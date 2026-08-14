@@ -177,31 +177,31 @@
   <h2 class="secttl">SOU:</h2>
   <p class="secsub">A primeira pergunta da plataforma. Cada perfil vê e preenche só o que é dele — depois daqui ninguém cai numa home genérica, cada um entra na ShowLink dele.</p>
   <div class="modegrid">
-    <a class="mode" style="--tone:var(--fa)" href="prototipos/modo-fa.html" data-mode="fa">
+    <a class="mode" style="--tone:var(--fa)" href="modo-fa.html" data-mode="fa">
       <div class="k">MODO 01</div>
       <h4>Fã</h4>
       <p>Siga até 5 bandas, indique até 5 novas, vote e reserve o pré-ingresso.</p>
       <div class="go">Sou fã →</div>
     </a>
-    <a class="mode" style="--tone:var(--artista)" href="prototipos/modo-artista.html" data-mode="artista">
+    <a class="mode" style="--tone:var(--artista)" href="modo-artista.html" data-mode="artista">
       <div class="k">MODO 02</div>
       <h4>Artista</h4>
       <p>Mantenha agenda e produtos vivos, entre em campanhas e apadrinhe até 5 bandas.</p>
       <div class="go">Sou artista →</div>
     </a>
-    <a class="mode" style="--tone:var(--produtor)" href="prototipos/modo-produtor.html" data-mode="produtor">
+    <a class="mode" style="--tone:var(--produtor)" href="modo-produtor.html" data-mode="produtor">
       <div class="k">MODO 03</div>
       <h4>Produtor</h4>
       <p>Represente bandas com ficha completa e opere o encaixe de datas na região.</p>
       <div class="go">Sou produtor →</div>
     </a>
-    <a class="mode" style="--tone:var(--patro)" href="prototipos/modo-patrocinador.html" data-mode="patrocinador">
+    <a class="mode" style="--tone:var(--patro)" href="modo-patrocinador.html" data-mode="patrocinador">
       <div class="k">MODO 04</div>
       <h4>Patrocinador</h4>
       <p>Escolha artistas por faixa etária e sinalize cotas em dinheiro ou serviço.</p>
       <div class="go">Sou patrocinador →</div>
     </a>
-    <a class="mode" style="--tone:var(--realizador)" href="prototipos/modo-realizador.html" data-mode="realizador">
+    <a class="mode" style="--tone:var(--realizador)" href="modo-realizador.html" data-mode="realizador">
       <div class="k">MODO 05</div>
       <h4>Casa ou secretaria</h4>
       <p>Publique sua agenda, entre no rateio da região e aceite cotas de patrocínio.</p>
@@ -275,11 +275,51 @@
 
 // hero: vídeo geral com som (só o hero tem botão de play, por ter narração)
 function playHero(){
-  var v = document.getElementById('herovideo');
-  var w = document.getElementById('playwrap');
-  v.muted = false; v.currentTime = 0;
-  v.play().catch(function(){ v.muted = true; v.play(); });
-  w.classList.add('hidden');
+  var modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+
+  var box = document.createElement('div');
+  box.style.cssText = 'background:var(--navy);border:1px solid var(--line);border-radius:20px;padding:40px;max-width:320px;text-align:center;font-family:var(--body)';
+
+  var title = document.createElement('h3');
+  title.textContent = 'Quer assistir?';
+  title.style.cssText = 'font-family:var(--display);font-weight:800;font-size:1.3rem;margin-bottom:12px;color:var(--paper)';
+
+  var desc = document.createElement('p');
+  desc.textContent = 'O filme tem som e narração. São 2 minutos que explicam o todo.';
+  desc.style.cssText = 'color:var(--mut);font-size:0.95rem;margin-bottom:28px;line-height:1.6';
+
+  var btnYes = document.createElement('button');
+  btnYes.textContent = 'Assistir com som';
+  btnYes.style.cssText = 'background:var(--lime);color:var(--ink);border:0;padding:12px 28px;border-radius:999px;font-weight:600;font-size:0.9rem;cursor:pointer;margin-right:10px;transition:transform 0.15s';
+  btnYes.onmouseover = function(){ this.style.transform = 'translateY(-2px)'; };
+  btnYes.onmouseout = function(){ this.style.transform = 'none'; };
+  btnYes.onclick = function(){
+    document.body.removeChild(modal);
+    var v = document.getElementById('herovideo');
+    var w = document.getElementById('playwrap');
+    v.muted = false; v.currentTime = 0;
+    v.play().catch(function(){ v.muted = true; v.play(); });
+    w.classList.add('hidden');
+  };
+
+  var btnNo = document.createElement('button');
+  btnNo.textContent = 'Cancelar';
+  btnNo.style.cssText = 'background:transparent;border:1.5px solid var(--line);color:var(--paper);padding:12px 28px;border-radius:999px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.15s';
+  btnNo.onmouseover = function(){ this.style.borderColor = 'var(--lime)'; this.style.color = 'var(--lime)'; };
+  btnNo.onmouseout = function(){ this.style.borderColor = 'var(--line)'; this.style.color = 'var(--paper)'; };
+  btnNo.onclick = function(){ document.body.removeChild(modal); };
+
+  var btns = document.createElement('div');
+  btns.style.cssText = 'display:flex;gap:8px;justify-content:center';
+  btns.appendChild(btnYes);
+  btns.appendChild(btnNo);
+
+  box.appendChild(title);
+  box.appendChild(desc);
+  box.appendChild(btns);
+  modal.appendChild(box);
+  document.body.appendChild(modal);
 }
 
 var falas = {
