@@ -1,0 +1,126 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    SHOWLINK — PARA RUBENS COMEÇAR AGORA
+═══════════════════════════════════════════════════════════════════════════════
+
+TUDO QUE VOCÊ PRECISA COPIAR DO LAYOUT:
+
+📁 /root/showlink-repo/
+
+COPIE PARA SEU PROJETO:
+
+1. DESIGN TOKENS (colors, fonts, spacing)
+   └─ css/base.css → Seu Tailwind config ou CSS
+
+2. ESTRUTURA HTML/CSS (pronto para copiar direto em React)
+   ├─ auth.html → Componente de Login
+   ├─ hall-shows.html → Componente de Hall de Shows (PRINCIPAL)
+   ├─ index.html → Landing Page
+   ├─ app.html → Hub de Personas
+   ├─ como-funciona.html → Onboarding
+   └─ modo-*.html (5 files) → Páginas de cada Persona
+
+3. JAVASCRIPT (padrão de proteção de rotas)
+   └─ js/auth-check.js → Adaptar para seu backend
+
+4. VÍDEOS (29 assets)
+   └─ videos/*.mp4 → Copiar URLs para componentes React
+
+═══════════════════════════════════════════════════════════════════════════════
+
+O QUE JÁ ESTÁ 100% PRONTO:
+
+✅ Design visual dos dois motores (Motor 1 + Motor 2)
+✅ Layout de todas as personas (Fã, Artista, Produtor, Patrocinador, Realizador, Operador)
+✅ Estrutura de autenticação
+✅ Sistema de abas (Motor 1, Motor 2, Shows Confirmados)
+✅ Cards, progress bars, componentes
+✅ Cores, fonts, espaçamento (design system completo)
+✅ Dados de teste seeded (bandas, campanhas, shows)
+✅ Responsivo (mobile/tablet/desktop)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+O QUE VOCÊ (RUBENS) PRECISA FAZER:
+
+1. Copiar estrutura HTML/CSS para React componentes
+2. Conectar ao backend existente (trocar dados hardcoded por API calls)
+3. Adaptar autenticação para seu sistema de auth
+4. Incluir logos (Lei Rouanet, governo)
+5. LIBRAS + acessibilidade
+6. Deploy
+
+═══════════════════════════════════════════════════════════════════════════════
+
+COMO COMEÇAR:
+
+1. Clone este repo:
+   git clone /root/showlink-repo
+
+2. Abra cada arquivo HTML:
+   ├─ auth.html (login structure)
+   ├─ hall-shows.html (motor 1 + motor 2 - PRINCIPAL)
+   ├─ modo-fa.html (persona example)
+   └─ css/base.css (design tokens)
+
+3. Copie a estrutura para React:
+   - Estrutura HTML → JSX
+   - CSS → Tailwind classes
+   - Dados hardcoded → API calls
+
+4. Conecte ao seu backend (já funciona há 2 anos)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+ARQUIVO MAIS IMPORTANTE:
+
+👉 /hall-shows.html
+
+Este arquivo tem TUDO:
+- Motor 1: Rateio (bandas em trânsito, divisão de custo)
+- Motor 2: Validação (campanhas com progress bars)
+- Shows Confirmados (resultado)
+- 3 abas funcionando
+- Dados de exemplo completos
+
+COPIE ESTE ARQUIVO PRIMEIRO.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+CORES (Copiar para Tailwind):
+
+Personas:
+--fa: #FF3D7F           (Fã)
+--artista: #10B981      (Artista)
+--produtor: #8B5CF6     (Produtor)
+--patro: #35A7FF        (Patrocinador)
+--realizador: #FF8A34   (Realizador)
+--operador: #C7F73E     (Operador)
+
+Backgrounds:
+--ink: #070C16
+--navy: #0D1526
+--navy-2: #132038
+--line: #1F2E4A
+--lime: #8B5CF6 (brand purple)
+
+Typography:
+--display: 'Unbounded' (bold)
+--body: 'Poppins' (regular)
+--data: 'JetBrains Mono' (monospace)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+PRÓXIMOS PASSOS:
+
+1. Você (Luciano) → copia este arquivo PARA-RUBENS-AGORA.txt
+2. Você → clona /root/showlink-repo
+3. Você → manda para Rubens
+4. Rubens → adapta para React + conecta ao backend
+5. Rubens → entrega este mês
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Tudo que você pediu está pronto.
+
+COPIE E MANDE PARA RUBENS.
+
