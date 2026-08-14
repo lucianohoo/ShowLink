@@ -3,252 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShowLink — Modo Fã</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/home.css">
+<title>ShowLink · Modo Fã — guiado pelo Shoowme</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root { --tone: var(--fa); }
-body { background: var(--ink); color: var(--paper); }
+  :root{
+    --pink:#F1356C; --magenta:#FF2DA6; --rose:#FF6B9D;
+    --ok:#3EDC6C;
+    --bg1:#1A0B14; --bg2:#2B0F1F; --card:#2E1220; --card-b:#4A1F33;
+    --txt:#FFF3F7; --mut:#C99FB2; --deep:#12060D;
+  }
+  [data-theme="blackout"]{
+    --bg1:#050505; --bg2:#0C0509; --card:#120A0F; --card-b:#33141F;
+    --pink:#FF3D7F; --magenta:#FF2DA6; --deep:#000;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins',sans-serif; color:var(--txt);
+    background:linear-gradient(160deg,var(--bg2),var(--bg1) 55%,var(--deep));
+    min-height:100vh; padding-bottom:170px; transition:background .5s;
+  }
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(60% 40% at 80% -5%,rgba(241,53,108,.22),transparent 70%);}
+  header{
+    position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
+    padding:14px 16px;background:color-mix(in srgb,var(--bg1) 82%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--card-b);
+  }
+  .logo{font-family:'Unbounded';font-weight:800;font-size:1.05rem;font-style:italic;letter-spacing:-.5px}
+  .logo em{font-style:italic;background:linear-gradient(90deg,var(--pink),var(--magenta));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .mode{font-size:.62rem;font-weight:700;letter-spacing:.14em;color:var(--rose);
+    border:1px solid var(--card-b);border-radius:20px;padding:4px 10px}
+  .spacer{flex:1}
+  .bell{position:relative;background:var(--card);border:1px solid var(--card-b);border-radius:12px;
+    width:38px;height:38px;font-size:1.05rem;display:grid;place-items:center;cursor:pointer;color:var(--txt)}
+  .bell i{position:absolute;top:6px;right:7px;width:9px;height:9px;border-radius:50%;
+    background:var(--magenta);animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{transform:scale(1.5);opacity:.5}}
+  .themes{display:flex;background:var(--card);border:1px solid var(--card-b);border-radius:20px;padding:3px}
+  .themes button{border:0;background:transparent;color:var(--mut);font-family:inherit;font-weight:600;
+    font-size:.62rem;padding:6px 10px;border-radius:16px;cursor:pointer}
+  .themes button.on{background:linear-gradient(90deg,var(--pink),var(--magenta));color:#fff}
 
-.modes { display: none; } /* Hide mode selector from home.css */
+  main{max-width:520px;margin:0 auto;padding:20px 16px}
+  .eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.16em;color:var(--rose);margin-bottom:6px}
+  h1{font-family:'Unbounded';font-weight:800;font-size:1.5rem;line-height:1.2;margin-bottom:4px}
+  h1 b{background:linear-gradient(90deg,var(--pink),var(--magenta),var(--rose));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:.85rem;margin-bottom:22px}
 
-/* Grid de bandas seguidas */
-.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 32px; }
-.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 16px; position: relative; transition: all 0.2s; }
-.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
-.bandcard:hover { transform: translateY(-2px); border-color: var(--tone); }
-.bandname { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
-.bandmeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 12px; }
-.gauge-mini { font-family: var(--data); font-size: 0.58rem; color: var(--mut); margin-bottom: 4px; }
-.gauge-track-mini { height: 4px; border-radius: 99px; background: var(--navy-2); overflow: hidden; margin-bottom: 8px; }
-.gauge-track-mini i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 60%; }
-.status-badge { font-family: var(--data); font-size: 0.65rem; color: var(--tone); text-transform: uppercase; letter-spacing: 0.05em; }
+  section{margin-bottom:26px;border-radius:20px;transition:box-shadow .35s,transform .35s}
+  section h2{font-family:'Unbounded';font-weight:600;font-size:.92rem;margin-bottom:12px;
+    display:flex;align-items:baseline;gap:8px}
+  section h2 small{font-family:'Poppins';font-weight:500;font-size:.68rem;color:var(--mut)}
+  .card{background:var(--card);border:1px solid var(--card-b);border-radius:16px;padding:14px;margin-bottom:10px}
 
-/* Pontos finais */
-.final-score { background: linear-gradient(135deg, rgba(255,61,127,.12), rgba(255,61,127,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
-.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; }
-.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
+  .band{display:flex;align-items:center;gap:12px}
+  .avatar{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+    font-weight:700;color:#fff;background:linear-gradient(135deg,var(--pink),var(--magenta));font-size:.95rem}
+  .band .info{flex:1;min-width:0}
+  .band .nm{font-weight:600;font-size:.9rem}
+  .band .tag{font-size:.72rem;color:var(--mut)}
+  .band .tag.live{color:var(--ok);font-weight:600}
+  .chipn{flex:none;background:var(--magenta);color:#fff;font-size:.66rem;font-weight:700;
+    border-radius:20px;padding:3px 9px}
+  .btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:.92rem;color:#fff;text-align:center;
+    background:linear-gradient(90deg,var(--pink),var(--magenta));box-shadow:0 6px 22px rgba(241,53,108,.35)}
+  .btn.ghost{background:transparent;border:2px solid var(--pink);color:var(--rose);box-shadow:none}
 
-@media (max-width: 880px) {
-  .bandgrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-}
+  .timeline{list-style:none}
+  .timeline li{display:flex;gap:12px;padding:9px 0;align-items:center}
+  .dot{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;
+    border:2.5px solid var(--card-b);color:var(--mut);font-size:.75rem;font-weight:700}
+  li.done .dot{border-color:var(--pink);color:var(--pink)}
+  li.now .dot{background:linear-gradient(135deg,var(--pink),var(--magenta));border-color:transparent;color:#fff}
+  li.done span,li.now span{color:var(--txt)} .timeline span{color:var(--mut);font-size:.88rem;font-weight:500}
+  li.now span{font-weight:700}
+
+  .founder{border:2px solid var(--pink);background:
+    linear-gradient(140deg,color-mix(in srgb,var(--pink) 22%,var(--card)),var(--card))}
+  .founder h3{font-family:'Unbounded';font-size:1rem;font-weight:800;
+    background:linear-gradient(90deg,var(--pink),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .founder p{font-size:.76rem;color:var(--mut);margin:4px 0 10px}
+  .perks{display:flex;flex-wrap:wrap;gap:6px}
+  .perks span{border:1.5px solid var(--pink);color:var(--txt);font-size:.7rem;font-weight:600;
+    border-radius:20px;padding:4px 11px}
+
+  .pts{display:flex;align-items:center;gap:14px}
+  .ring{width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:conic-gradient(var(--pink) 0 74%,var(--card-b) 74% 100%)}
+  .ring b{width:50px;height:50px;border-radius:50%;background:var(--card);display:grid;place-items:center;
+    font-size:.72rem;color:var(--rose)}
+  .status{font-size:.9rem;font-weight:700} .status+div{font-size:.73rem;color:var(--mut)}
+
+  .okline{color:var(--ok);font-size:.78rem;font-weight:600;margin-top:8px}
+
+  /* ---- Shoowme ---- */
+  #dim{position:fixed;inset:0;background:rgba(5,2,4,.62);z-index:40;opacity:0;pointer-events:none;transition:opacity .35s}
+  body.touring #dim{opacity:1}
+  .spot{position:relative;z-index:45;box-shadow:0 0 0 3px var(--magenta),0 0 40px rgba(255,45,166,.5);transform:scale(1.012)}
+  #hoo{position:fixed;right:16px;bottom:16px;z-index:60;width:62px;height:62px;border-radius:50%;
+    border:0;cursor:pointer;font-size:2rem;display:grid;place-items:center;color:#fff;
+    background:linear-gradient(135deg,var(--pink),var(--magenta));
+    box-shadow:0 8px 28px rgba(241,53,108,.55);animation:bob 3s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-6px)}}
+  #bubble{position:fixed;left:14px;right:90px;bottom:24px;z-index:60;max-width:430px;
+    background:#fff;color:#241019;border-radius:18px 18px 4px 18px;padding:14px 15px 12px;
+    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transform:translateY(14px);
+    transition:opacity .3s,transform .3s}
+  #bubble.on{opacity:1;pointer-events:auto;transform:none}
+  #bubble::after{content:'';position:absolute;right:-9px;bottom:10px;border:10px solid transparent;
+    border-left-color:#fff;border-bottom-color:#fff}
+  #bubble .who{font-family:'Unbounded';font-weight:800;font-size:.7rem;color:var(--pink);margin-bottom:4px}
+  #bubble p{font-size:.84rem;line-height:1.45;font-weight:500}
+  #bubble .row{display:flex;align-items:center;gap:10px;margin-top:10px}
+  #bubble .dots{flex:1;display:flex;gap:4px}
+  #bubble .dots i{width:6px;height:6px;border-radius:50%;background:#E8CBD7}
+  #bubble .dots i.on{background:var(--pink)}
+  #bubble .next{border:0;border-radius:12px;padding:8px 16px;font-family:inherit;font-weight:700;
+    font-size:.78rem;color:#fff;cursor:pointer;background:linear-gradient(90deg,var(--pink),var(--magenta))}
+  #menu{position:fixed;right:16px;bottom:88px;z-index:60;background:var(--card);border:1px solid var(--card-b);
+    border-radius:16px;overflow:hidden;display:none;min-width:190px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+  #menu.on{display:block}
+  #menu button{display:flex;gap:9px;width:100%;border:0;background:none;color:var(--txt);
+    font-family:inherit;font-size:.82rem;font-weight:500;padding:12px 15px;cursor:pointer;text-align:left}
+  #menu button:hover{background:rgba(241,53,108,.12)}
+  :focus-visible{outline:3px solid var(--magenta);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-
-<div id="meter"><i></i><b>DEMANDA</b></div>
-
 <header>
-  <div class="hwrap">
-    <div class="logo">SHOW<em>LINK</em></div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="#" class="on">Modo Fã</a>
-    </nav>
-    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  <div class="logo">SHOW<em>LINK</em></div>
+  <div class="mode">MODO FÃ</div>
+  <div class="spacer"></div>
+  <div class="themes" role="group" aria-label="Tema">
+    <button id="t1" class="on" onclick="setTheme('rosa')">Rosa Noite</button>
+    <button id="t2" onclick="setTheme('blackout')">Blackout</button>
   </div>
+  <button class="bell" aria-label="Notificações" onclick="notif()">🔔<i></i></button>
 </header>
 
-<section class="hero">
-  <div>
-    <div class="eyebrow">DE SUGESTÃO A SHOW REALIZADO</div>
-    <h1>E aí, fã. <em>Aqui você manda.</em></h1>
-    <p class="lede">Você é a estrela — traz a banda que nunca veio, a cidade inteira enxerga que a demanda existe, você vota, reserva, e o show acontece. Camarote, prioridade, foto com a galera.</p>
-    <div class="herobtns">
-      <button class="btn" onclick="window.location='hall-shows.html'">🎸 Ver Shows Próximos</button>
-      <button class="btn ghost" onclick="document.getElementById('cap1').scrollIntoView()">Como funciona</button>
-      <button class="btn ghost" onclick="alert('Seguir banda: integração com Supabase')">+ Seguir Banda</button>
+<main>
+  <div class="eyebrow">SUA ÁREA</div>
+  <h1>E aí, fã. <b>Aqui você manda.</b></h1>
+  <p class="sub">Suas bandas, suas campanhas, sua jornada — tudo num lugar só.</p>
+
+  <section id="s-bandas">
+    <h2>Minhas bandas <small>5 de 5 · rol com 100 bandas</small></h2>
+    <div class="card band"><div class="avatar">PP</div>
+      <div class="info"><div class="nm">Plutão Já Foi Planeta</div><div class="tag live">campanha ativa · vote agora</div></div>
+      <div class="chipn">1</div></div>
+    <div class="card band"><div class="avatar">SC</div>
+      <div class="info"><div class="nm">Scalene</div><div class="tag">show a 40 km · 21 set</div></div></div>
+    <div class="card band"><div class="avatar">SU</div>
+      <div class="info"><div class="nm">Supercombo</div><div class="tag">novidades da banda</div></div></div>
+    <div class="card band"><div class="avatar">FR</div>
+      <div class="info"><div class="nm">Fresno</div><div class="tag">novidades da banda</div></div></div>
+    <div class="card band"><div class="avatar">TC</div>
+      <div class="info"><div class="nm">Terra Celta</div><div class="tag">novidades da banda</div></div></div>
+  </section>
+
+  <section id="s-sugerir">
+    <h2>Sugerir banda nova</h2>
+    <div class="card">
+      <div class="band"><div class="avatar">BC</div>
+        <div class="info"><div class="nm">Biquíni Cavadão</div><div class="tag">card criado por você · foto, história, cidades</div></div></div>
+      <div class="okline">✓ Aprovada pela consultoria — você é o Fundador nº 1</div>
     </div>
-  </div>
-</section>
+    <button class="btn ghost">+ Criar card de outra banda</button>
+  </section>
 
-<section class="chapters">
-  <h2 class="secttl">Sua jornada: de fã invisível a curador especial</h2>
-  <p class="secsub">Cinco etapas, cada uma com o vídeo que a explica. Você começa sugerindo, passa a votar junto, e quando o show acontece, você ganhou poder na cidade.</p>
-
-  <article class="chapter" id="cap1">
-    <figure class="chvid">
-      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 01 · 12s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 01 — VOCÊ SUGERE</div>
-      <h3>Sugere a banda. A galera vota junto.</h3>
-      <p>Toda semana sua cidade monta a pré-lista das dez. Você digita o nome da banda que quer ver perto, e cada voto empurra ela para cima. As três mais votadas viram campanha — e quem indicou primeira vira Fundador.</p>
-      <div class="gauge" data-fill="33">
-        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>1.247 VOTOS</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>Pré-lista das 10</span><span>Voto coletivo</span><span>Você é Fundador</span></div>
-    </div>
-  </article>
-
-  <article class="chapter">
-    <figure class="chvid">
-      <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 02 · 12s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 02 — CAMPANHA ABRE</div>
-      <h3>Reserva o ingresso. Só paga se o show acontecer.</h3>
-      <p>A campanha abre em cinco cidades ao mesmo tempo. Você clica em RESERVAR, paga por Pix (valor inteiro agora ou parcelado), e só é cobrado quando o show é viabilizado. Não bateu a meta? Seu dinheiro volta.</p>
-      <div class="motors">
-        <div class="motor dem">
-          <div class="h">MOTOR 1 · SEU VOTO</div>
-          <div class="track"><i data-fill="95"></i></div>
-          <p>Você + fãs da região reservando ingressos.</p>
-        </div>
-        <div class="motor apo">
-          <div class="h">MOTOR 2 · PATROCÍNIO</div>
-          <div class="track"><i data-fill="60"></i></div>
-          <p>Cotas de empresas já sinalizadas pra banda.</p>
-        </div>
-      </div>
-      <div class="tags"><span>Pré-ingresso reservado</span><span>Só paga se acontecer</span><span>Estorno em 48h</span></div>
-    </div>
-  </article>
-
-  <article class="chapter">
-    <figure class="chvid">
-      <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 03 · 14s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 03 — SHOW ACONTECE</div>
-      <h3>Você está no palco. A banda está contratada.</h3>
-      <p>Quando a meta bate, a banda é contratada em múltiplas cidades ao mesmo tempo. Você vai no show, tira foto, aparece na transmissão. E você acumulou 2.480 pontos por ter indicado primeiro — vale camarote e prioridade para os próximos.</p>
-      <div class="gauge" data-fill="100">
-        <div class="lbl"><span>SUA JORNADA</span><b>100% REALIZADA</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>Camarote garantido</span><span>Foto oficial com banda</span><span>Pontos acumulados</span></div>
-    </div>
-  </article>
-
-</section>
-
-<div class="content" style="margin-top: 40px;">
-
-  <section class="section">
-    <div style="background: linear-gradient(135deg, rgba(255,61,127,.15), rgba(255,61,127,.08)); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 32px; text-align: center;">
-      <div style="font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px;">Encontre seus artistas</div>
-      <div style="font-size: 1rem; font-weight: 600; margin-bottom: 12px;">Veja quando e onde suas bandas estão tocando</div>
-      <button class="btn" onclick="window.location='hall-shows.html'" style="background: var(--fa); color: white;">🎸 Explorar Shows por Cidade</button>
-    </div>
-
-    <h2 class="sectiontitle">Bandas que você segue</h2>
-    <p class="sectionsubtitle">Até 5 bandas acompanhadas. ShowLink te avisa quando uma lança música, abre campanha, ou vai tocar perto.</p>
-    <div class="bandgrid">
-      <div class="bandcard">
-        <div class="bandname">Plutão Já Foi Planeta</div>
-        <div class="bandmeta">Rock alternativo · Crossroad</div>
-        <div class="gauge-mini">Jornada: TOP 3</div>
-        <div class="gauge-track-mini"><i style="width: 73%"></i></div>
-        <div class="status-badge">Campanha aberta</div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">Rock4Roots</div>
-        <div class="bandmeta">Rock · Hooligans Cascavel</div>
-        <div class="gauge-mini">Jornada: VOTAÇÃO</div>
-        <div class="gauge-track-mini"><i style="width: 45%"></i></div>
-        <div class="status-badge">Você indicou · Fundador</div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">VICKA</div>
-        <div class="bandmeta">MPB · MPB Bar</div>
-        <div class="gauge-mini">Jornada: PRÉ-VENDA</div>
-        <div class="gauge-track-mini"><i style="width: 55%"></i></div>
-        <div class="status-badge">Você votou 2x</div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">Jam Session</div>
-        <div class="bandmeta">Pop-Rock · Zepellin</div>
-        <div class="gauge-mini">Jornada: TOP 10</div>
-        <div class="gauge-track-mini"><i style="width: 38%"></i></div>
-        <div class="status-badge">8 meses</div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">Acústicos & Valvulados</div>
-        <div class="bandmeta">Rock · Empório Santa Maria (Toledo)</div>
-        <div class="gauge-mini">Jornada: ROL</div>
-        <div class="gauge-track-mini"><i style="width: 15%"></i></div>
-        <div class="status-badge">Recém adicionada</div>
-      </div>
+  <section id="s-share">
+    <h2>Espalhe pra ela subir</h2>
+    <div class="card">
+      <p style="font-size:.84rem;color:var(--mut);margin-bottom:12px">
+        Compartilhe o perfil da banda com seus amigos. Cada novo fã empurra ela pro <b style="color:var(--txt)">hall das 10 mais</b>.</p>
+      <button class="btn">Compartilhar perfil da banda</button>
     </div>
   </section>
 
-  <section class="section">
-    <h2 class="sectiontitle">Suas indicações pendentes</h2>
-    <p class="sectionsubtitle">Você indicou 2 bandas novas. Quando chegarem a 50 votos, a ShowLink as valida e coloca em pré-venda.</p>
-    <div class="bandgrid">
-      <div class="bandcard">
-        <div class="bandname">Ultravioleta</div>
-        <div class="bandmeta">Indie rock · Brasília</div>
-        <div class="gauge-mini">Votos: 28 de 50</div>
-        <div class="gauge-track-mini"><i style="width: 56%"></i></div>
-        <div class="status-badge">Indicação sua</div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">Terminal Norte</div>
-        <div class="bandmeta">Hip hop · Tork (Curitiba)</div>
-        <div class="gauge-mini">Votos: 12 de 50</div>
-        <div class="gauge-track-mini"><i style="width: 24%"></i></div>
-        <div class="status-badge">Indicação sua</div>
-      </div>
+  <section id="s-jornada">
+    <h2>Jornada da sua banda</h2>
+    <div class="card"><ul class="timeline">
+      <li class="done"><i class="dot">✓</i><span>Entrou no rol</span></li>
+      <li class="done"><i class="dot">✓</i><span>Top 10 da região</span></li>
+      <li class="done"><i class="dot">✓</i><span>Top 3 · finalista</span></li>
+      <li class="now"><i class="dot">●</i><span>Campanha · pré-venda</span></li>
+      <li><i class="dot"></i><span>TOUR confirmada</span></li>
+    </ul></div>
+  </section>
+
+  <section id="s-selo">
+    <h2>Seu selo</h2>
+    <div class="card founder">
+      <h3>★ FUNDADOR Nº 1</h3>
+      <p>Biquíni Cavadão · desde o primeiro voto. Quando ela vier à sua cidade:</p>
+      <div class="perks"><span>prioridade</span><span>camiseta</span><span>boné</span><span>camarote</span><span>foto com a banda</span></div>
     </div>
   </section>
 
-  <section class="final-score">
-    <div class="final-score-num" data-count="2480">0</div>
-    <div class="final-score-label">PONTOS · CURADOR ESPECIAL</div>
-    <div class="final-score-desc">Você indicou a banda que viralizou. Ganhou camarote em todos os shows, prioridade na fila, foto oficial com os artistas quando vierem na sua região.</div>
+  <section id="s-pontos">
+    <h2>Curador especial</h2>
+    <div class="card pts">
+      <div class="ring"><b>74%</b></div>
+      <div><div class="status">2.480 pontos</div>
+        <div>cada show realizado vale pontos — e o palco inteiro te enxerga</div></div>
+    </div>
   </section>
+</main>
 
-  <div class="backhome">
-    <a href="index.html">← Voltar à home</a>
-  </div>
-
+<div id="dim"></div>
+<div id="bubble" role="dialog" aria-label="Shoowme">
+  <div class="who">SHOOWME 🦝</div>
+  <p id="btxt"></p>
+  <div class="row"><div class="dots" id="bdots"></div>
+    <button class="next" id="bnext" onclick="next()">Próximo</button></div>
 </div>
+<div id="menu">
+  <button onclick="startTour()">🗺️ Refazer o tour</button>
+  <button onclick="notif()">🔔 Notificações</button>
+  <button onclick="say('Novidade da semana: a Plutão Já Foi Planeta abriu campanha de pré-venda! Corre lá em Minhas bandas. 🎸')">✨ Novidades</button>
+  <button onclick="say('Manda a dúvida! Sou o guia daqui — te explico qualquer parte da ShowLink, é só perguntar. 🦝')">💬 Tirar dúvidas</button>
+</div>
+<button id="hoo" aria-label="Abrir o Shoowme" onclick="shoowTap()">🦝</button>
 
 <script>
-(function(){
-  var bar = document.querySelector('#meter i');
-  function onScroll(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
-    bar.style.width = p.toFixed(1) + '%';
+  const steps=[
+    {el:null, t:"E aí! Eu sou o Shoowme, seu guia. 🦝 Bem-vindo à plataforma que dá voz a você: aquele show que você sempre quis ver perto e nunca aconteceu? Agora, com a sua ajuda, ele acontece. E os artistas que você ama, você faz o Brasil inteiro descobrir."},
+    {el:"s-bandas", t:"Escolha até 5 bandas entre as 100 do rol. Elas ficam sempre aqui: show na região, campanha aberta, novidade — eu te aviso na hora."},
+    {el:"s-sugerir", t:"Sua banda não tá no rol? Cria o card dela: foto, história, tudo. Passa pela nossa consultoria e, aprovou… você é o Fundador nº 1!"},
+    {el:"s-share", t:"Agora espalha! Compartilha o perfil da banda com os amigos — é assim que ela sobe pro hall das 10 mais."},
+    {el:"s-jornada", t:"Daí é só subida: top 10, top 3, campanha de pré-venda… até virar TOUR. E foi você que empurrou."},
+    {el:"s-selo", t:"Quando ela vier na sua cidade, Fundador tem regalia: camiseta, boné, camarote e foto com a banda."},
+    {el:"s-pontos", t:"Cada show que você ajuda a realizar vale pontos. Você vira curador especial — o palco inteiro te enxerga."},
+    {el:null, t:"É isso! Qualquer coisa, me chama aqui embaixo. Tô sempre por perto. 🦝💗"}
+  ];
+  let i=-1, touring=false;
+  const $=id=>document.getElementById(id);
+  function paintDots(){ $('bdots').innerHTML=steps.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join(''); }
+  function clearSpot(){ document.querySelectorAll('.spot').forEach(e=>e.classList.remove('spot')); }
+  function show(k){
+    i=k; clearSpot(); const s=steps[i];
+    if(s.el){ const el=$(s.el); el.classList.add('spot'); el.scrollIntoView({block:'center'}); }
+    $('btxt').textContent=s.t; paintDots();
+    $('bnext').textContent = i===steps.length-1 ? 'Valeu!' : 'Próximo';
+    $('bubble').classList.add('on');
   }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-
-  function animateCount(el){
-    var target = parseInt(el.dataset.count, 10);
-    var current = 0;
-    var step = Math.ceil(target / 50);
-    var interval = setInterval(function(){
-      current += step;
-      if(current >= target){ current = target; clearInterval(interval); }
-      el.textContent = current;
-    }, 20);
-  }
-  document.querySelectorAll('[data-count]').forEach(function(el){
-    if(el.offsetParent !== null){ animateCount(el); }
-  });
-
-  var obsG = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(!e.isIntersecting) return;
-      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
-      obsG.unobserve(e.target);
-    });
-  }, {threshold: 0.3});
-  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
-})();
+  function next(){ if(i<steps.length-1) show(i+1); else endTour(); }
+  function startTour(){ $('menu').classList.remove('on'); touring=true; document.body.classList.add('touring'); show(0); }
+  function endTour(){ touring=false; document.body.classList.remove('touring'); clearSpot(); $('bubble').classList.remove('on'); }
+  function say(t){ $('menu').classList.remove('on'); endTour(); $('btxt').textContent=t; $('bdots').innerHTML='';
+    $('bnext').textContent='Fechar'; $('bubble').classList.add('on');
+    $('bnext').onclick=()=>{ $('bubble').classList.remove('on'); $('bnext').onclick=next; }; }
+  function notif(){ say('🔔 Você tem 1 notificação: campanha ativa da Plutão Já Foi Planeta — seu voto vale ingresso em pré-venda!'); }
+  function shoowTap(){ if(touring){ endTour(); return; } $('menu').classList.toggle('on'); }
+  function setTheme(t){ document.body.dataset.theme = t==='blackout' ? 'blackout' : '';
+    $('t1').classList.toggle('on',t==='rosa'); $('t2').classList.toggle('on',t==='blackout'); }
+  setTimeout(startTour, 900);
 </script>
-
 </body>
 </html>

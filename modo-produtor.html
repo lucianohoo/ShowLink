@@ -3,283 +3,290 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShowLink — Modo Produtor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/home.css">
+<title>ShowLink · Modo Produtor — guiado pelo Shoowme</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root { --tone: var(--produtor); }
-body { background: var(--ink); color: var(--paper); }
+  :root{
+    --pur:#9B00FF; --pur2:#C05CFF; --lil:#D9A6FF;
+    --ok:#3EDC6C; --warn:#FFB020;
+    --bg1:#14061F; --bg2:#1D0930; --card:#251038; --cb:#3D1B5C;
+    --txt:#F9F2FF; --mut:#BFA6D6; --deep:#0A0212; --onpur:#FFFFFF;
+  }
+  [data-theme="blackout"]{
+    --bg1:#050505; --bg2:#0A050C; --card:#120A18; --cb:#2E1447;
+    --pur:#AE2BFF; --deep:#000;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins',sans-serif; color:var(--txt);
+    background:linear-gradient(160deg,var(--bg2),var(--bg1) 55%,var(--deep));
+    min-height:100vh; padding-bottom:170px; transition:background .5s;
+  }
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(60% 40% at 80% -5%,rgba(155,0,255,.2),transparent 70%);}
+  header{
+    position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
+    padding:14px 16px;background:color-mix(in srgb,var(--bg1) 82%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--cb);
+  }
+  .logo{font-family:'Unbounded';font-weight:800;font-size:1.05rem;font-style:italic;letter-spacing:-.5px}
+  .logo em{font-style:italic;background:linear-gradient(90deg,var(--pur2),var(--pur));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .mode{font-size:.62rem;font-weight:700;letter-spacing:.14em;color:var(--lil);
+    border:1px solid var(--cb);border-radius:20px;padding:4px 10px}
+  .spacer{flex:1}
+  .bell{position:relative;background:var(--card);border:1px solid var(--cb);border-radius:12px;
+    width:38px;height:38px;font-size:1.05rem;display:grid;place-items:center;cursor:pointer;color:var(--txt)}
+  .bell i{position:absolute;top:6px;right:7px;width:9px;height:9px;border-radius:50%;
+    background:var(--pur2);animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{transform:scale(1.5);opacity:.5}}
+  .themes{display:flex;background:var(--card);border:1px solid var(--cb);border-radius:20px;padding:3px}
+  .themes button{border:0;background:transparent;color:var(--mut);font-family:inherit;font-weight:600;
+    font-size:.62rem;padding:6px 10px;border-radius:16px;cursor:pointer}
+  .themes button.on{background:linear-gradient(90deg,var(--pur),var(--pur2));color:var(--onpur)}
 
-.modes { display: none; }
+  main{max-width:520px;margin:0 auto;padding:20px 16px}
+  .eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.16em;color:var(--lil);margin-bottom:6px}
+  h1{font-family:'Unbounded';font-weight:800;font-size:1.5rem;line-height:1.2;margin-bottom:4px}
+  h1 b{background:linear-gradient(90deg,var(--pur2),var(--lil),var(--pur2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:.85rem;margin-bottom:22px}
 
-.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 32px; }
-.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 18px; position: relative; transition: all 0.2s; }
-.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
-.bandcard:hover { transform: translateY(-2px); border-color: var(--tone); }
-.bandname { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
-.bandmeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 12px; }
+  section{margin-bottom:26px;border-radius:20px;transition:box-shadow .35s,transform .35s}
+  section h2{font-family:'Unbounded';font-weight:600;font-size:.92rem;margin-bottom:12px;
+    display:flex;align-items:baseline;gap:8px}
+  section h2 small{font-family:'Poppins';font-weight:500;font-size:.68rem;color:var(--mut)}
+  .card{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:14px;margin-bottom:10px}
 
-.gauge-section { margin-bottom: 14px; }
-.gauge-label { display: flex; justify-content: space-between; font-family: var(--data); font-size: 0.58rem; letter-spacing: 0.08em; color: var(--mut); margin-bottom: 6px; }
-.gauge-label b { color: var(--tone); }
-.gauge-track { height: 5px; border-radius: 99px; background: var(--navy-2); overflow: hidden; }
-.gauge-track i { display: block; height: 100%; background: var(--tone); border-radius: 99px; width: 0%; }
+  .invite{border:2px dashed var(--pur2);background:
+    linear-gradient(140deg,color-mix(in srgb,var(--pur) 16%,var(--card)),var(--card));text-align:center;padding:20px 16px}
+  .invite .tk{font-size:2rem}
+  .invite h3{font-family:'Unbounded';font-weight:800;font-size:1.02rem;margin:6px 0 4px}
+  .invite p{font-size:.78rem;color:var(--mut);margin-bottom:12px}
+  .btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:.92rem;color:var(--onpur);text-align:center;
+    background:linear-gradient(90deg,var(--pur),var(--pur2));box-shadow:0 6px 22px rgba(155,0,255,.35)}
+  .btn.ghost{background:transparent;border:2px solid var(--pur2);color:var(--lil);box-shadow:none}
 
-.interested { background: var(--navy-2); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin-top: 12px; text-align: center; }
-.interested-num { font-family: var(--data); font-weight: 700; font-size: 1.6rem; color: var(--tone); }
-.interested-label { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); margin-top: 4px; text-transform: uppercase; }
+  .art{display:flex;align-items:center;gap:12px}
+  .avatar{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+    font-weight:700;color:#fff;background:linear-gradient(135deg,var(--pur),var(--pur2));font-size:.9rem}
+  .art .info{flex:1;min-width:0}
+  .art .nm{font-weight:600;font-size:.88rem}
+  .art .tag{font-size:.72rem;color:var(--mut)}
+  .art .tag.warn{color:var(--warn);font-weight:600}
+  .pct{flex:none;font-family:'Unbounded';font-size:.82rem;font-weight:800;color:var(--pur2)}
+  .pct.low{color:var(--warn)}
 
-.routelist { display: grid; gap: 10px; margin-top: 32px; }
-.routeitem { background: var(--navy); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
-.routeitem::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
-.routecity { font-family: var(--display); font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
-.routemeta { font-size: 0.75rem; color: var(--mut); }
-.routeprice { text-align: right; }
-.routestatus { font-family: var(--data); font-size: 0.65rem; color: var(--tone); letter-spacing: 0.08em; text-transform: uppercase; }
-.routevalue { font-family: var(--data); font-weight: 700; font-size: 1.2rem; color: var(--tone); margin-top: 4px; }
+  .check{list-style:none;columns:2;column-gap:14px}
+  .check li{display:flex;gap:8px;align-items:center;padding:4px 0;font-size:.78rem;color:var(--txt);break-inside:avoid}
+  .check li.todo{color:var(--mut)}
+  .check i{width:19px;height:19px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.6rem;
+    font-weight:800;border:2px solid var(--pur2);color:var(--pur2)}
+  .check li.todo i{border-color:var(--cb);color:var(--mut)}
 
-.final-score { background: linear-gradient(135deg, rgba(139,92,255,.12), rgba(139,92,255,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
-.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; }
-.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
+  .feed{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--cb)}
+  .feed:last-child{border:0}
+  .feed .ic{font-size:1.1rem;flex:none}
+  .feed .t{font-size:.8rem}
+  .feed .t b{color:var(--txt)} .feed .t{color:var(--mut)}
 
-@media (max-width: 880px) {
-  .bandgrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-  .routeitem { grid-template-columns: 1fr; }
-  .routeprice { text-align: left; }
-}
+  .intr{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:.82rem;border-bottom:1px solid var(--cb)}
+  .intr:last-child{border:0}
+  .intr .who{flex:1;font-weight:600}
+  .intr .what{font-size:.7rem;color:var(--mut)}
+  .intr .badge{flex:none;font-size:.64rem;font-weight:700;border-radius:20px;padding:3px 9px;
+    border:1.5px solid var(--pur2);color:var(--lil)}
+  .intr .badge.g{border-color:var(--ok);color:var(--ok)}
+
+  .stat{display:flex;gap:10px}
+  .stat .card{flex:1;text-align:center;margin:0}
+  .stat b{font-family:'Unbounded';font-size:1.15rem;color:var(--pur2);display:block}
+  .stat span{font-size:.66rem;color:var(--mut)}
+
+  .vitr{border:2px solid var(--pur2);background:
+    linear-gradient(140deg,color-mix(in srgb,var(--pur) 20%,var(--card)),var(--card))}
+  .vitr h3{font-family:'Unbounded';font-size:.95rem;font-weight:800;
+    background:linear-gradient(90deg,var(--pur2),var(--lil));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .vitr p{font-size:.78rem;color:var(--mut);margin:6px 0 10px}
+
+  /* ---- Shoowme ---- */
+  #dim{position:fixed;inset:0;background:rgba(4,1,7,.62);z-index:40;opacity:0;pointer-events:none;transition:opacity .35s}
+  body.touring #dim{opacity:1}
+  .spot{position:relative;z-index:45;box-shadow:0 0 0 3px var(--pur2),0 0 40px rgba(192,92,255,.5);transform:scale(1.012)}
+  #hoo{position:fixed;right:16px;bottom:16px;z-index:60;width:62px;height:62px;border-radius:50%;
+    border:0;cursor:pointer;font-size:2rem;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--pur),var(--pur2));
+    box-shadow:0 8px 28px rgba(155,0,255,.5);animation:bob 3s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-6px)}}
+  #bubble{position:fixed;left:14px;right:90px;bottom:24px;z-index:60;max-width:430px;
+    background:#fff;color:#1D0930;border-radius:18px 18px 4px 18px;padding:14px 15px 12px;
+    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transform:translateY(14px);
+    transition:opacity .3s,transform .3s}
+  #bubble.on{opacity:1;pointer-events:auto;transform:none}
+  #bubble::after{content:'';position:absolute;right:-9px;bottom:10px;border:10px solid transparent;
+    border-left-color:#fff;border-bottom-color:#fff}
+  #bubble .who{font-family:'Unbounded';font-weight:800;font-size:.7rem;color:var(--pur);margin-bottom:4px}
+  #bubble p{font-size:.84rem;line-height:1.45;font-weight:500}
+  #bubble .row{display:flex;align-items:center;gap:10px;margin-top:10px}
+  #bubble .dots{flex:1;display:flex;gap:4px}
+  #bubble .dots i{width:6px;height:6px;border-radius:50%;background:#E6D4F5}
+  #bubble .dots i.on{background:var(--pur)}
+  #bubble .next{border:0;border-radius:12px;padding:8px 16px;font-family:inherit;font-weight:700;
+    font-size:.78rem;color:#fff;cursor:pointer;background:linear-gradient(90deg,var(--pur),var(--pur2))}
+  #menu{position:fixed;right:16px;bottom:88px;z-index:60;background:var(--card);border:1px solid var(--cb);
+    border-radius:16px;overflow:hidden;display:none;min-width:190px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+  #menu.on{display:block}
+  #menu button{display:flex;gap:9px;width:100%;border:0;background:none;color:var(--txt);
+    font-family:inherit;font-size:.82rem;font-weight:500;padding:12px 15px;cursor:pointer;text-align:left}
+  #menu button:hover{background:rgba(155,0,255,.14)}
+  :focus-visible{outline:3px solid var(--pur2);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-
-<div id="meter"><i></i><b>DEMANDA</b></div>
-
 <header>
-  <div class="hwrap">
-    <div class="logo">SHOW<em>LINK</em></div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="#" class="on">Modo Produtor</a>
-    </nav>
-    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  <div class="logo">SHOW<em>LINK</em></div>
+  <div class="mode">MODO PRODUTOR</div>
+  <div class="spacer"></div>
+  <div class="themes" role="group" aria-label="Tema">
+    <button id="t1" class="on" onclick="setTheme('roxo')">Roxo Noite</button>
+    <button id="t2" onclick="setTheme('blackout')">Blackout</button>
   </div>
+  <button class="bell" aria-label="Notificações" onclick="notif()">🔔<i></i></button>
 </header>
 
-<section class="hero">
-  <div>
-    <div class="eyebrow">SEUS ARTISTAS, O BRASIL INTEIRO</div>
-    <h1>E aí, produtor. <em>Seus artistas, o Brasil inteiro.</em></h1>
-    <p class="lede">Você é o maestro. Ficha técnica completa fecha show na hora. Encaixe de datas baratea a rota. Antes de fechar qualquer coisa, você já sabe quem está interessado.</p>
-    <div class="herobtns">
-      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
-      <button class="btn ghost" onclick="alert('Adicionar banda: integração com Supabase')">+ Adicionar Banda</button>
-    </div>
-  </div>
-</section>
+<main>
+  <div class="eyebrow">SUA ÁREA</div>
+  <h1>E aí, produtor. <b>Seus artistas, o Brasil inteiro.</b></h1>
+  <p class="sub">A força do fã divulgando — e patrocinadores, casas e secretarias vendo antes.</p>
 
-<section class="chapters">
-  <h2 class="secttl">Sua jornada: de banda isolada a rota montada</h2>
-  <p class="secsub">Três etapas. Você operacionaliza tudo — ficha, datas, negocia. O sistema coloca a demanda na sua mão.</p>
-
-  <article class="chapter" id="cap1">
-    <figure class="chvid">
-      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 01 · 12s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 01 — FICHA TÉCNICA</div>
-      <h3>Você documenta tudo. A demanda aparece.</h3>
-      <p>Ficha técnica completa fecha show na hora. Enquanto você preenche rider, hospedagem, técnica — o sistema mostra fãs em múltiplas cidades pedindo sua banda. Você vê a demanda ANTES de negociar qualquer contrato.</p>
-      <div class="gauge" data-fill="92">
-        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>92% PRONTA</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>Ficha técnica</span><span>Validada por casas</span><span>Demanda visível</span></div>
-    </div>
-  </article>
-
-  <article class="chapter">
-    <figure class="chvid">
-      <video src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 02 · 16s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 02 — ENCAIXE DE DATAS</div>
-      <h3>Você arrasta a banda pra uma data. A rota monta.</h3>
-      <p>Você vê seis cidades dentro de 300km pedindo sua banda. Você encaixa a primeira no sábado (valor cheio), a segunda na sexta (−15%), a terceira no domingo (−20%). A conta de viagem desaba — a rota fica mais barata pro artista e mais lucrativa pra todos.</p>
-      <div class="motors">
-        <div class="motor dem">
-          <div class="h">CIDADES PEDINDO</div>
-          <div class="track"><i data-fill="94"></i></div>
-          <p>6 casas com demanda em 300km.</p>
-        </div>
-        <div class="motor apo">
-          <div class="h">INTERESSADOS</div>
-          <div class="track"><i data-fill="78"></i></div>
-          <p>Casas + patrocinadores sinalizados.</p>
-        </div>
-      </div>
-      <div class="tags"><span>Raio 300 km</span><span>Encaixe automático</span><span>Economia de rota</span></div>
-    </div>
-  </article>
-
-  <article class="chapter">
-    <figure class="chvid">
-      <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 03 · 12s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 03 — INTERESSADOS APARECEM</div>
-      <h3>Casas e patrocinadores sinalizaram antes de você fechar.</h3>
-      <p>Enquanto você monta a rota, casas já estão vendo a demanda e sinalizando interesse. Patrocinadores veem o match % com a banda e começam a entrar com cota. Você negocia de posição FORTE — sabe exatamente quem quer.</p>
-      <div class="gauge" data-fill="88">
-        <div class="lbl"><span>INTERESSADOS TOTAIS</span><b>12 NOMES</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>Casas confirmadas</span><span>Cotas sinalizadas</span><span>Você negocia forte</span></div>
-    </div>
-  </article>
-
-</section>
-
-<div class="content" style="margin-top: 40px;">
-
-  <section class="section">
-    <div style="background: linear-gradient(135deg, rgba(139,92,255,.15), rgba(139,92,255,.08)); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 32px; text-align: center;">
-      <div style="font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px;">Organize suas rotas</div>
-      <div style="font-size: 1rem; font-weight: 600; margin-bottom: 12px;">Veja onde e quando suas bandas podem rodar</div>
-      <button class="btn" onclick="window.location='hall-shows.html'" style="background: var(--produtor); color: white;">🎸 Ver Agenda de Cidades</button>
-    </div>
-
-    <h2 class="sectiontitle">Bandas que você representa</h2>
-    <p class="sectionsubtitle">Ficha técnica completa fecha show na hora. Quanto mais completa, mais casas interessadas surgem.</p>
-    <div class="bandgrid">
-      <div class="bandcard">
-        <div class="bandname">Plutão Já Foi Planeta</div>
-        <div class="bandmeta">Rock alternativo · Validada por Crossroad</div>
-        <div class="gauge-section">
-          <div class="gauge-label"><span>Ficha técnica</span><b>92% PRONTA</b></div>
-          <div class="gauge-track"><i style="width: 92%"></i></div>
-        </div>
-        <div class="interested">
-          <div class="interested-num" data-count="7">0</div>
-          <div class="interested-label">Interessados</div>
-        </div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">Rock4Roots</div>
-        <div class="bandmeta">Rock · Validada por Hooligans Cascavel</div>
-        <div class="gauge-section">
-          <div class="gauge-label"><span>Ficha técnica</span><b>78%</b></div>
-          <div class="gauge-track"><i style="width: 78%"></i></div>
-        </div>
-        <div class="interested">
-          <div class="interested-num" data-count="3">0</div>
-          <div class="interested-label">Interessados</div>
-        </div>
-      </div>
-      <div class="bandcard">
-        <div class="bandname">VICKA</div>
-        <div class="bandmeta">MPB · Validada por MPB Bar</div>
-        <div class="gauge-section">
-          <div class="gauge-label"><span>Ficha técnica</span><b>64%</b></div>
-          <div class="gauge-track"><i style="width: 64%"></i></div>
-        </div>
-        <div class="interested">
-          <div class="interested-num" data-count="2">0</div>
-          <div class="interested-label">Interessados</div>
-        </div>
-      </div>
+  <section id="s-convite">
+    <div class="card invite">
+      <div class="tk">🎟️</div>
+      <h3>Bem-vindo, produtor</h3>
+      <p>Aqui você divulga seus artistas pra todo o Brasil, com a força do fã viabilizando cada vez mais shows.</p>
+      <button class="btn">Aceitar convite</button>
     </div>
   </section>
 
-  <section class="section">
-    <h2 class="sectiontitle">Encaixe de datas (raio 300 km)</h2>
-    <p class="sectionsubtitle">Plutão Já Foi Planeta pode rodar em 6 cidades próximas. Quanto mais próximas, mais baratas ficam as viagens.</p>
-    <div class="routelist">
-      <div class="routeitem" style="position: relative;">
-        <div>
-          <div class="routecity">Hooligans Cascavel</div>
-          <div class="routemeta">Cascavel · Sexta 22h</div>
-        </div>
-        <div class="routeprice">
-          <div class="routestatus">VALOR CHEIO</div>
-          <div class="routevalue">R$ 2.400</div>
-        </div>
-      </div>
-      <div class="routeitem" style="position: relative;">
-        <div>
-          <div class="routecity">Empório Santa Maria</div>
-          <div class="routemeta">Toledo · Quinta 21h</div>
-        </div>
-        <div class="routeprice">
-          <div class="routestatus">−15 A 20%</div>
-          <div class="routevalue">R$ 1.920</div>
-        </div>
-      </div>
-      <div class="routeitem" style="position: relative;">
-        <div>
-          <div class="routecity">Zepellin</div>
-          <div class="routemeta">Foz do Iguaçu · Domingo 20h</div>
-        </div>
-        <div class="routeprice">
-          <div class="routestatus">−20 A 30%</div>
-          <div class="routevalue">R$ 1.680</div>
-        </div>
-      </div>
+  <section id="s-artistas">
+    <h2>Meus artistas <small>3 no casting · cobre a atualização!</small></h2>
+    <div class="card art"><div class="avatar">PP</div>
+      <div class="info"><div class="nm">Plutão Já Foi Planeta</div><div class="tag">página completa · em turnê</div></div>
+      <div class="pct">92%</div></div>
+    <div class="card art"><div class="avatar">VL</div>
+      <div class="info"><div class="nm">Vento Leste</div><div class="tag warn">⚠ setlist desatualizado há 40 dias</div></div>
+      <div class="pct low">61%</div></div>
+    <div class="card art"><div class="avatar">MN</div>
+      <div class="info"><div class="nm">Manacá</div><div class="tag">em gravação · faltam fotos novas</div></div>
+      <div class="pct">78%</div></div>
+  </section>
+
+  <section id="s-ficha">
+    <h2>Ficha completa <small>Plutão Já Foi Planeta</small></h2>
+    <div class="card">
+      <ul class="check">
+        <li><i>✓</i> Release</li>
+        <li><i>✓</i> Setlist atualizado</li>
+        <li><i>✓</i> Rider técnico</li>
+        <li><i>✓</i> Hospedagem: 6 quartos</li>
+        <li><i>✓</i> Fotos em alto padrão</li>
+        <li><i>✓</i> Vídeos ao vivo</li>
+        <li><i>✓</i> Músicas</li>
+        <li class="todo"><i>●</i> Mapa de palco</li>
+      </ul>
+      <p style="font-size:.74rem;color:var(--mut);margin-top:10px">Material completo na mão fecha show na hora — sem vinte mensagens de ida e volta.</p>
     </div>
   </section>
 
-  <section class="final-score">
-    <div class="final-score-num" data-count="12">0</div>
-    <div class="final-score-label">RADAR DE INTERESSE</div>
-    <div class="final-score-desc">Casas + patrocinadores + secretarias de olho. Antes de você fechar contrato, o sistema avisa quem quer a banda. Você negocia de posição forte.</div>
+  <section id="s-novidades">
+    <h2>Novidades pro fã <small>o que suas bandas contam</small></h2>
+    <div class="card">
+      <div class="feed"><div class="ic">💿</div><div class="t"><b>Manacá</b> — em gravação: CD novo sai em outubro</div></div>
+      <div class="feed"><div class="ic">🚌</div><div class="t"><b>Plutão Já Foi Planeta</b> — turnê Paraná: 5 cidades confirmadas</div></div>
+      <div class="feed"><div class="ic">👕</div><div class="t"><b>Vento Leste</b> — drop novo: camiseta e boné da turnê</div></div>
+    </div>
+    <button class="btn ghost">Publicar novidade</button>
   </section>
 
-  <div class="backhome">
-    <a href="index.html">← Voltar à home</a>
-  </div>
+  <section id="s-interesse">
+    <h2>Quem está de olho <small>antes de fechar qualquer show</small></h2>
+    <div class="card">
+      <div class="intr"><div class="who">Cervejaria Vale Verde<div class="what">quer cotas em shows da Plutão</div></div><div class="badge g">patrocinador</div></div>
+      <div class="intr"><div class="who">Hooligans Pub · Cascavel<div class="what">consultou a ficha técnica 2x</div></div><div class="badge">casa</div></div>
+      <div class="intr"><div class="who">Secretaria de Cultura · Londrina<div class="what">salvou a Manacá na lista</div></div><div class="badge">secretaria</div></div>
+    </div>
+  </section>
 
+  <section id="s-campanhas">
+    <h2>Campanhas dos seus artistas</h2>
+    <div class="stat">
+      <div class="card"><b>2</b><span>campanhas ativas</span></div>
+      <div class="card"><b>730</b><span>fãs empurrando</span></div>
+      <div class="card"><b>5</b><span>cidades pedindo</span></div>
+    </div>
+  </section>
+
+  <section id="s-vitrine">
+    <h2>Sua vitrine</h2>
+    <div class="card vitr">
+      <h3>★ Bandas novas precisam de você</h3>
+      <p>Pela força do fã, novas bandas nascem aqui todo mês — e procuram produtor. Seu histórico é sua vitrine: <b style="color:var(--txt)">2 bandas pediram contato esta semana.</b></p>
+      <button class="btn">Ver bandas procurando produtor</button>
+    </div>
+  </section>
+</main>
+
+<div id="dim"></div>
+<div id="bubble" role="dialog" aria-label="Shoowme">
+  <div class="who">SHOOWME 🦝</div>
+  <p id="btxt"></p>
+  <div class="row"><div class="dots" id="bdots"></div>
+    <button class="next" id="bnext" onclick="next()">Próximo</button></div>
 </div>
+<div id="menu">
+  <button onclick="startTour()">🗺️ Refazer o tour</button>
+  <button onclick="notif()">🔔 Notificações</button>
+  <button onclick="say('Novidade: a Cervejaria Vale Verde quer cotas nos shows da Plutão — e 2 bandas novas pediram seu contato! 🎛️')">✨ Novidades</button>
+  <button onclick="say('Manda a dúvida! Sou o guia daqui — te explico qualquer parte da ShowLink, é só perguntar. 🦝')">💬 Tirar dúvidas</button>
+</div>
+<button id="hoo" aria-label="Abrir o Shoowme" onclick="shoowTap()">🦝</button>
 
 <script>
-(function(){
-  var bar = document.querySelector('#meter i');
-  function onScroll(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
-    bar.style.width = p.toFixed(1) + '%';
+  const steps=[
+    {el:"s-convite", t:"Bem-vindo, produtor! 🎟️ Eu sou o Shoowme, seu guia. Aqui você divulga seus artistas pro Brasil inteiro — com a força do fã viabilizando cada vez mais shows."},
+    {el:"s-artistas", t:"Seu casting mora aqui. E olha o segredo: cobre dos seus artistas a página sempre atualizada — página viva é fã por perto."},
+    {el:"s-ficha", t:"Ficha completa fecha show na hora: release, setlist, rider técnico, hospedagem, fotos em alto padrão, vídeos. Tudo que casa e secretaria precisam, num lugar só."},
+    {el:"s-novidades", t:"Em gravação? CD novo? Turnê? Camiseta e boné novos? Publica! O fã acompanha tudo — e divulga os produtos da banda junto."},
+    {el:"s-interesse", t:"E aqui está o seu radar: patrocinadores, donos de casa e secretarias de cultura interessados nos seus artistas — você sabe ANTES de fechar."},
+    {el:"s-campanhas", t:"As campanhas dos seus artistas rodam com a força do fã: cidades pedindo, metas fechando, shows saindo sem risco."},
+    {el:"s-vitrine", t:"E não esquece: pela força do fã, bandas novas nascem aqui todo mês — e vão precisar de produtor. Você também está na vitrine."},
+    {el:null, t:"É isso! Qualquer dúvida, me chama aqui embaixo. Tô sempre por perto. 🦝💜"}
+  ];
+  let i=-1, touring=false;
+  const $=id=>document.getElementById(id);
+  function paintDots(){ $('bdots').innerHTML=steps.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join(''); }
+  function clearSpot(){ document.querySelectorAll('.spot').forEach(e=>e.classList.remove('spot')); }
+  function show(k){
+    i=k; clearSpot(); const s=steps[i];
+    if(s.el){ const el=$(s.el); el.classList.add('spot'); el.scrollIntoView({block:'center'}); }
+    $('btxt').textContent=s.t; paintDots();
+    $('bnext').textContent = i===steps.length-1 ? 'Valeu!' : 'Próximo';
+    $('bubble').classList.add('on');
   }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-
-  function animateCount(el){
-    var target = parseInt(el.dataset.count, 10);
-    var current = 0;
-    var step = Math.ceil(target / 50);
-    var interval = setInterval(function(){
-      current += step;
-      if(current >= target){ current = target; clearInterval(interval); }
-      el.textContent = current;
-    }, 20);
-  }
-  document.querySelectorAll('[data-count]').forEach(function(el){
-    if(el.offsetParent !== null){ animateCount(el); }
-  });
-
-  var obsG = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(!e.isIntersecting) return;
-      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
-      obsG.unobserve(e.target);
-    });
-  }, {threshold: 0.3});
-  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
-})();
+  function next(){ if(i<steps.length-1) show(i+1); else endTour(); }
+  function startTour(){ $('menu').classList.remove('on'); touring=true; document.body.classList.add('touring'); show(0); }
+  function endTour(){ touring=false; document.body.classList.remove('touring'); clearSpot(); $('bubble').classList.remove('on'); }
+  function say(t){ $('menu').classList.remove('on'); endTour(); $('btxt').textContent=t; $('bdots').innerHTML='';
+    $('bnext').textContent='Fechar'; $('bubble').classList.add('on');
+    $('bnext').onclick=()=>{ $('bubble').classList.remove('on'); $('bnext').onclick=next; }; }
+  function notif(){ say('🔔 Vento Leste está com o setlist desatualizado há 40 dias — dá um toque na banda! E a Vale Verde quer conversar sobre cotas.'); }
+  function shoowTap(){ if(touring){ endTour(); return; } $('menu').classList.toggle('on'); }
+  function setTheme(t){ document.body.dataset.theme = t==='blackout' ? 'blackout' : '';
+    $('t1').classList.toggle('on',t==='roxo'); $('t2').classList.toggle('on',t==='blackout'); }
+  setTimeout(startTour, 900);
 </script>
-
 </body>
 </html>

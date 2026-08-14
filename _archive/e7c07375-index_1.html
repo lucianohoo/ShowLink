@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowLink — o show acontece porque o fã quis</title>
+<meta name="description" content="ShowLink: o fã vota, a demanda aparece, o show acontece. Só paga se acontecer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#070C16;
+  --navy:#0D1526;
+  --navy-2:#132038;
+  --line:#1F2E4A;
+  --lime:#C7F73E;
+  --lime-deep:#8FBF1F;
+  --paper:#EEF3FA;
+  --mut:#8296B2;
+
+  --fa:#FF3D7F;
+  --artista:#C7F73E;
+  --produtor:#9B6BFF;
+  --patro:#35A7FF;
+  --realizador:#FF8A34;
+
+  --display:'Unbounded',sans-serif;
+  --body:'Poppins',sans-serif;
+  --data:'JetBrains Mono',monospace;
+
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--ink);
+  color:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ---------- medidor de demanda (assinatura) ---------- */
+#meter{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:100;
+  background:rgba(255,255,255,.06);
+}
+#meter i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--lime-deep),var(--lime));
+  transition:width .12s linear;
+}
+#meter b{
+  position:absolute;top:9px;right:16px;
+  font-family:var(--data);font-size:.6rem;font-weight:700;
+  letter-spacing:.18em;color:var(--lime);opacity:.75;
+}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:90;
+  background:color-mix(in srgb,var(--ink) 86%,transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.hwrap{
+  max-width:var(--maxw);margin:0 auto;
+  padding:16px 24px;display:flex;align-items:center;gap:22px;
+}
+.logo{font-family:var(--display);font-weight:800;font-style:italic;font-size:1.05rem;letter-spacing:-.03em}
+.logo em{font-style:italic;color:var(--lime)}
+nav{display:flex;gap:22px;margin-left:auto}
+nav a{
+  font-size:.78rem;font-weight:500;color:var(--mut);
+  padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;
+}
+nav a:hover,nav a.on{color:var(--paper);border-color:var(--lime)}
+.hcta{
+  font-family:var(--body);font-size:.78rem;font-weight:600;
+  background:var(--lime);color:var(--ink);
+  border:0;border-radius:999px;padding:9px 20px;cursor:pointer;
+  transition:transform .15s;
+}
+.hcta:hover{transform:translateY(-1px)}
+
+/* ---------- hero ---------- */
+.hero{
+  max-width:var(--maxw);margin:0 auto;padding:72px 24px 56px;
+  display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+}
+.eyebrow{
+  font-family:var(--data);font-size:.64rem;font-weight:700;
+  letter-spacing:.22em;color:var(--lime);margin-bottom:18px;
+}
+h1{
+  font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.4vw,3.3rem);
+  line-height:1.04;letter-spacing:-.035em;margin-bottom:20px;
+}
+h1 em{font-style:italic;color:var(--lime)}
+.lede{font-size:1.02rem;line-height:1.65;color:var(--mut);max-width:46ch;margin-bottom:32px}
+.herobtns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  font-family:var(--body);font-size:.88rem;font-weight:600;
+  border-radius:999px;padding:13px 26px;cursor:pointer;border:0;
+  background:var(--lime);color:var(--ink);transition:transform .15s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--paper)}
+.btn.ghost:hover{border-color:var(--lime);color:var(--lime)}
+
+.herovid{
+  position:relative;border-radius:18px;overflow:hidden;
+  border:1px solid var(--line);background:var(--navy);
+}
+.herovid video{width:100%;aspect-ratio:16/9;object-fit:cover}
+
+/* ---------- faixa de números ---------- */
+.strip{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--navy);
+}
+.stripwrap{
+  max-width:var(--maxw);margin:0 auto;padding:26px 24px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;
+}
+.stat b{
+  display:block;font-family:var(--display);font-weight:800;
+  font-size:1.5rem;color:var(--lime);letter-spacing:-.02em;
+}
+.stat span{display:block;font-size:.76rem;color:var(--mut);margin-top:4px}
+
+/* ---------- capítulos ---------- */
+.chapters{max-width:var(--maxw);margin:0 auto;padding:88px 24px 40px}
+.secttl{
+  font-family:var(--display);font-weight:600;font-size:1.6rem;
+  letter-spacing:-.02em;margin-bottom:10px;
+}
+.secsub{color:var(--mut);font-size:.94rem;max-width:52ch;margin-bottom:56px}
+
+.chapter{
+  display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;
+  padding:44px 0;border-top:1px solid var(--line);
+}
+.chapter:nth-child(even) .chvid{order:2}
+.chnum{
+  font-family:var(--data);font-size:.66rem;font-weight:700;letter-spacing:.2em;
+  color:var(--tone,var(--lime));margin-bottom:14px;
+}
+.chapter h3{
+  font-family:var(--display);font-weight:600;font-size:1.42rem;
+  line-height:1.22;letter-spacing:-.025em;margin-bottom:14px;
+}
+.chapter p{color:var(--mut);font-size:.94rem;line-height:1.7;margin-bottom:22px}
+.chvid{
+  border-radius:16px;overflow:hidden;border:1px solid var(--line);
+  background:var(--navy);position:relative;
+}
+.chvid video{width:100%;aspect-ratio:16/9;object-fit:cover}
+.chvid figcaption{
+  font-family:var(--data);font-size:.6rem;letter-spacing:.14em;
+  color:var(--mut);padding:9px 14px;border-top:1px solid var(--line);
+}
+
+/* medidor por capítulo */
+.gauge{margin-bottom:22px}
+.gauge .lbl{
+  display:flex;justify-content:space-between;
+  font-family:var(--data);font-size:.62rem;letter-spacing:.12em;
+  color:var(--mut);margin-bottom:7px;
+}
+.gauge .lbl b{color:var(--tone,var(--lime))}
+.gauge .track{height:6px;border-radius:99px;background:var(--navy-2);overflow:hidden}
+.gauge .track i{
+  display:block;height:100%;width:0;border-radius:99px;
+  background:var(--tone,var(--lime));
+  transition:width 1.1s cubic-bezier(.2,.7,.3,1);
+}
+
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tags span{
+  font-size:.7rem;font-weight:500;color:var(--mut);
+  border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+}
+
+/* ---------- modos ---------- */
+.modes{max-width:var(--maxw);margin:0 auto;padding:80px 24px 100px;border-top:1px solid var(--line)}
+.modegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:16px}
+.mode{
+  background:var(--navy);border:1px solid var(--line);border-radius:16px;
+  padding:24px 20px 22px;display:flex;flex-direction:column;
+  transition:border-color .22s,transform .22s;
+}
+.mode:hover{transform:translateY(-4px);border-color:var(--tone)}
+.mode .k{
+  font-family:var(--data);font-size:.58rem;letter-spacing:.2em;
+  color:var(--tone);margin-bottom:14px;
+}
+.mode h4{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-bottom:8px}
+.mode p{font-size:.8rem;color:var(--mut);line-height:1.6;flex:1;margin-bottom:18px}
+.mode .go{
+  font-size:.78rem;font-weight:600;color:var(--tone);
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ---------- rodapé ---------- */
+footer{border-top:1px solid var(--line);background:var(--navy)}
+.fwrap{
+  max-width:var(--maxw);margin:0 auto;padding:44px 24px;
+  display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;
+}
+.fwrap p{font-size:.76rem;color:var(--mut)}
+
+/* ---------- shoowme ---------- */
+#hoo{
+  position:fixed;right:20px;bottom:20px;z-index:95;
+  width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;
+  font-size:1.7rem;display:grid;place-items:center;
+  background:var(--lime);color:var(--ink);
+  box-shadow:0 10px 34px rgba(199,247,62,.28);
+}
+#bubble{
+  position:fixed;right:20px;bottom:88px;z-index:95;
+  width:min(320px,calc(100vw - 40px));
+  background:var(--paper);color:#14202F;border-radius:16px 16px 4px 16px;
+  padding:16px 17px 14px;box-shadow:0 18px 48px rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;transform:translateY(10px);
+  transition:opacity .26s,transform .26s;
+}
+#bubble.on{opacity:1;pointer-events:auto;transform:none}
+#bubble .who{
+  font-family:var(--display);font-weight:800;font-size:.64rem;
+  letter-spacing:.1em;color:var(--lime-deep);margin-bottom:6px;
+}
+#bubble p{font-size:.84rem;line-height:1.5;font-weight:500}
+#bubble button{
+  margin-top:12px;border:0;border-radius:10px;padding:8px 16px;
+  font-family:var(--body);font-weight:600;font-size:.76rem;
+  background:#14202F;color:var(--paper);cursor:pointer;
+}
+
+
+.motors{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.motor{border:1px solid var(--line);border-radius:12px;padding:14px 15px;background:var(--navy)}
+.motor .h{font-family:var(--data);font-size:.6rem;letter-spacing:.16em;margin-bottom:9px}
+.motor.dem .h{color:var(--fa)} .motor.apo .h{color:var(--patro)}
+.motor .track{height:5px;border-radius:99px;background:var(--navy-2);overflow:hidden}
+.motor .track i{display:block;height:100%;width:0;border-radius:99px;transition:width 1.1s cubic-bezier(.2,.7,.3,1)}
+.motor.dem .track i{background:var(--fa)} .motor.apo .track i{background:var(--patro)}
+.motor p{font-size:.72rem!important;color:var(--mut);margin:9px 0 0!important;line-height:1.5}
+
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.flow span{
+  font-family:var(--data);font-size:.58rem;letter-spacing:.1em;
+  border:1px solid var(--line);border-radius:5px;padding:5px 9px;color:var(--mut);
+}
+.flow span.hot{border-color:var(--tone);color:var(--tone)}
+.flow span.bad{border-color:#4A2230;color:#9C6070}
+
+.days{margin-bottom:20px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.days div{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:.78rem}
+.days div+div{border-top:1px solid var(--line)}
+.days b{font-family:var(--data);font-size:.62rem;letter-spacing:.1em;color:var(--tone)}
+@media (max-width:880px){.motors{grid-template-columns:1fr}}
+
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+
+@media (max-width:880px){
+  .hero{grid-template-columns:1fr;gap:34px;padding-top:48px}
+  .chapter{grid-template-columns:1fr;gap:28px}
+  .chapter:nth-child(even) .chvid{order:0}
+  nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="meter"><i></i><b>DEMANDA</b></div>
+
+<header>
+  <div class="hwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <nav>
+      <a href="#como" class="on">Como funciona</a>
+      <a href="#modos">Modos</a>
+      <a href="#numeros">Números</a>
+    </nav>
+    <button class="hcta" onclick="document.getElementById('modos').scrollIntoView()">Entrar</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">O PALCO COMEÇA ANTES DO SHOW</div>
+    <h1>O show que nunca veio até você <em>agora depende de você</em>.</h1>
+    <p class="lede">Banda nova dificilmente toca perto — o fã é que tem que viajar pra ver. A demanda sempre existiu; o produtor local é que não conseguia enxergar. A ShowLink torna essa demanda visível, e o show acontece.</p>
+    <div class="herobtns">
+      <button class="btn" onclick="document.getElementById('como').scrollIntoView()">Ver como funciona</button>
+      <button class="btn ghost" onclick="document.getElementById('modos').scrollIntoView()">Entrar</button>
+    </div>
+  </div>
+  <figure class="herovid">
+    <video src="videos/01_hero_problema.mp4" poster="videos/01_hero_problema_poster.jpg" autoplay muted loop playsinline></video>
+  </figure>
+</section>
+
+<div class="strip" id="numeros">
+  <div class="stripwrap">
+    <div class="stat"><b>17 anos</b><span>de Hooligans Pub sem interrupção</span></div>
+    <div class="stat"><b>5.000+</b><span>shows produzidos</span></div>
+    <div class="stat"><b>1.000+</b><span>artistas contratados</span></div>
+    <div class="stat"><b>23 → 100</b><span>bandas no catálogo</span></div>
+  </div>
+</div>
+
+<section class="chapters" id="como">
+  <h2 class="secttl">Como um voto vira um show</h2>
+  <p class="secsub">Seis etapas, cada uma com o trecho do filme que a explica. Assista na ordem ou pule para a que te interessa.</p>
+
+  <article class="chapter" style="--tone:var(--fa)">
+    <figure class="chvid">
+      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 01 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 01 — O FÃ SUGERE</div>
+      <h3>Você sugere a banda. A galera vota junto.</h3>
+      <p>Toda semana a cidade monta sua pré-lista das dez. Você indica a banda que quer ver perto, e cada voto que chega empurra ela para cima. As três mais votadas viram campanha de verdade. Quem indicou primeiro ganha a preferência de construir a página — e vira Fundador.</p>
+      <div class="flow">
+        <span>RASCUNHO</span><span class="hot">VOTAÇÃO</span><span>PRÉ-VENDA</span><span>APROVADO</span><span>REALIZADO</span>
+      </div>
+      <div class="gauge" data-fill="82">
+        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>1.247 VOTOS</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Pré-lista das 10</span><span>Voto coletivo</span><span>Top 3 vira campanha</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--fa)">
+    <figure class="chvid">
+      <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 02 · 12s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 02 — A CAMPANHA ABRE</div>
+      <h3>Reserva o ingresso. Só paga se o show acontecer.</h3>
+      <p>A campanha abre em cinco cidades ao mesmo tempo. Você reserva por Pix e o valor só é cobrado quando o show é viabilizado. Se não bater a meta, ninguém paga nada — nem você, nem o produtor.</p>
+      <div class="flow">
+        <span>RASCUNHO</span><span>VOTAÇÃO</span><span class="hot">PRÉ-VENDA</span><span>APROVADO</span><span>REALIZADO</span><span class="bad">NÃO ATINGIU → ESTORNO</span>
+      </div>
+      <div class="motors">
+        <div class="motor dem">
+          <div class="h">MOTOR 1 · DEMANDA</div>
+          <div class="track"><i data-fill="95"></i></div>
+          <p>Votos e pré-ingressos dos fãs da região.</p>
+        </div>
+        <div class="motor apo">
+          <div class="h">MOTOR 2 · APOIO</div>
+          <div class="track"><i data-fill="60"></i></div>
+          <p>Cotas de patrocinador já sinalizadas.</p>
+        </div>
+      </div>
+      <div class="tags"><span>Pré-ingresso reservado</span><span>Só paga se acontecer</span><span>Estorno automático</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--realizador)">
+    <figure class="chvid">
+      <video src="videos/05_realizador_casas.mp4" poster="videos/05_realizador_casas_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 03 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 03 — A CASA RECEBE</div>
+      <h3>A casa entra com o palco. A ShowLink entra com o público.</h3>
+      <p>O bar, o teatro e a secretaria de cultura ficam no mesmo sistema, vendo a mesma demanda. A casa sabe qual banda a cidade quer antes de assinar o contrato — e agenda com fila já formada.</p>
+      <div class="gauge" data-fill="91">
+        <div class="lbl"><span>OCUPAÇÃO MÉDIA</span><b>91%</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Casa Embaixadora</span><span>Agenda com demanda</span><span>Secretarias no sistema</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--artista)">
+    <figure class="chvid">
+      <video src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 04 · 16s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 04 — A BANDA RODA</div>
+      <h3>Uma campanha vira turnê pelo estado inteiro.</h3>
+      <p>O que começou como voto em uma cidade abre pré-venda nas vizinhas. A banda sai de um show isolado para uma rota montada — cidade após cidade, casa cheia, sem risco de rodar no prejuízo.</p>
+      <div class="days">
+        <div><span>1ª casa a validar · sábado</span><b>VALOR CHEIO</b></div>
+        <div><span>2ª casa · sexta</span><b>−10 A 20%</b></div>
+        <div><span>3ª casa · quinta ou domingo</span><b>−15 A 30%</b></div>
+      </div>
+      <div class="tags"><span>Raio de 300 km</span><span>Rateio 40/25/25/10</span><span>Encaixe pelo produtor</span></div>
+    </div>
+  </article>
+
+
+  <article class="chapter" style="--tone:var(--patro)">
+    <figure class="chvid">
+      <video src="videos/07_transmissao.mp4" poster="videos/07_transmissao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 05 &middot; 15s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 05 &mdash; UM SHOW VIRA MUITOS</div>
+      <h3>A casa que n&atilde;o recebeu a banda pode receber o show.</h3>
+      <p>Toda casa escolhe transmitir o pr&oacute;prio show para outras, receber a transmiss&atilde;o de outra, ou as duas coisas. Um show em Cascavel acende telas em cidades que nunca teriam aquela banda &mdash; e um show internacional a mais de mil quil&ocirc;metros chega na sua rua.</p>
+      <div class="tags"><span>Casa transmissora</span><span>Casa receptora</span><span>Selo AO VIVO no evento</span></div>
+    </div>
+  </article>
+
+  <article class="chapter" style="--tone:var(--fa)">
+    <figure class="chvid">
+      <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>ETAPA 06 · 4s</figcaption>
+    </figure>
+    <div>
+      <div class="chnum">ETAPA 06 — O PALCO É SEU</div>
+      <h3>De espectador, você virou a estrela principal.</h3>
+      <p>O show que você trouxe fica no seu nome. Fundador daquela campanha, com prioridade na fila, camarote e foto com a banda quando ela chegar na sua cidade. Quem puxou o show entra por outra porta.</p>
+      <div class="gauge" data-fill="74">
+        <div class="lbl"><span>CURADOR ESPECIAL</span><b>2.480 PTS</b></div>
+        <div class="track"><i></i></div>
+      </div>
+      <div class="tags"><span>Selo de fundador</span><span>Camarote</span><span>Foto com a banda</span></div>
+    </div>
+  </article>
+</section>
+
+<section class="modes" id="modos">
+  <h2 class="secttl">SOU:</h2>
+  <p class="secsub">A primeira pergunta da plataforma. Cada perfil vê e preenche só o que é dele — depois daqui ninguém cai numa home genérica, cada um entra na ShowLink dele.</p>
+  <div class="modegrid">
+    <a class="mode" style="--tone:var(--fa)" href="#" data-mode="fa">
+      <div class="k">MODO 01</div>
+      <h4>Fã</h4>
+      <p>Siga até 5 bandas, indique até 5 novas, vote e reserve o pré-ingresso.</p>
+      <div class="go">Sou fã →</div>
+    </a>
+    <a class="mode" style="--tone:var(--artista)" href="#" data-mode="artista">
+      <div class="k">MODO 02</div>
+      <h4>Artista</h4>
+      <p>Mantenha agenda e produtos vivos, entre em campanhas e apadrinhe até 5 bandas.</p>
+      <div class="go">Sou artista →</div>
+    </a>
+    <a class="mode" style="--tone:var(--produtor)" href="#" data-mode="produtor">
+      <div class="k">MODO 03</div>
+      <h4>Produtor</h4>
+      <p>Represente bandas com ficha completa e opere o encaixe de datas na região.</p>
+      <div class="go">Sou produtor →</div>
+    </a>
+    <a class="mode" style="--tone:var(--patro)" href="#" data-mode="patrocinador">
+      <div class="k">MODO 04</div>
+      <h4>Patrocinador</h4>
+      <p>Escolha artistas por faixa etária e sinalize cotas em dinheiro ou serviço.</p>
+      <div class="go">Sou patrocinador →</div>
+    </a>
+    <a class="mode" style="--tone:var(--realizador)" href="#" data-mode="realizador">
+      <div class="k">MODO 05</div>
+      <h4>Casa ou secretaria</h4>
+      <p>Publique sua agenda, entre no rateio da região e aceite cotas de patrocínio.</p>
+      <div class="go">Sou casa ou secretaria →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="fwrap">
+    <div class="logo">SHOW<em>LINK</em></div>
+    <p>O hub da música ao vivo · Cascavel, Paraná</p>
+  </div>
+</footer>
+
+<div id="bubble" role="dialog" aria-label="Shoowme">
+  <div class="who">SHOOWME 🦝</div>
+  <p id="btxt"></p>
+  <button onclick="fecha()">Fechar</button>
+</div>
+<button id="hoo" aria-label="Falar com o Shoowme" onclick="tap()">🦝</button>
+
+<script>
+(function(){
+  var bar = document.querySelector('#meter i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p.toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var links = document.querySelectorAll('nav a');
+  var obsNav = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      links.forEach(function(l){
+        l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id);
+      });
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  ['como','modos','numeros'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) obsNav.observe(el);
+  });
+
+  var obsG = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.querySelector('.track i').style.width = e.target.dataset.fill + '%';
+      obsG.unobserve(e.target);
+    });
+  }, {threshold:.4});
+  document.querySelectorAll('.gauge').forEach(function(g){ obsG.observe(g); });
+
+  var obsM = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.style.width = e.target.dataset.fill + '%';
+      obsM.unobserve(e.target);
+    });
+  }, {threshold:.4});
+  document.querySelectorAll('.motor .track i').forEach(function(i){ obsM.observe(i); });
+
+  var obsV = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var v = e.target.querySelector('video');
+      if(!v) return;
+      if(e.isIntersecting){ v.play().catch(function(){}); } else { v.pause(); }
+    });
+  }, {threshold:.35});
+  document.querySelectorAll('.chvid').forEach(function(f){ obsV.observe(f); });
+})();
+
+var falas = {
+  fa:'O fã segue até 5 bandas e indica até 5 novas. Quem indica primeiro tem preferência para construir a página — e vira Fundador daquela banda.',
+  artista:'O artista mantém agenda, lançamentos e produtos vivos, e pode apadrinhar até 5 bandas — 5% de cada nova contratação delas por um ano.',
+  produtor:'O produtor mantém a ficha técnica completa de cada banda que representa e encaixa datas próximas para baratear a rota.',
+  patrocinador:'A marca acompanha bandas pela faixa etária do público. Quando abre campanha na área do fã, um card espelhado abre aqui — e só aqui se compra cota.',
+  realizador:'Casa ou secretaria publica a agenda, entra no rateio da região por dia e decide se transmite, recebe, ou os dois.'
+};
+var bubble = document.getElementById('bubble');
+var btxt = document.getElementById('btxt');
+function diz(t){ btxt.textContent = t; bubble.classList.add('on'); }
+function fecha(){ bubble.classList.remove('on'); }
+function tap(){
+  if(bubble.classList.contains('on')){ fecha(); return; }
+  diz('Opa! Sou o Shoowme, guia da casa. Role a página pra ver como um voto vira show — ou escolhe teu modo lá embaixo que eu te levo por dentro.');
+}
+document.querySelectorAll('.mode').forEach(function(m){
+  m.addEventListener('click', function(ev){
+    ev.preventDefault();
+    diz(falas[m.dataset.mode]);
+  });
+});
+setTimeout(function(){
+  diz('E aí! Shoowme aqui 🦝 Esse é o novo caminho da ShowLink. Desce a página que eu te explico em cinco etapas.');
+}, 1400);
+</script>
+</body>
+</html>

@@ -3,251 +3,344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShowLink — Modo Realizador</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/home.css">
+<title>ShowLink · Modo Realizador — guiado pelo Shoowme</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root { --tone: var(--realizador); }
-body { background: var(--ink); color: var(--paper); }
+  :root{
+    --org:#FF8A00; --org2:#FFB347; --sand:#FFD9A6;
+    --ok:#3EDC6C;
+    --bg1:#1F1206; --bg2:#2E1A08; --card:#33200C; --cb:#5C3A12;
+    --txt:#FFF7EC; --mut:#D6B894; --deep:#0E0802; --onorg:#241300;
+  }
+  [data-theme="blackout"]{
+    --bg1:#050505; --bg2:#0C0803; --card:#141008; --cb:#42290C;
+    --org:#FF9A1F; --deep:#000;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins',sans-serif; color:var(--txt);
+    background:linear-gradient(160deg,var(--bg2),var(--bg1) 55%,var(--deep));
+    min-height:100vh; padding-bottom:170px; transition:background .5s;
+  }
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(60% 40% at 80% -5%,rgba(255,138,0,.16),transparent 70%);}
+  header{
+    position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
+    padding:14px 16px;background:color-mix(in srgb,var(--bg1) 82%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--cb);
+  }
+  .logo{font-family:'Unbounded';font-weight:800;font-size:1.05rem;font-style:italic;letter-spacing:-.5px}
+  .logo em{font-style:italic;background:linear-gradient(90deg,var(--org),var(--org2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .mode{font-size:.62rem;font-weight:700;letter-spacing:.14em;color:var(--sand);
+    border:1px solid var(--cb);border-radius:20px;padding:4px 10px}
+  .spacer{flex:1}
+  .bell{position:relative;background:var(--card);border:1px solid var(--cb);border-radius:12px;
+    width:38px;height:38px;font-size:1.05rem;display:grid;place-items:center;cursor:pointer;color:var(--txt)}
+  .bell i{position:absolute;top:6px;right:7px;width:9px;height:9px;border-radius:50%;
+    background:var(--org);animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{transform:scale(1.5);opacity:.5}}
+  .themes{display:flex;background:var(--card);border:1px solid var(--cb);border-radius:20px;padding:3px}
+  .themes button{border:0;background:transparent;color:var(--mut);font-family:inherit;font-weight:600;
+    font-size:.62rem;padding:6px 10px;border-radius:16px;cursor:pointer}
+  .themes button.on{background:linear-gradient(90deg,var(--org),var(--org2));color:var(--onorg)}
 
-.modes { display: none; }
+  main{max-width:520px;margin:0 auto;padding:20px 16px}
+  .eyebrow{font-size:.64rem;font-weight:700;letter-spacing:.16em;color:var(--sand);margin-bottom:6px}
+  h1{font-family:'Unbounded';font-weight:800;font-size:1.45rem;line-height:1.2;margin-bottom:4px}
+  h1 b{background:linear-gradient(90deg,var(--org),var(--sand),var(--org2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:.85rem;margin-bottom:16px}
 
-.bandgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 32px; }
-.bandcard { background: var(--navy); border: 1px solid var(--line); border-radius: 12px; padding: 18px; position: relative; transition: all 0.2s; }
-.bandcard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
-.bandcard:hover { transform: translateY(-2px); border-color: var(--tone); }
-.bandname { font-family: var(--display); font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
-.bandmeta { font-size: 0.75rem; color: var(--mut); margin-bottom: 14px; }
+  .roles{display:flex;background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:4px;margin-bottom:22px}
+  .roles button{flex:1;border:0;background:transparent;color:var(--mut);font-family:inherit;font-weight:700;
+    font-size:.78rem;padding:11px 6px;border-radius:12px;cursor:pointer}
+  .roles button.on{background:linear-gradient(90deg,var(--org),var(--org2));color:var(--onorg)}
 
-.pricingbox { background: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 12px; text-align: center; }
-.pricingbox-date { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-bottom: 4px; }
-.pricingbox-price { font-family: var(--data); font-weight: 700; font-size: 1.3rem; color: var(--tone); }
+  section{margin-bottom:26px;border-radius:20px;transition:box-shadow .35s,transform .35s}
+  section h2{font-family:'Unbounded';font-weight:600;font-size:.92rem;margin-bottom:12px;
+    display:flex;align-items:baseline;gap:8px}
+  section h2 small{font-family:'Poppins';font-weight:500;font-size:.68rem;color:var(--mut)}
+  .card{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:14px;margin-bottom:10px}
 
-.rateiobox { background: var(--navy-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-top: 12px; font-family: var(--data); font-size: 0.68rem; color: var(--mut); line-height: 1.4; }
+  .amb{border:2px solid var(--org);background:
+    linear-gradient(140deg,color-mix(in srgb,var(--org) 16%,var(--card)),var(--card));text-align:center;padding:18px 16px}
+  .amb h3{font-family:'Unbounded';font-weight:800;font-size:1rem;
+    background:linear-gradient(90deg,var(--org),var(--sand));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .amb p{font-size:.76rem;color:var(--mut);margin-top:4px}
 
-.dates-list { display: grid; gap: 10px; margin-top: 32px; }
-.dateitem { background: var(--navy); border: 1px solid var(--line); border-radius: 10px; padding: 14px; position: relative; }
-.dateitem::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--tone); }
-.datemonth { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; }
-.datecount { font-family: var(--display); font-weight: 700; font-size: 1.3rem; color: var(--tone); margin-top: 4px; }
+  .btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:.92rem;color:var(--onorg);text-align:center;
+    background:linear-gradient(90deg,var(--org),var(--org2));box-shadow:0 6px 22px rgba(255,138,0,.3)}
+  .btn.ghost{background:transparent;border:2px solid var(--org);color:var(--sand);box-shadow:none}
 
-.transmissao-box { background: linear-gradient(135deg, rgba(255,138,52,.12), rgba(255,138,52,.06)); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 32px; text-align: center; }
-.transmissao-label { font-family: var(--data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px; }
-.transmissao-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
-.transmissao-stat { background: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
-.transmissao-num { font-family: var(--data); font-weight: 700; font-size: 1.5rem; color: var(--tone); }
-.transmissao-desc { font-family: var(--data); font-size: 0.62rem; color: var(--mut); margin-top: 4px; text-transform: uppercase; }
+  .band{display:flex;align-items:center;gap:12px}
+  .avatar{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+    font-weight:700;color:var(--onorg);background:linear-gradient(135deg,var(--org),var(--org2));font-size:.9rem}
+  .band .info{flex:1;min-width:0}
+  .band .nm{font-weight:600;font-size:.88rem}
+  .band .tag{font-size:.72rem;color:var(--mut)}
+  .band .tag.ok{color:var(--ok);font-weight:600}
+  .badge5{flex:none;font-family:'Unbounded';font-size:.72rem;font-weight:800;color:var(--org2)}
+  .badge5 small{display:block;font-family:'Poppins';font-size:.54rem;font-weight:500;color:var(--mut);text-align:right}
 
-.final-score { background: linear-gradient(135deg, rgba(255,138,52,.12), rgba(255,138,52,.06)); border: 1px solid var(--line); border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 56px; }
-.final-score-num { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 6vw, 3.2rem); color: var(--tone); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.final-score-label { font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-top: 8px; }
-.final-score-desc { color: var(--mut); font-size: 0.92rem; margin-top: 16px; line-height: 1.6; }
+  .check{list-style:none;columns:2;column-gap:14px}
+  .check li{display:flex;gap:8px;align-items:center;padding:4px 0;font-size:.78rem;color:var(--txt);break-inside:avoid}
+  .check i{width:19px;height:19px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.6rem;
+    font-weight:800;border:2px solid var(--org2);color:var(--org2)}
 
-@media (max-width: 880px) {
-  .bandgrid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-  .transmissao-stats { grid-template-columns: 1fr; }
-}
+  .tabs{display:flex;gap:6px;margin-bottom:10px}
+  .tabs span{border:1.5px solid var(--cb);border-radius:20px;padding:5px 12px;font-size:.68rem;
+    font-weight:600;color:var(--mut)}
+  .tabs span.on{border-color:var(--org);color:var(--sand);background:rgba(255,138,0,.1)}
+
+  .stat{display:flex;gap:10px}
+  .stat .card{flex:1;text-align:center;margin:0}
+  .stat b{font-family:'Unbounded';font-size:1.1rem;color:var(--org2);display:block}
+  .stat span{font-size:.64rem;color:var(--mut)}
+
+  .ag{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--cb);font-size:.8rem}
+  .ag:last-child{border:0}
+  .ag .dt{flex:none;width:52px;font-family:'Unbounded';font-size:.66rem;font-weight:800;color:var(--org2)}
+  .ag .w{flex:1}
+  .ag .w b{display:block;font-size:.82rem}
+  .ag .w span{font-size:.68rem;color:var(--mut)}
+
+  .dem{margin-bottom:10px}
+  .dem .r{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:5px}
+  .dem .r b{font-weight:600}
+  .dem .r span{color:var(--sand);font-weight:700;font-size:.72rem}
+  .bar{height:9px;border-radius:6px;background:var(--cb);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--org),var(--org2))}
+
+  .hl{border:2px solid var(--org);background:
+    linear-gradient(140deg,color-mix(in srgb,var(--org) 18%,var(--card)),var(--card))}
+  .hl h3{font-family:'Unbounded';font-size:.92rem;font-weight:800;color:var(--sand)}
+  .hl p{font-size:.78rem;color:var(--mut);margin:6px 0 10px}
+  .okline{color:var(--ok);font-size:.76rem;font-weight:600;margin-top:8px}
+
+  /* ---- Shoowme ---- */
+  #dim{position:fixed;inset:0;background:rgba(6,3,1,.62);z-index:40;opacity:0;pointer-events:none;transition:opacity .35s}
+  body.touring #dim{opacity:1}
+  .spot{position:relative;z-index:45;box-shadow:0 0 0 3px var(--org),0 0 40px rgba(255,138,0,.45);transform:scale(1.012)}
+  #hoo{position:fixed;right:16px;bottom:16px;z-index:60;width:62px;height:62px;border-radius:50%;
+    border:0;cursor:pointer;font-size:2rem;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--org),var(--org2));
+    box-shadow:0 8px 28px rgba(255,138,0,.45);animation:bob 3s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-6px)}}
+  #bubble{position:fixed;left:14px;right:90px;bottom:24px;z-index:60;max-width:430px;
+    background:#fff;color:#2E1A08;border-radius:18px 18px 4px 18px;padding:14px 15px 12px;
+    box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transform:translateY(14px);
+    transition:opacity .3s,transform .3s}
+  #bubble.on{opacity:1;pointer-events:auto;transform:none}
+  #bubble::after{content:'';position:absolute;right:-9px;bottom:10px;border:10px solid transparent;
+    border-left-color:#fff;border-bottom-color:#fff}
+  #bubble .who{font-family:'Unbounded';font-weight:800;font-size:.7rem;color:#C46A00;margin-bottom:4px}
+  #bubble p{font-size:.84rem;line-height:1.45;font-weight:500}
+  #bubble .row{display:flex;align-items:center;gap:10px;margin-top:10px}
+  #bubble .dots{flex:1;display:flex;gap:4px}
+  #bubble .dots i{width:6px;height:6px;border-radius:50%;background:#F5DFC2}
+  #bubble .dots i.on{background:#C46A00}
+  #bubble .next{border:0;border-radius:12px;padding:8px 16px;font-family:inherit;font-weight:700;
+    font-size:.78rem;color:var(--onorg);cursor:pointer;background:linear-gradient(90deg,var(--org),var(--org2))}
+  #menu{position:fixed;right:16px;bottom:88px;z-index:60;background:var(--card);border:1px solid var(--cb);
+    border-radius:16px;overflow:hidden;display:none;min-width:190px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+  #menu.on{display:block}
+  #menu button{display:flex;gap:9px;width:100%;border:0;background:none;color:var(--txt);
+    font-family:inherit;font-size:.82rem;font-weight:500;padding:12px 15px;cursor:pointer;text-align:left}
+  #menu button:hover{background:rgba(255,138,0,.12)}
+  :focus-visible{outline:3px solid var(--org);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-
-<div id="meter"><i></i><b>DEMANDA</b></div>
-
 <header>
-  <div class="hwrap">
-    <div class="logo">SHOW<em>LINK</em></div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="#" class="on">Modo Realizador</a>
-    </nav>
-    <button class="hcta" onclick="window.location='index.html'">Voltar</button>
+  <div class="logo">SHOW<em>LINK</em></div>
+  <div class="mode">MODO REALIZADOR</div>
+  <div class="spacer"></div>
+  <div class="themes" role="group" aria-label="Tema">
+    <button id="t1" class="on" onclick="setTheme('laranja')">Âmbar Noite</button>
+    <button id="t2" onclick="setTheme('blackout')">Blackout</button>
   </div>
+  <button class="bell" aria-label="Notificações" onclick="notif()">🔔<i></i></button>
 </header>
 
-<section class="hero">
-  <div>
-    <div class="eyebrow">DE CASA VAZIA A CASA CHEIA</div>
-    <h1>E aí, realizador. <em>Quem valida, ganha.</em></h1>
-    <p class="lede">Dono de casa, produtor local ou secretaria — validar bandas por anos, de graça, finalmente vira renda. A demanda da região inteira aparece antes de você contratar. Rateio por contratação + repasses de transmissão.</p>
-    <div class="herobtns">
-      <button class="btn" onclick="document.getElementById('cap1').scrollIntoView()">Ver como funciona</button>
-      <button class="btn ghost" onclick="alert('Validar banda: integração com Supabase')">+ Validar Banda</button>
-    </div>
-  </div>
-</section>
+<main>
+  <div class="eyebrow">SUA ÁREA</div>
+  <h1>E aí, realizador. <b>Quem valida, ganha.</b></h1>
+  <p class="sub">Dono de casa, produtor local ou secretaria de cultura — o palco começa aqui.</p>
 
-<section class="chapters">
-  <h2 class="secttl">Sua jornada: de casa vazia a casa cheia com lucro</h2>
-  <p class="secsub">Três etapas. Você valida banda, vê fãs pedindo, transmite pro Brasil inteiro, e ganha na hora.</p>
-
-  <article class="chapter" id="cap1">
-    <figure class="chvid">
-      <video src="videos/05_realizador_casas.mp4" poster="videos/05_realizador_casas_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 01 · 16s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 01 — VOCÊ VALIDA</div>
-      <h3>A casa entra com o palco. A ShowLink entra com o público.</h3>
-      <p>Bar, teatro e secretaria de cultura ficam no mesmo sistema, vendo a mesma demanda. Você sabe qual banda a cidade quer ANTES de assinar o contrato — e agenda com fila já formada. Validar vira fonte de renda.</p>
-      <div class="gauge" data-fill="91">
-        <div class="lbl"><span>OCUPAÇÃO MÉDIA</span><b>91%</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>Casa Embaixadora</span><span>Agenda com demanda</span><span>Validação = renda</span></div>
-    </div>
-  </article>
-
-  <article class="chapter">
-    <figure class="chvid">
-      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 02 · 12s</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 02 — DEMANDA MONTA FILA</div>
-      <h3>Fãs já sabem que a banda vai tocar em você.</h3>
-      <p>Enquanto você preenche a ficha, fãs em um raio de 300km veem que a banda está em você e começam a indicar, votar, reservar. Você não precisa fazer marketing — a demanda trabalha pra você. Casa cheia é garantida.</p>
-      <div class="motors">
-        <div class="motor dem">
-          <div class="h">DEMANDA BRASIL</div>
-          <div class="track"><i data-fill="88"></i></div>
-          <p>Fãs em seu raio indicando banda.</p>
-        </div>
-        <div class="motor apo">
-          <div class="h">PATROCÍNIO</div>
-          <div class="track"><i data-fill="62"></i></div>
-          <p>Cotas já sinalizadas pra sua casa.</p>
-        </div>
-      </div>
-      <div class="tags"><span>Raio 300 km</span><span>Fila automática</span><span>Sem risco de prejuízo</span></div>
-    </div>
-  </article>
-
-  <article class="chapter">
-    <figure class="chvid">
-      <video src="videos/07_transmissao.mp4" poster="videos/07_transmissao_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 03 · transmissão + repasse</figcaption>
-    </figure>
-    <div>
-      <div class="chnum">ETAPA 03 — TRANSMISSÃO + REPASSE</div>
-      <h3>Você transmite pro Brasil. Ganha por cada show.</h3>
-      <p>Um show em uma casa vira muitos. Você transmite pro seu público, ou recebe transmissão de outras. Selo AO VIVO no evento. Ganha 40% do cachê + 5% de cada transmissão que sai de você pro Brasil. Dois motores de renda simultâneos.</p>
-      <div class="gauge" data-fill="100">
-        <div class="lbl"><span>REPASSES DIRETOS</span><b>GARANTIDO</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>40% do cachê</span><span>5% transmissão saída</span><span>Selo AO VIVO</span></div>
-    </div>
-  </article>
-
-</section>
-
-<div class="content" style="margin-top: 40px;">
-
-  <section class="section">
-    <h2 class="sectiontitle">Hooligans Cascavel · Bandas validadas</h2>
-    <p class="sectionsubtitle">Você valida bandas num raio de 300 km. 17 anos de palco viram curadoria oficial — renda recorrente.</p>
-    <div class="bandgrid">
-      <div class="bandcard">
-        <div class="bandname">Rock4Roots</div>
-        <div class="bandmeta">Rock · Validado há 5 shows</div>
-        <div class="pricingbox">
-          <div class="pricingbox-date">SEX 21H · −15 A 20%</div>
-          <div class="pricingbox-price">R$ 1.920</div>
-        </div>
-        <div class="rateiobox">
-          40% (você) · 25% (produtor) · 25% (outro) · 10% (plataforma)
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="sectiontitle">Transmissão</h2>
-    <p class="sectionsubtitle">Um show em uma casa vira muitos. Você transmite pro seu público, ou recebe transmissão de outras. Selo AO VIVO no evento.</p>
-    <div class="transmissao-box">
-      <div class="transmissao-label">Rock4Roots · Sábado 22h</div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
-        <div style="background: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-weight: 600; color: var(--tone); font-size: 0.95rem;">📡 Transmitir</div>
-          <small style="color: var(--mut); font-size: 0.75rem; margin-top: 6px; display: block;">Seu show sai pra outras casas</small>
-        </div>
-        <div style="background: var(--navy); border: 1px solid var(--line); border-radius: 8px; padding: 14px; text-align: center;">
-          <div style="font-weight: 600; color: var(--tone); font-size: 0.95rem;">📺 Receber</div>
-          <small style="color: var(--mut); font-size: 0.75rem; margin-top: 6px; display: block;">Recebe show de outra casa</small>
-        </div>
-      </div>
-      <div style="margin-top: 12px; padding: 12px; background: var(--ink); border-radius: 8px; font-family: var(--data); font-size: 0.7rem; color: var(--mut); letter-spacing: 0.08em;">
-        Já transmitindo 3 shows este mês. Já recebendo 2 shows este mês.
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="sectiontitle">Contratações confirmadas</h2>
-    <p class="sectionsubtitle">9 datas agendadas. Seu repasse anual vem dos 40% sobre cada contratação + transmissões.</p>
-    <div class="dates-list">
-      <div class="dateitem">
-        <div class="datemonth">AGOSTO</div>
-        <div class="datecount" data-count="9">0</div>
-        <div style="font-family: var(--data); font-size: 0.68rem; color: var(--mut); margin-top: 8px;">DATAS CONFIRMADAS</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="final-score">
-    <div style="font-family: var(--data); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--mut); text-transform: uppercase; margin-bottom: 8px;">SEUS REPASSES ESTE ANO</div>
-    <div style="display: flex; align-items: baseline; justify-content: center; gap: 6px;">
-      <span style="font-family: var(--data); font-size: 1rem; color: var(--mut);">R$</span>
-      <div class="final-score-num" data-count="4320">0</div>
-    </div>
-    <div class="final-score-label">em 40% do faturamento, no seu raio (300 km)</div>
-    <div class="final-score-desc">Quanto mais bandas você valida, mais datas acontecem — e mais renda recorrente entra. Validar vira profissão.</div>
-  </section>
-
-  <div class="backhome">
-    <a href="index.html">← Voltar à home</a>
+  <div class="roles" role="group" aria-label="Papel">
+    <button id="r1" class="on" onclick="setRole('casa')">🍺 Dono de Casa</button>
+    <button id="r2" onclick="setRole('sec')">🏛️ Secretaria de Cultura</button>
   </div>
 
+  <!-- ================= VISÃO CASA ================= -->
+  <div id="view-casa">
+    <section id="s-emb">
+      <div class="card amb">
+        <h3>★ CASA EMBAIXADORA · CASCAVEL</h3>
+        <p>Hooligans Pub · valida novas bandas num raio de 300 km — 17 anos de palco viram curadoria oficial.</p>
+      </div>
+    </section>
+
+    <section id="s-validadas">
+      <h2>Bandas validadas na casa <small>14 de 30 cadastradas</small></h2>
+      <div class="card band"><div class="avatar">PP</div>
+        <div class="info"><div class="nm">Plutão Já Foi Planeta</div><div class="tag ok">contratada 3x no raio este ano</div></div>
+        <div class="badge5">5%<small>sempre, em cada contratação</small></div></div>
+      <div class="card band"><div class="avatar">VL</div>
+        <div class="info"><div class="nm">Vento Leste</div><div class="tag">validada no seu palco · mar/2026</div></div>
+        <div class="badge5">5%<small>sempre, em cada contratação</small></div></div>
+      <div class="card band"><div class="avatar">MN</div>
+        <div class="info"><div class="nm">Manacá</div><div class="tag">validada no seu palco · jun/2026</div></div>
+        <div class="badge5">5%<small>sempre, em cada contratação</small></div></div>
+      <button class="btn ghost">+ Cadastrar banda validada</button>
+    </section>
+
+    <section id="s-curadoria">
+      <h2>Sua curadoria <small>banda vendável = seu 5% maior</small></h2>
+      <div class="card">
+        <p style="font-size:.78rem;color:var(--mut);margin-bottom:10px">Como padrinho, você exige o material completo de cada banda:</p>
+        <ul class="check">
+          <li><i>✓</i> Fotos alta qualidade</li>
+          <li><i>✓</i> Release</li>
+          <li><i>✓</i> Setlist</li>
+          <li><i>✓</i> Hotel / hospedagem</li>
+          <li><i>✓</i> Alimentação</li>
+          <li><i>✓</i> Camarim</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="s-contratar">
+      <h2>Contratar banda</h2>
+      <div class="card">
+        <div style="border:1.5px solid var(--cb);border-radius:12px;padding:11px 14px;font-size:.86rem;color:var(--sand);font-weight:600;margin-bottom:10px">📍 Cascavel · PR</div>
+        <div class="tabs"><span class="on">Nacionais · 100</span><span class="on">Locais · 14</span><span class="on">Afilhadas · 22</span></div>
+        <p style="font-size:.74rem;color:var(--mut)">O hall inteiro se abre pra sua cidade: o catálogo nacional da ShowLink, as bandas validadas pelas casas da região e as afilhadas com selo de madrinha. Em Curitiba? O hall mostra as validadas do Crossroads.</p>
+      </div>
+    </section>
+
+    <section id="s-ganhos">
+      <h2>Seus repasses</h2>
+      <div class="stat">
+        <div class="card"><b>R$ 4.320</b><span>em 5% este ano</span></div>
+        <div class="card"><b>9</b><span>contratações no raio</span></div>
+        <div class="card"><b>300 km</b><span>seu raio de validação</span></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= VISÃO SECRETARIA ================= -->
+  <div id="view-sec" style="display:none">
+    <section id="s-agenda">
+      <h2>Agenda da região <small>o Paraná inteiro na sua tela</small></h2>
+      <div class="card">
+        <div class="ag"><div class="dt">12 SET</div><div class="w"><b>Fresno</b><span>Empório Santa Maria · Toledo</span></div></div>
+        <div class="ag"><div class="dt">14 SET</div><div class="w"><b>Plutão Já Foi Planeta</b><span>Hooligans Pub · Cascavel</span></div></div>
+        <div class="ag"><div class="dt">18 SET</div><div class="w"><b>Scalene</b><span>Crossroads · Curitiba</span></div></div>
+        <div class="ag"><div class="dt">21 SET</div><div class="w"><b>Terra Celta</b><span>Ruddicas · Cascavel</span></div></div>
+      </div>
+    </section>
+
+    <section id="s-carona">
+      <h2>Aproveite a vinda</h2>
+      <div class="card hl">
+        <h3>🚌 Fresno passa a 50 km em 12 set</h3>
+        <p>O transporte já está na região. Traga o show pra sua cidade no dia 13 e <b style="color:var(--txt)">rateie os custos</b> — a conta cai pra menos da metade.</p>
+        <button class="btn">Propor data casada</button>
+      </div>
+    </section>
+
+    <section id="s-demanda">
+      <h2>Demanda real <small>campanhas de pré-venda do PR inteiro</small></h2>
+      <div class="card">
+        <div class="dem"><div class="r"><b>1. Plutão Já Foi Planeta</b><span>1.960 pré-vendas</span></div>
+          <div class="bar"><i style="width:90%"></i></div></div>
+        <div class="dem"><div class="r"><b>2. Fresno</b><span>1.410 pré-vendas</span></div>
+          <div class="bar"><i style="width:66%"></i></div></div>
+        <div class="dem"><div class="r"><b>3. Vento Leste</b><span>840 pré-vendas</span></div>
+          <div class="bar"><i style="width:40%"></i></div></div>
+        <p style="font-size:.74rem;color:var(--mut);margin-top:8px">Nunca mais contrate no escuro pro aniversário da cidade: as campanhas mostram quem o público realmente quer.</p>
+      </div>
+    </section>
+
+    <section id="s-avisar">
+      <h2>Fechou? Avisa as casas</h2>
+      <div class="card">
+        <p style="font-size:.82rem;color:var(--mut);margin-bottom:12px">Você usou a demanda das casas pra decidir — agora devolve: avise o que fechou com antecedência e <b style="color:var(--txt)">todo mundo rateia custos na mesma vinda</b>.</p>
+        <button class="btn">Avisar casas da região</button>
+        <div class="okline">✓ Aviso enviado: Fresno na Festa da Cidade — 4 casas interessadas em datas casadas</div>
+      </div>
+    </section>
+
+    <section id="s-vitrine">
+      <h2>Vitrine dos eventos</h2>
+      <div class="card">
+        <p style="font-size:.82rem;color:var(--mut)">Seus eventos públicos entram na vitrine da ShowLink — <b style="color:var(--txt)">todo fã e usuário da plataforma vê</b> a Festa da Cidade, o aniversário, o festival. Divulgação que já nasce com público.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="dim"></div>
+<div id="bubble" role="dialog" aria-label="Shoowme">
+  <div class="who">SHOOWME 🦝</div>
+  <p id="btxt"></p>
+  <div class="row"><div class="dots" id="bdots"></div>
+    <button class="next" id="bnext" onclick="next()">Próximo</button></div>
 </div>
+<div id="menu">
+  <button onclick="startTour()">🗺️ Refazer o tour</button>
+  <button onclick="notif()">🔔 Notificações</button>
+  <button onclick="say('Novidade: a Plutão foi contratada em Toledo — banda validada por você. Mais 5% na sua conta! 🍺')">✨ Novidades</button>
+  <button onclick="say('Manda a dúvida! Sou o guia daqui — te explico qualquer parte da ShowLink, é só perguntar. 🦝')">💬 Tirar dúvidas</button>
+</div>
+<button id="hoo" aria-label="Abrir o Shoowme" onclick="shoowTap()">🦝</button>
 
 <script>
-(function(){
-  var bar = document.querySelector('#meter i');
-  function onScroll(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
-    bar.style.width = p.toFixed(1) + '%';
+  const steps=[
+    {v:'casa', el:"s-emb", t:"Bem-vindo, realizador! 🎟️ Eu sou o Shoowme. Sua casa validou bandas a duras custas por anos — aqui, isso finalmente vira renda. Você é a Casa Embaixadora da sua região."},
+    {v:'casa', el:"s-validadas", t:"Cadastre de 10 a 30 bandas que já tocaram e foram validadas no seu palco. Cada vez que uma delas for contratada no raio de 300 km, você ganha 5%. Sempre."},
+    {v:'casa', el:"s-curadoria", t:"Você é o curador delas: exige fotos de alta qualidade, release, setlist, hospedagem, alimentação, camarim. Banda vendável vende mais — e o seu 5% cresce junto."},
+    {v:'casa', el:"s-contratar", t:"Pra contratar, digita sua cidade e o hall inteiro se abre: os nacionais da ShowLink, as bandas locais validadas e as afilhadas com selo. Em Curitiba, aparecem as do Crossroads."},
+    {v:'casa', el:"s-ganhos", t:"E seus repasses ficam à vista: cada contratação no raio, cada 5%, tudo somando."},
+    {v:'sec', el:"s-agenda", t:"Agora o outro chapéu: secretaria de cultura. Aqui você vê a agenda das casas do Paraná inteiro — Toledo, Cascavel, Foz, Curitiba. Sabe quem está vindo antes de todo mundo."},
+    {v:'sec', el:"s-carona", t:"Artista passando perto? Aproveita a vinda: o transporte já está na região — propõe a data casada e rateia os custos. O show da sua cidade sai por muito menos."},
+    {v:'sec', el:"s-demanda", t:"E olha o ouro: as campanhas de pré-venda de TODAS as casas do PR mostram a demanda real. Nunca mais contrate no escuro pro aniversário da cidade — o público já disse o que quer."},
+    {v:'sec', el:"s-avisar", t:"Fechou um artista? Avisa as casas com antecedência — elas pegam carona na mesma vinda e todo mundo divide custo. Você usa a inteligência do sistema e devolve pra ele."},
+    {v:'sec', el:"s-vitrine", t:"E seus eventos entram na vitrine da ShowLink: todo fã da plataforma vê a Festa da Cidade. Divulgação que já nasce com público."},
+    {v:null, el:null, t:"É isso! Qualquer dúvida, me chama aqui embaixo. Tô sempre por perto. 🦝🧡"}
+  ];
+  let i=-1, touring=false, role='casa';
+  const $=id=>document.getElementById(id);
+  function setRole(r){ role=r;
+    $('view-casa').style.display = r==='casa'?'':'none';
+    $('view-sec').style.display = r==='sec'?'':'none';
+    $('r1').classList.toggle('on',r==='casa'); $('r2').classList.toggle('on',r==='sec'); }
+  function paintDots(){ $('bdots').innerHTML=steps.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join(''); }
+  function clearSpot(){ document.querySelectorAll('.spot').forEach(e=>e.classList.remove('spot')); }
+  function show(k){
+    i=k; clearSpot(); const s=steps[i];
+    if(s.v && s.v!==role) setRole(s.v);
+    if(s.el){ const el=$(s.el); el.classList.add('spot'); el.scrollIntoView({block:'center'}); }
+    $('btxt').textContent=s.t; paintDots();
+    $('bnext').textContent = i===steps.length-1 ? 'Valeu!' : 'Próximo';
+    $('bubble').classList.add('on');
   }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-
-  function animateCount(el){
-    var target = parseInt(el.dataset.count, 10);
-    var current = 0;
-    var step = Math.ceil(target / 50);
-    var interval = setInterval(function(){
-      current += step;
-      if(current >= target){ current = target; clearInterval(interval); }
-      el.textContent = current;
-    }, 20);
-  }
-  document.querySelectorAll('[data-count]').forEach(function(el){
-    if(el.offsetParent !== null){ animateCount(el); }
-  });
-
-  var obsG = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(!e.isIntersecting) return;
-      e.target.querySelector('i').style.width = e.target.dataset.width || '0%';
-      obsG.unobserve(e.target);
-    });
-  }, {threshold: 0.3});
-  document.querySelectorAll('.gauge-track').forEach(function(g){ obsG.observe(g); });
-})();
+  function next(){ if(i<steps.length-1) show(i+1); else endTour(); }
+  function startTour(){ $('menu').classList.remove('on'); touring=true; document.body.classList.add('touring'); show(0); }
+  function endTour(){ touring=false; document.body.classList.remove('touring'); clearSpot(); $('bubble').classList.remove('on'); }
+  function say(t){ $('menu').classList.remove('on'); endTour(); $('btxt').textContent=t; $('bdots').innerHTML='';
+    $('bnext').textContent='Fechar'; $('bubble').classList.add('on');
+    $('bnext').onclick=()=>{ $('bubble').classList.remove('on'); $('bnext').onclick=next; }; }
+  function notif(){ say('🔔 A Fresno passa a 50 km da sua cidade em 12 set — proponha a data casada e rateie o transporte!'); }
+  function shoowTap(){ if(touring){ endTour(); return; } $('menu').classList.toggle('on'); }
+  function setTheme(t){ document.body.dataset.theme = t==='blackout' ? 'blackout' : '';
+    $('t1').classList.toggle('on',t==='laranja'); $('t2').classList.toggle('on',t==='blackout'); }
+  setTimeout(startTour, 900);
 </script>
-
 </body>
 </html>
