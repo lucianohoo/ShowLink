@@ -1,0 +1,144 @@
+
+═══════════════════════════════════════════════════════════════════════════════
+                    📦 SHOWLINK — LEIA ISTO PRIMEIRO
+═══════════════════════════════════════════════════════════════════════════════
+
+Você tem em mão a referência de design COMPLETA dos dois motores.
+
+LOCALIZAÇÃO: /root/showlink-repo
+
+─────────────────────────────────────────────────────────────────────────────
+
+🎯 ARQUIVO PRINCIPAL PARA JEFERSON:
+
+   📄 JEFERSON-HANDOFF.md
+   
+   ├─ Como rodar a referência (./serve.sh)
+   ├─ 6 personas de demo (click → login instantâneo)
+   ├─ O que ler em qual ordem (MOTORES.md → IMPLEMENTACAO-MOTORES.md)
+   ├─ Passo-a-passo de 8 semanas de implementação
+   ├─ Schema de banco de dados
+   ├─ API endpoints necessários
+   ├─ Checklist de merge
+   └─ Timeline completa
+
+   👉 COPIE ESTE ARQUIVO E MANDE PARA JEFERSON
+
+
+🎯 ARQUIVO PRINCIPAL PARA VOCÊ:
+
+   📄 LUCIANO-ACESSO.md
+   
+   ├─ Como rodar agora (./serve.sh → http://localhost:8000)
+   ├─ Checklist de teste em 15 minutos
+   ├─ 7 passos (Home → Login → App → Motor1 → Motor2 → Shows → Test Personas)
+   ├─ O que DEVE funcionar em cada tela
+   ├─ Storytelling para investidores (5 minutos)
+   ├─ Troubleshooting
+   └─ Como validar antes de mandar para Jeferson
+
+   👉 SIGA ESTE GUIA AGORA PARA TESTAR TUDO
+
+─────────────────────────────────────────────────────────────────────────────
+
+📚 DOCUMENTAÇÃO COMPLETA:
+
+   1. MOTORES.md
+      ├─ Explicação executiva dos dois motores
+      ├─ Motor 1: Rateio (banda em trânsito, divisão de custo)
+      ├─ Motor 2: Validação (pré-venda, meta 400 ingressos)
+      ├─ Fluxo real (os dois motores juntos)
+      └─ Para ler antes de apresentar ao investidor
+
+   2. IMPLEMENTACAO-MOTORES.md
+      ├─ Antes vs Depois (v1 vs v2)
+      ├─ Arquitetura de autenticação
+      ├─ Estrutura visual (HTML/CSS)
+      ├─ Dados de teste seeded
+      ├─ Fluxo de UX por persona
+      ├─ React/Backend migration checklist
+      └─ Para ler para entender a implementação
+
+   3. README-IMPLEMENTACAO.md (original, mas ainda válido)
+      ├─ Spec técnica completa
+      ├─ API endpoints sugeridos
+      ├─ Database schema
+      └─ Se tiver dúvidas técnicas
+
+─────────────────────────────────────────────────────────────────────────────
+
+🚀 PRÓXIMOS PASSOS:
+
+   Passo 1: Você testa tudo
+   ┌─────────────────────────────────────────────────┐
+   │ cd /root/showlink-repo                          │
+   │ ./serve.sh                                      │
+   │ Abra: http://localhost:8000                     │
+   │ Siga LUCIANO-ACESSO.md (15 minutos)            │
+   └─────────────────────────────────────────────────┘
+
+   Passo 2: Você valida
+   ┌─────────────────────────────────────────────────┐
+   │ [ ] Motor 1 funciona (bandas + divisão custo)   │
+   │ [ ] Motor 2 funciona (progress bars)            │
+   │ [ ] Shows Confirmados mostra badges             │
+   │ [ ] Login/logout funcionam                      │
+   │ [ ] Personas mudam cores (rosa/verde/roxo)      │
+   │ ✅ Se tudo OK → próximo passo                   │
+   └─────────────────────────────────────────────────┘
+
+   Passo 3: Você manda para Jeferson
+   ┌─────────────────────────────────────────────────┐
+   │ Envie JEFERSON-HANDOFF.md                       │
+   │ (Tem TUDO que ele precisa)                      │
+   │                                                 │
+   │ Ou envie o repo inteiro:                        │
+   │ git clone /root/showlink-repo showlink-ref      │
+   └─────────────────────────────────────────────────┘
+
+   Passo 4: Jeferson começa a implementação
+   ┌─────────────────────────────────────────────────┐
+   │ Semana 1: Setup + design tokens                 │
+   │ Semana 2: Backend (auth + campaigns)            │
+   │ Semana 3: Frontend (Motor 1 + Motor 2)          │
+   │ Semana 4: Real-time + validação automática      │
+   │ Semana 5: Testes                                │
+   │ Semana 6: Deploy staging                        │
+   │ Semana 7: Pilot (Hooligans)                     │
+   │ Semana 8: Produção                              │
+   └─────────────────────────────────────────────────┘
+
+─────────────────────────────────────────────────────────────────────────────
+
+❓ DÚVIDAS?
+
+   ├─ "Como faço pra rodar?" → LUCIANO-ACESSO.md, seção 1
+   ├─ "Como faço pra testar?" → LUCIANO-ACESSO.md, checklist
+   ├─ "Como faço pra mandar?" → JEFERSON-HANDOFF.md, seção 1
+   ├─ "Como Motor 1 funciona?" → MOTORES.md
+   ├─ "Como Motor 2 funciona?" → MOTORES.md
+   ├─ "Como implementar em React?" → IMPLEMENTACAO-MOTORES.md
+   └─ Outras → arquivo correspondente
+
+─────────────────────────────────────────────────────────────────────────────
+
+✅ STATUS:
+
+   ✅ Design reference (HTML/CSS)
+   ✅ Autenticação (6 personas)
+   ✅ Motor 1 (bandas + divisão)
+   ✅ Motor 2 (campanhas + progress)
+   ✅ Documentação (4 arquivos)
+   ✅ Dados de teste
+   ✅ Pronto para handoff
+
+   🟡 Backend (Jeferson vai fazer)
+   🟡 Pagamento (Jeferson vai fazer)
+   🟡 Real-time (Jeferson vai fazer)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Comece agora: ./serve.sh → http://localhost:8000
+
+Boa sorte! 🚀
+
