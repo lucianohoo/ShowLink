@@ -1,0 +1,86 @@
+/* =========================================================================
+   ShowLink · base.css — FONTE ÚNICA DE VERDADE do padrão visual
+   Casca neutra (ink + branco + lime da marca). As cores de PERSONA só
+   entram dentro do mundo de cada persona (ver css/personas.css).
+   Importado por todas as páginas públicas.
+   ========================================================================= */
+
+:root{
+  /* --- superfície em camadas (não uma cor só) --- */
+  --ink:#070C16;      /* fundo da página        */
+  --navy:#0D1526;     /* card                   */
+  --navy-2:#132038;   /* elevado / chip         */
+  --line:#1F2E4A;     /* borda / divisória      */
+
+  /* --- marca --- */
+  --lime:#C7F73E;     /* acento único da casca  */
+  --lime-deep:#8FBF1F;
+  --paper:#EEF3FA;    /* texto                  */
+  --mut:#8296B2;      /* texto secundário       */
+
+  /* --- cores de persona (usadas só dentro da persona) --- */
+  --fa:#FF3D7F;
+  --artista:#C7F73E;
+  --produtor:#9B6BFF;
+  --patro:#35A7FF;
+  --realizador:#FF8A34;
+
+  /* --- tipografia --- */
+  --display:'Unbounded',sans-serif;   /* títulos            */
+  --body:'Poppins',sans-serif;        /* corpo              */
+  --data:'JetBrains Mono',monospace;  /* dados, rótulos, medidores */
+
+  --maxw:1180px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--ink);
+  color:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+
+/* ---------- medidor de demanda (assinatura da marca) ---------- */
+#meter{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;background:rgba(255,255,255,.06)}
+#meter i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--lime-deep),var(--lime));transition:width .12s linear}
+#meter b{position:absolute;top:9px;right:16px;font-family:var(--data);font-size:.6rem;font-weight:700;letter-spacing:.18em;color:var(--lime);opacity:.75}
+
+/* ---------- header (casca neutra) ---------- */
+header{position:sticky;top:0;z-index:90;background:color-mix(in srgb,var(--ink) 86%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:var(--maxw);margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:22px}
+.logo{font-family:var(--display);font-weight:800;font-style:italic;font-size:1.05rem;letter-spacing:-.03em}
+.logo em{font-style:italic;color:var(--lime)}
+nav{display:flex;gap:22px;margin-left:auto}
+nav a{font-size:.78rem;font-weight:500;color:var(--mut);padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+nav a:hover,nav a.on{color:var(--paper);border-color:var(--lime)}
+.hcta{font-family:var(--body);font-size:.78rem;font-weight:600;background:var(--lime);color:var(--ink);border:0;border-radius:999px;padding:9px 20px;cursor:pointer;transition:transform .15s}
+.hcta:hover{transform:translateY(-1px)}
+
+/* ---------- botões compartilhados ---------- */
+.btn{font-family:var(--body);font-size:.88rem;font-weight:600;border-radius:999px;padding:13px 26px;cursor:pointer;border:0;background:var(--lime);color:var(--ink);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--paper)}
+.btn.ghost:hover{border-color:var(--lime);color:var(--lime)}
+
+/* ---------- rodapé ---------- */
+footer{border-top:1px solid var(--line);background:var(--navy)}
+.fwrap{max-width:var(--maxw);margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.fwrap p{font-size:.76rem;color:var(--mut)}
+
+/* ---------- Shoowme (guia — em todas as páginas) ---------- */
+#hoo{position:fixed;right:20px;bottom:20px;z-index:95;width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;font-size:1.7rem;display:grid;place-items:center;background:var(--lime);color:var(--ink);box-shadow:0 10px 34px rgba(199,247,62,.28)}
+#bubble{position:fixed;right:20px;bottom:88px;z-index:95;width:min(320px,calc(100vw - 40px));background:var(--paper);color:#14202F;border-radius:16px 16px 4px 16px;padding:16px 17px 14px;box-shadow:0 18px 48px rgba(0,0,0,.55);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .26s,transform .26s}
+#bubble.on{opacity:1;pointer-events:auto;transform:none}
+#bubble .who{font-family:var(--display);font-weight:800;font-size:.64rem;letter-spacing:.1em;color:var(--lime-deep);margin-bottom:6px}
+#bubble p{font-size:.84rem;line-height:1.5;font-weight:500}
+#bubble button{margin-top:12px;border:0;border-radius:10px;padding:8px 16px;font-family:var(--body);font-weight:600;font-size:.76rem;background:#14202F;color:var(--paper);cursor:pointer}
+
+/* ---------- responsivo compartilhado ---------- */
+@media (max-width:880px){ nav{display:none} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}

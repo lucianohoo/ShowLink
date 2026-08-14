@@ -1,0 +1,388 @@
+<title>ShowLink por Dentro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* ShowLink — página de visão. Mundo único e escuro (palco/neon), pintado
+   explicitamente pra segurar em qualquer tema do host. Faces reais do produto:
+   Unbounded (display) · Poppins (corpo) · JetBrains Mono (dados) — aqui evocadas
+   por stacks de sistema, porque o CSP do artifact bloqueia webfonts. */
+:root{
+  --ink:#070C16; --navy:#0D1526; --navy-2:#132038; --line:#1F2E4A; --line-2:#2b3d5e;
+  --lime:#C7F73E; --lime-deep:#8FBF1F; --paper:#EEF3FA; --mut:#8296B2;
+  --fa:#FF3D7F; --artista:#C7F73E; --produtor:#9B6BFF; --patro:#35A7FF; --realizador:#FF8A34;
+  --display:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --data:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+  --maxw:1080px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--ink);color:var(--paper);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+::selection{background:var(--lime);color:var(--ink)}
+a{color:inherit}
+
+/* espinha: medidor de demanda no topo */
+#spine{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;background:rgba(255,255,255,.05)}
+#spine i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lime-deep),var(--lime));transition:width .1s linear}
+#spine b{position:absolute;top:8px;right:14px;font-family:var(--data);font-size:.58rem;font-weight:700;letter-spacing:.2em;color:var(--lime);opacity:.7}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--data);font-size:.66rem;font-weight:700;letter-spacing:.24em;color:var(--lime);text-transform:uppercase}
+h2{font-family:var(--display);font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+
+/* hero */
+.hero{padding:120px 0 70px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--display);font-weight:800;font-style:italic;letter-spacing:-.03em;font-size:1.05rem;margin-bottom:38px}
+.brand em{color:var(--lime);font-style:italic}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6.2vw,4.6rem);line-height:1;letter-spacing:-.04em;margin:16px 0 24px;text-wrap:balance}
+.hero h1 .n{color:var(--lime)}
+.hero p{font-size:clamp(1.05rem,2vw,1.28rem);color:var(--mut);max-width:60ch}
+.hero .sig{margin-top:34px;display:flex;gap:10px;flex-wrap:wrap}
+.hero .sig span{font-family:var(--data);font-size:.66rem;letter-spacing:.06em;color:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:7px 14px}
+
+/* seção genérica */
+section{padding:76px 0;border-bottom:1px solid var(--line)}
+section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:14px}
+.lead{color:var(--mut);max-width:64ch;font-size:1.05rem;margin-bottom:44px}
+
+/* dois princípios */
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.principle{background:var(--navy);border:1px solid var(--line);border-radius:18px;padding:30px 28px}
+.principle .k{font-family:var(--data);font-size:.62rem;letter-spacing:.18em;color:var(--mut);text-transform:uppercase;margin-bottom:16px}
+.principle h3{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;margin-bottom:12px;line-height:1.15}
+.principle p{color:var(--mut);font-size:.98rem}
+.principle p+p{margin-top:12px}
+.principle b{color:var(--paper);font-weight:600}
+
+/* antes / depois */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
+.ba .col{border:1px solid var(--line);border-radius:18px;padding:26px 24px;background:
+  linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
+.ba .tag{font-family:var(--data);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border-radius:6px;display:inline-block;margin-bottom:16px}
+.ba .hoje .tag{color:#E7A3B4;background:rgba(231,120,140,.12)}
+.ba .prop .tag{color:var(--ink);background:var(--lime)}
+.ba ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.ba li{display:flex;gap:11px;font-size:.94rem;color:var(--mut)}
+.ba li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;margin-top:8px;background:var(--line-2)}
+.ba .prop li::before{background:var(--lime)}
+.ba .prop li b{color:var(--paper);font-weight:600}
+.swatches{display:flex;gap:6px;margin-top:18px}
+.swatches i{width:26px;height:14px;border-radius:4px;display:block}
+
+/* personas */
+.people{display:grid;gap:18px}
+.persona{position:relative;background:var(--navy);border:1px solid var(--line);border-radius:20px;padding:30px 28px;overflow:hidden;transition:border-color .25s,transform .25s}
+.persona::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.persona:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 55%,var(--line))}
+.persona .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.persona .modo{font-family:var(--data);font-size:.62rem;letter-spacing:.2em;color:var(--c);text-transform:uppercase}
+.persona .verb{margin-left:auto;font-family:var(--data);font-size:.62rem;letter-spacing:.12em;color:var(--paper);border:1px solid var(--c);border-radius:999px;padding:4px 11px}
+.persona h3{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.025em;line-height:1.08;margin-bottom:6px}
+.persona h3 span{color:var(--c)}
+.persona .who{font-size:.95rem;color:var(--mut);margin-bottom:22px;max-width:56ch}
+.persona .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
+.persona .does{list-style:none;display:flex;flex-direction:column;gap:10px}
+.persona .does li{display:flex;gap:10px;font-size:.9rem;color:var(--paper)}
+.persona .does li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;margin-top:7px;background:var(--c)}
+.persona .does li small{display:block;color:var(--mut);font-weight:400;font-size:.82rem;margin-top:1px}
+
+/* instrumento-assinatura de cada persona */
+.inst{background:var(--ink);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px}
+.inst .lbl{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--data);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:9px}
+.inst .lbl b{color:var(--c);font-size:.62rem}
+.inst .track{height:7px;border-radius:99px;background:var(--navy-2);overflow:hidden}
+.inst .track i{display:block;height:100%;width:0;border-radius:99px;background:var(--c);transition:width 1.1s cubic-bezier(.2,.7,.3,1)}
+.inst .big{font-family:var(--data);font-weight:700;font-size:2rem;color:var(--c);letter-spacing:-.02em;margin-top:14px;font-variant-numeric:tabular-nums}
+.inst .big small{display:block;font-family:var(--body);font-size:.68rem;letter-spacing:.04em;color:var(--mut);text-transform:uppercase;margin-top:2px;font-weight:600}
+.inst .steps{display:flex;gap:5px;margin-top:14px;flex-wrap:wrap}
+.inst .steps span{font-family:var(--data);font-size:.52rem;letter-spacing:.06em;color:var(--mut);border:1px solid var(--line);border-radius:5px;padding:4px 7px}
+.inst .steps span.on{color:var(--c);border-color:var(--c)}
+
+/* espinha explicada */
+.spinegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:8px}
+.sp{border:1px solid var(--line);border-radius:14px;padding:18px 16px;background:var(--navy)}
+.sp .num{font-family:var(--data);font-weight:700;font-size:1.35rem;font-variant-numeric:tabular-nums}
+.sp .who{font-family:var(--data);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-top:6px}
+.sp .cap{font-size:.82rem;color:var(--mut);margin-top:8px;line-height:1.45}
+
+/* arquitetura */
+.arch{display:flex;flex-direction:column;gap:2px;counter-reset:s}
+.arch .row{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start;padding:18px 0;border-top:1px solid var(--line)}
+.arch .row:first-child{border-top:0}
+.arch .idx{font-family:var(--data);font-size:.7rem;font-weight:700;color:var(--lime);padding-top:3px;letter-spacing:.05em}
+.arch h4{font-family:var(--display);font-weight:800;font-size:1.1rem;letter-spacing:-.01em;margin-bottom:5px}
+.arch p{color:var(--mut);font-size:.94rem;max-width:70ch}
+.arch code{font-family:var(--data);font-size:.82em;color:var(--lime);background:rgba(199,247,62,.08);padding:1px 6px;border-radius:5px}
+
+/* acelera */
+.accel{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.accel .c{border:1px solid var(--line);border-radius:16px;padding:24px 22px;background:var(--navy)}
+.accel .c h4{font-family:var(--display);font-weight:800;font-size:1.05rem;margin-bottom:8px;letter-spacing:-.01em}
+.accel .c p{color:var(--mut);font-size:.92rem}
+
+footer{padding:56px 0 80px}
+footer .brand{margin:0 0 10px}
+footer p{color:var(--mut);font-size:.86rem}
+
+@media (max-width:760px){
+  .principles,.ba,.persona .grid{grid-template-columns:1fr}
+  .persona .verb{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+
+<div id="spine"><i></i><b>DEMANDA</b></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">SHOW<em>LINK</em></div>
+    <div class="eyebrow">Como eu construiria — Luciano × Claude</div>
+    <h1>Não é um app.<br>São <span class="n">cinco</span> — com uma espinha só.</h1>
+    <p>O padrão que fez a NEO Vision funcionar não foi mais recurso: foi disciplina. Aqui ela vira uma decisão simples e difícil — a ShowLink deixa de ser um painel que faz tudo e vira cinco experiências focadas, cada uma no seu mundo, costuradas por um instrumento comum: a demanda.</p>
+    <div class="sig">
+      <span>Casca neutra + 5 mundos de cor</span>
+      <span>Um verbo por persona</span>
+      <span>Dados em monoespaçada</span>
+      <span>O filme como camada de ensino</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">A decisão</div>
+    <h2>Duas mãos: o corte e o instrumento</h2>
+    <p class="lead">Steve Jobs cortaria o excesso até sobrar foco. Leonardo cuidaria do único instrumento que amarra o todo. As duas mãos, juntas.</p>
+    <div class="principles">
+      <div class="principle">
+        <div class="k">O corte · Jobs</div>
+        <h3>Cinco apps, não um painel</h3>
+        <p>A tela “SOU:” é a primeira pergunta, e a última home genérica. Depois dela ninguém cai num dashboard de todo mundo — cada perfil entra na <b>ShowLink dele</b>, com o que é dele e nada além.</p>
+        <p>Cada persona tem <b>um verbo</b>. O fã traz. O artista abre. O produtor encaixa. A marca sinaliza. A casa valida. Se uma tela não serve ao verbo daquela persona, ela não existe ali.</p>
+      </div>
+      <div class="principle">
+        <div class="k">O instrumento · Da Vinci</div>
+        <h3>A demanda é a espinha</h3>
+        <p>Um único medidor — a barra de <b>DEMANDA</b> — atravessa o produto inteiro. No topo da página ele é navegação; dentro de cada persona ele reaparece com <b>o número que importa pra ela</b>.</p>
+        <p>É o mesmo instrumento sempre: ink em camadas, linha translúcida, todo dado em <b>monoespaçada</b>. É isso que faz parecer instrumento, não site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Onde está hoje × onde vai</div>
+    <h2>Do template genérico ao sistema</h2>
+    <p class="lead">A produção no ar é competente, mas roda como painel de SaaS: gradiente azul→roxo, ícones multicoloridos, uma cor de acento diferente por página. O padrão troca isso por um sistema.</p>
+    <div class="ba">
+      <div class="col hoje">
+        <span class="tag">Hoje</span>
+        <ul>
+          <li>Acento em gradiente azul→roxo — e roxo já é a cor do Produtor</li>
+          <li>Cinco cores de ícone soltas no mesmo dashboard</li>
+          <li>Uma cor de acento por página (rosa, roxo, azul…)</li>
+          <li>Números e rótulos em sans genérica</li>
+          <li>Telas “nenhum evento” — o pitch esvazia</li>
+        </ul>
+      </div>
+      <div class="col prop">
+        <span class="tag">Proposta</span>
+        <ul>
+          <li><b>Casca neutra</b> — ink + branco + o lime da marca, só</li>
+          <li><b>Cor só dentro da persona</b> — o mundo dela explode em cor</li>
+          <li><b>Um token por persona</b>, numa fonte de verdade só</li>
+          <li><b>Todo dado em monoespaçada</b> — a “cara de hub”</li>
+          <li><b>Tudo populado</b> com bandas e agendas reais de exemplo</li>
+        </ul>
+        <div class="swatches" aria-hidden="true">
+          <i style="background:#FF3D7F"></i><i style="background:#C7F73E"></i><i style="background:#9B6BFF"></i><i style="background:#35A7FF"></i><i style="background:#FF8A34"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">O coração — cinco pessoas, cinco usos</div>
+    <h2>Cada persona, o seu app</h2>
+    <p class="lead">Pensado pelo uso real de quem entra: o que ela vem fazer, a única tela que precisa brilhar, e o número que ela abre o app pra ver.</p>
+    <div class="people">
+
+      <article class="persona" style="--c:var(--fa)">
+        <div class="top"><span class="modo">Modo 01 · Fã</span><span class="verb">verbo: TRAZER</span></div>
+        <h3>E aí, fã. <span>Aqui você manda.</span></h3>
+        <p class="who">A cara mais bonita da ShowLink é a dele — a estrela, tratado assim já na entrada. Ele traz o show que nunca veio, e o palco inteiro passa a enxergar.</p>
+        <div class="grid">
+          <ul class="does">
+            <li>Segue até 5 bandas do rol de 100<small>show na região, campanha, novidade — o Shoowme avisa</small></li>
+            <li>Sugere banda nova e vira Fundador nº 1<small>quem descobre primeiro constrói a página</small></li>
+            <li>Vota, reserva o pré-ingresso, compartilha<small>cada voto empurra a banda pro top 10</small></li>
+          </ul>
+          <div class="inst">
+            <div class="lbl"><span>Jornada da sua banda</span><b>FINALISTA</b></div>
+            <div class="steps"><span class="on">ROL</span><span class="on">TOP 10</span><span class="on">TOP 3</span><span class="on">CAMPANHA</span><span>TOUR</span></div>
+            <div class="big" data-count="2480">0<small>pontos · curador especial</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="persona" style="--c:var(--artista)">
+        <div class="top"><span class="modo">Modo 02 · Artista</span><span class="verb">verbo: ABRIR</span></div>
+        <h3>E aí, artista. <span>Seu fã trabalha pra você.</span></h3>
+        <p class="who">A demanda que era invisível vira mapa. Ele vê onde estão pedindo, completa a página, e abre a campanha quando a conta fecha — risco zero.</p>
+        <div class="grid">
+          <ul class="does">
+            <li>Página viva: release, setlist, vídeos, produtos<small>quanto mais completa, mais fã trabalhando</small></li>
+            <li>Demanda cidade a cidade, antes de fechar show<small>sobe no palco já sabendo o que a cidade quer</small></li>
+            <li>Apadrinha até 5 bandas — 5% por 1 ano<small>vira madrinha, com selo e royalty</small></li>
+          </ul>
+          <div class="inst">
+            <div class="lbl"><span>Onde estão te pedindo</span><b>CASCAVEL</b></div>
+            <div class="track"><i data-fill="88"></i></div>
+            <div class="big" data-count="320">0<small>fãs pedindo · já dá campanha</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="persona" style="--c:var(--produtor)">
+        <div class="top"><span class="modo">Modo 03 · Produtor</span><span class="verb">verbo: ENCAIXAR</span></div>
+        <h3>E aí, produtor. <span>Seus artistas, o Brasil inteiro.</span></h3>
+        <p class="who">O mais instrumento de todos — o app de quem opera. Casting com ficha técnica medida por completude, e o radar de quem está de olho antes de fechar.</p>
+        <div class="grid">
+          <ul class="does">
+            <li>Ficha técnica completa fecha show na hora<small>release, rider, hospedagem, cachê — medido em %</small></li>
+            <li>Encaixe de datas na região (raio 300 km)<small>a banda já viaja; dias extras saem mais baratos</small></li>
+            <li>Radar: patrocinador, casa e secretaria de olho<small>você sabe do interesse antes de fechar</small></li>
+          </ul>
+          <div class="inst">
+            <div class="lbl"><span>Ficha · Plutão Já Foi Planeta</span><b>PRONTA</b></div>
+            <div class="track"><i data-fill="92"></i></div>
+            <div class="big" data-count="92" data-suffix="%">0<small>completude · fecha na hora</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="persona" style="--c:var(--patro)">
+        <div class="top"><span class="modo">Modo 04 · Patrocinador</span><span class="verb">verbo: SINALIZAR</span></div>
+        <h3>E aí, patrocinador. <span>Agora o jogo começa por você.</span></h3>
+        <p class="who">De última peça a peça fundamental. Ele acha o artista que casa com o público, sinaliza cota, e o interesse dele deixa de esperar o evento — passa a criá-lo.</p>
+        <div class="grid">
+          <ul class="does">
+            <li>Descobre artista por faixa etária e público<small>o match mostra quem conversa com a marca</small></li>
+            <li>Card espelhado: só aqui se compra cota<small>na tela do fã isso nem aparece</small></li>
+            <li>Sinaliza interesse e todo o sistema recebe<small>casas e secretarias correm pra viabilizar</small></li>
+          </ul>
+          <div class="inst">
+            <div class="lbl"><span>Match · Plutão Já Foi Planeta</span><b>18–29 · SUL</b></div>
+            <div class="track"><i data-fill="92"></i></div>
+            <div class="big" data-count="92" data-suffix="%">0<small>match com a marca</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="persona" style="--c:var(--realizador)">
+        <div class="top"><span class="modo">Modo 05 · Casa / Secretaria</span><span class="verb">verbo: VALIDAR</span></div>
+        <h3>E aí, realizador. <span>Quem valida, ganha.</span></h3>
+        <p class="who">Dono de casa, produtor local ou secretaria — validar bandas por anos, de graça, finalmente vira renda. E a demanda da região inteira aparece antes de contratar no escuro.</p>
+        <div class="grid">
+          <ul class="does">
+            <li>Casa Embaixadora: valida bandas num raio de 300 km<small>17 anos de palco viram curadoria oficial</small></li>
+            <li>Rateio por dia entre casas (40/25/25/10)<small>sábado cheio, sexta −20%, quinta −30%</small></li>
+            <li>Transmite ou recebe — um show vira muitos<small>selo AO VIVO no evento público</small></li>
+          </ul>
+          <div class="inst">
+            <div class="lbl"><span>Seus repasses este ano</span><b>9 CONTRATAÇÕES</b></div>
+            <div class="track"><i data-fill="72"></i></div>
+            <div class="big" data-count="4320" data-prefix="R$ ">0<small>em 5%, no seu raio</small></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">A espinha</div>
+    <h2>Um instrumento, cinco leituras</h2>
+    <p class="lead">A mesma barra de demanda, o mesmo desenho — muda só o número que cada persona abre o app pra ver. É o que faz cinco apps parecerem um produto.</p>
+    <div class="spinegrid">
+      <div class="sp"><div class="num" style="color:var(--fa)">2.480</div><div class="who">Fã</div><div class="cap">pontos de curador — o palco te enxerga</div></div>
+      <div class="sp"><div class="num" style="color:var(--artista)">320</div><div class="who">Artista</div><div class="cap">fãs pedindo em Cascavel — abre campanha</div></div>
+      <div class="sp"><div class="num" style="color:var(--produtor)">92%</div><div class="who">Produtor</div><div class="cap">ficha completa — fecha o show na hora</div></div>
+      <div class="sp"><div class="num" style="color:var(--patro)">92%</div><div class="who">Patrocinador</div><div class="cap">match de público — cota certa</div></div>
+      <div class="sp"><div class="num" style="color:var(--realizador)">R$ 4.320</div><div class="who">Casa</div><div class="cap">em 5% no raio — validar virou renda</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Como se monta</div>
+    <h2>A arquitetura, em camadas</h2>
+    <p class="lead">HTML/CSS/JS puro, multipágina, abre com duplo clique — como manda o parallel. Simples de o Rubens ler e reconstruir na stack dele.</p>
+    <div class="arch">
+      <div class="row"><div class="idx">01</div><div><h4>Casca pública neutra</h4><p>Home (o filme + 6 capítulos), Agenda, Artistas, Ecossistema, “Como funciona”. Ink + branco + lime. É a vitrine que não pertence a nenhuma persona.</p></div></div>
+      <div class="row"><div class="idx">02</div><div><h4>A porta “SOU:”</h4><p>A primeira pergunta. Cinco escolhas, cada uma pinta a próxima tela. Depois daqui, ninguém volta pra uma home genérica.</p></div></div>
+      <div class="row"><div class="idx">03</div><div><h4>Cinco mundos de persona</h4><p>Os cinco protótipos já prontos — Fã, Artista, Produtor, Patrocinador, Casa — cada um no seu token de cor, com o tour do Shoowme, anel de completude, timeline e medidor.</p></div></div>
+      <div class="row"><div class="idx">04</div><div><h4>Uma fonte de verdade</h4><p><code>css/base.css</code> guarda tokens, casca e o instrumento de demanda; <code>css/personas.css</code> só troca a cor. Sem duas verdades brigando — o furo que a produção tem hoje.</p></div></div>
+      <div class="row"><div class="idx">05</div><div><h4>O filme como camada de ensino</h4><p>Vídeo geral no topo (com som), e um pedaço por etapa — nada de artes sobrepostas. Cada persona e cada item de menu ganha seu trecho curto que explica só aquilo.</p></div></div>
+      <div class="row"><div class="idx">06</div><div><h4>Populado, navegável como rede social</h4><p>Bandas, agendas e eventos reais de exemplo em toda tela. Nada de “nenhum evento”: o pitch se navega inteiro, ponta a ponta.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Por que isto acelera</div>
+    <h2>O parallel é o espelho do destino</h2>
+    <p class="lead">Ele não compete com o app do Rubens nem reimplementa o Supabase. Ele faz o que fez na NEO Vision: mostra a experiência e o padrão prontos, pra o dev parar de adivinhar.</p>
+    <div class="accel">
+      <div class="c"><h4>Decisão de marca travada</h4><p>Lime na casca, cor por persona, roxo devolvido ao Produtor. Uma paleta, versionada.</p></div>
+      <div class="c"><h4>Fluxo de cada persona visível</h4><p>Os cinco apps navegáveis mostram exatamente o que a área logada precisa ser — hoje ela cai no dashboard antigo.</p></div>
+      <div class="c"><h4>Onde cada vídeo entra</h4><p>Geral no topo, um pedaço por etapa, um por persona. O mapa de vídeo pronto pra produzir o que falta.</p></div>
+      <div class="c"><h4>Componentes reaproveitáveis</h4><p>Anel de completude, medidor, timeline, tour do Shoowme — desenhados uma vez, prontos pra reconstruir.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">SHOW<em>LINK</em></div>
+    <p>O hub da música ao vivo · Cascavel, Paraná — visão de construção, para acelerar o produto real.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var bar = document.querySelector('#spine i');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h>0 ? (window.scrollY/h)*100 : 0).toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  function fillMeter(el){ el.style.width = el.dataset.fill + '%'; }
+  function countUp(el){
+    var target = +el.dataset.count, pre = el.dataset.prefix||'', suf = el.dataset.suffix||'';
+    if(reduce){ el.firstChild.nodeValue = pre + target.toLocaleString('pt-BR') + suf; return; }
+    var t0=null, dur=1100;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1);
+      var v=Math.round(target*(1-Math.pow(1-p,3)));
+      el.firstChild.nodeValue = pre + v.toLocaleString('pt-BR') + suf;
+      if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(!e.isIntersecting) return;
+      e.target.querySelectorAll('.track i[data-fill]').forEach(fillMeter);
+      e.target.querySelectorAll('.big[data-count]').forEach(countUp);
+      io.unobserve(e.target);
+    });
+  }, {threshold:.4});
+  document.querySelectorAll('.inst').forEach(function(el){ io.observe(el); });
+})();
+</script>
