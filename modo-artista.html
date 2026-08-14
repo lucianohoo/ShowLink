@@ -4,342 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShowLink · Modo Artista — sua demanda é visível agora</title>
-<meta name="description" content="ShowLink: o fã vota, a demanda aparece, o show acontece. Só paga se acontecer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/home.css">
+<script src="js/auth-check.js"></script>
 </head>
 <body>
 
-<div id="meter"><i></i><b>DEMANDA</b></div>
-
 <header>
   <div class="hwrap">
-    <div class="logo">SHOW<em>LINK</em></div>
+    <a href="app.html" class="logo">SHOW<em>LINK</em></a>
     <nav>
       <span class="mode">ARTISTA</span>
-      
     </nav>
-    <button class="hcta" onclick="window.location.href='auth.html'">Entrar</button>
+    <div style="flex:1"></div>
+    <button class="hcta" onclick="window.showlink?.logout?.()">Sair</button>
   </div>
 </header>
 
-<section class="hero">
+<section class="hero" style="--tone:var(--artista)">
   <div>
     <div class="eyebrow">SUA DEMANDA É VISÍVEL AGORA</div>
     <h1>Quantas cidades estão pedindo você? <em>ShowLink mostra em tempo real.</em></h1>
     <p class="lede">Abra uma campanha de pré-venda. Fãs de múltiplas cidades pré-compram. Primeira cidade a validar = sábado. Segunda = sexta. Você sai de shows isolados pra uma turnê montada, sem risco.</p>
-    <div class="herobtns"><button class="btn" onclick="window.location.href='hall-shows.html'">Ver campanhas ativas</button>
-      <button class="btn ghost" onclick="window.location.href='hall-shows.html'">Iniciar nova campanha</button></div>
+    <div class="herobtns">
+      <button class="btn" onclick="window.location.href='hall-shows.html'">Ver campanhas ativas</button>
+      <button class="btn ghost" onclick="window.location.href='hall-shows.html'">Iniciar nova campanha</button>
+    </div>
   </div>
   <figure class="herovid">
     <video id="herovideo" src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" loop playsinline preload="metadata"></video>
     <div class="playwrap" id="playwrap" onclick="playHero()">
       <button class="playbtn" aria-label="Assistir ao vídeo de apresentação">▶</button>
-      <span class="playtag">O FILME · 2 MIN · COM SOM</span>
+      <span class="playtag">SEU FLUXO · 2 MIN · COM SOM</span>
     </div>
   </figure>
 </section>
 
-<div class="strip" id="numeros">
-  <div class="stripwrap">
-    <div class="stat"><b>17 anos</b><span>de Hooligans Pub sem interrupção</span></div>
-    <div class="stat"><b>5.000+</b><span>shows produzidos</span></div>
-    <div class="stat"><b>1.000+</b><span>artistas contratados</span></div>
-    <div class="stat"><b>23 → 100</b><span>bandas no catálogo</span></div>
-  </div>
-</div>
-
-<section class="chapters" id="como">
-  <h2 class="secttl">Como um voto vira um show</h2>
-  <p class="secsub">Seis etapas, cada uma com o trecho do filme que a explica. O vídeo carrega o peso; o texto é curto e no mesmo contexto. Assista na ordem ou pule para a que te interessa.</p>
+<section class="chapters" id="fluxo">
+  <h2 class="secttl">Como você faz uma banda tocar perto</h2>
+  <p class="secsub">Seis passos. Cada um tem o vídeo + contexto. Assista na ordem ou pule para a que te interessa.</p>
 
   <article class="chapter" style="--tone:var(--artista)">
     <figure class="chvid">
       <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 01 · 12s</figcaption>
+      <figcaption>PASSO 01 · 12s</figcaption>
     </figure>
     <div>
-      <div class="chnum">ETAPA 01 — O FÃ SUGERE</div>
-      <h3>Você sugere a banda. A galera vota junto.</h3>
-      <p>Toda semana a cidade monta sua pré-lista das dez. Você indica a banda que quer ver perto, e cada voto empurra ela para cima. As três mais votadas viram campanha. Quem indicou primeiro vira Fundador.</p>
+      <div class="chnum">PASSO 01 — VOCÊ SEGUE A BANDA</div>
+      <h3>Adicione até 5 bandas que você quer ver perto.</h3>
+      <p>Toda semana a ShowLink te mostra onde sua banda está pedida. Quanto mais perto, mais alta aparece. Você segue quantas quiser e avisa a gente qual é a próxima que você quer ver.</p>
       <div class="flow">
-        <span>RASCUNHO</span><span class="hot">VOTAÇÃO</span><span>PRÉ-VENDA</span><span>APROVADO</span><span>REALIZADO</span>
+        <span class="hot">SEGUINDO</span><span>CAMPANHA ABRIU</span><span>VALIDANDO</span><span>CONFIRMADO</span><span>REALIZADO</span>
       </div>
-      <div class="gauge" data-fill="82">
-        <div class="lbl"><span>PLUTÃO JÁ FOI PLANETA</span><b>1.247 VOTOS</b></div>
-        <div class="track"><i></i></div>
-      </div>
-      <div class="tags"><span>Pré-lista das 10</span><span>Voto coletivo</span><span>Top 3 vira campanha</span></div>
+      <div class="tags"><span>Até 5 bandas seguidas</span><span>Notificação quando abrir</span><span>Ranking de cidades</span></div>
     </div>
   </article>
 
   <article class="chapter" style="--tone:var(--artista)">
     <figure class="chvid">
       <video src="videos/03_fa_campanha_pix.mp4" poster="videos/03_fa_campanha_pix_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 02 · 12s</figcaption>
+      <figcaption>PASSO 02 · 12s</figcaption>
     </figure>
     <div>
-      <div class="chnum">ETAPA 02 — A CAMPANHA ABRE</div>
-      <h3>Reserva o ingresso. Só paga se o show acontecer.</h3>
-      <p>A campanha abre em cinco cidades ao mesmo tempo. Você reserva por Pix e só é cobrado quando o show é viabilizado. Não bateu a meta, ninguém paga — nem você, nem o produtor.</p>
+      <div class="chnum">PASSO 02 — A CAMPANHA ABRE PERTO</div>
+      <h3>Sua banda abriu pré-venda na sua cidade. Pré-compra agora.</h3>
+      <p>Plutão (ou a banda que você segue) abriu campanha em Cascavel, Toledo e Foz. Você pré-compra em Cascavel por Pix — sem cobrar nada agora. Só vai cobrar se atingir 400 ingressos (show confirmado).</p>
       <div class="flow">
-        <span>RASCUNHO</span><span>VOTAÇÃO</span><span class="hot">PRÉ-VENDA</span><span>APROVADO</span><span>REALIZADO</span><span class="bad">NÃO ATINGIU → ESTORNO</span>
+        <span>SEGUINDO</span><span class="hot">CAMPANHA ABRIU</span><span>VALIDANDO</span><span>CONFIRMADO</span><span>REALIZADO</span>
       </div>
-      <div class="motors">
-        <div class="motor dem">
-          <div class="h">MOTOR 1 · DEMANDA</div>
-          <div class="track"><i data-fill="95"></i></div>
-          <p>Votos e pré-ingressos dos fãs da região.</p>
-        </div>
-        <div class="motor apo">
-          <div class="h">MOTOR 2 · APOIO</div>
-          <div class="track"><i data-fill="60"></i></div>
-          <p>Cotas de patrocinador já sinalizadas.</p>
-        </div>
+      <div class="gauge" data-fill="97">
+        <div class="lbl"><span>PLUTÃO · CASCAVEL</span><b>389 / 400</b></div>
+        <div class="track"><i></i></div>
       </div>
-      <div class="tags"><span>Pré-ingresso reservado</span><span>Só paga se acontecer</span><span>Estorno automático</span></div>
+      <div class="tags"><span>Pré-ingresso (sem cobrança)</span><span>Só paga se validar</span><span>389/400 — faltam 11!</span></div>
     </div>
   </article>
 
   <article class="chapter" style="--tone:var(--artista)">
     <figure class="chvid">
-      <video src="videos/05_realizador_casas.mp4" poster="videos/05_realizador_casas_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 03 · 16s</figcaption>
+      <video src="videos/02_fa_votacao.mp4" poster="videos/02_fa_votacao_poster.jpg" muted loop playsinline preload="metadata"></video>
+      <figcaption>PASSO 03 · 18s</figcaption>
     </figure>
     <div>
-      <div class="chnum">ETAPA 03 — A CASA RECEBE</div>
-      <h3>A casa entra com o palco. A ShowLink entra com o público.</h3>
-      <p>O bar, o teatro e a secretaria de cultura ficam no mesmo sistema, vendo a mesma demanda. A casa sabe qual banda a cidade quer antes de assinar o contrato — e agenda com fila já formada.</p>
-      <div class="gauge" data-fill="91">
-        <div class="lbl"><span>OCUPAÇÃO MÉDIA</span><b>91%</b></div>
+      <div class="chnum">PASSO 03 — ACOMPANHE O PROGRESSO</div>
+      <h3>Faltam 11 ingressos. Compartilha com a galera.</h3>
+      <p>Você vê em tempo real quantos mais faltam. Se chegar a 400, o show é confirmado. A gente te avisa. Enquanto isso, convida seus amigos pra pré-comprar junto e validar o show mais rápido.</p>
+      <div class="flow">
+        <span>SEGUINDO</span><span>CAMPANHA ABRIU</span><span class="hot">VALIDANDO</span><span>CONFIRMADO</span><span>REALIZADO</span>
+      </div>
+      <div class="gauge" data-fill="97">
+        <div class="lbl"><span>PLUTÃO · CASCAVEL</span><b>389 / 400</b></div>
         <div class="track"><i></i></div>
       </div>
-      <div class="tags"><span>Casa Embaixadora</span><span>Agenda com demanda</span><span>Secretarias no sistema</span></div>
+      <div class="tags"><span>Progress em tempo real</span><span>Compartilha no WhatsApp</span><span>Convida amigos</span></div>
     </div>
   </article>
 
   <article class="chapter" style="--tone:var(--artista)">
     <figure class="chvid">
       <video src="videos/06_artista_estado.mp4" poster="videos/06_artista_estado_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 04 · 16s</figcaption>
+      <figcaption>PASSO 04 · 16s</figcaption>
     </figure>
     <div>
-      <div class="chnum">ETAPA 04 — A BANDA RODA</div>
-      <h3>Uma campanha vira turnê pelo estado inteiro.</h3>
-      <p>O que começou como voto em uma cidade abre pré-venda nas vizinhas. A banda sai de um show isolado para uma rota montada — cidade após cidade, casa cheia, sem risco de rodar no prejuízo.</p>
-      <div class="days">
-        <div><span>1ª casa a validar · sábado</span><b>VALOR CHEIO</b></div>
-        <div><span>2ª casa · sexta</span><b>−10 A 20%</b></div>
-        <div><span>3ª casa · quinta ou domingo</span><b>−15 A 30%</b></div>
+      <div class="chnum">PASSO 04 — SHOW CONFIRMADO!</div>
+      <h3>Atingiu 400. O show é seu. Sábado, 20h, no Hooligans.</h3>
+      <p>A primeira cidade a validar ganha a melhor noite (sábado). Você é cobrado agora — o ingresso é seu, e a gente confirma a data com a casa. O show foi validado. Você fez isso.</p>
+      <div class="flow">
+        <span>SEGUINDO</span><span>CAMPANHA ABRIU</span><span>VALIDANDO</span><span class="hot">CONFIRMADO</span><span>REALIZADO</span>
       </div>
-      <div class="tags"><span>Raio de 300 km</span><span>Rateio 40/25/25/10</span><span>Encaixe pelo produtor</span></div>
+      <div class="days">
+        <div><span>Plutão · Cascavel · sábado</span><b>20H · INGRESSO SEU</b></div>
+      </div>
+      <div class="tags"><span>Cobrança automática</span><span>Ingresso digital</span><span>Seu nome na lista</span></div>
     </div>
   </article>
 
   <article class="chapter" style="--tone:var(--artista)">
     <figure class="chvid">
       <video src="videos/07_transmissao.mp4" poster="videos/07_transmissao_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 05 · transmissão</figcaption>
+      <figcaption>PASSO 05 · 20s</figcaption>
     </figure>
     <div>
-      <div class="chnum">ETAPA 05 — UM SHOW VIRA MUITOS</div>
-      <h3>A casa que não recebeu a banda pode receber o show.</h3>
-      <p>Toda casa escolhe transmitir o próprio show para outras, receber a transmissão de outra, ou as duas coisas. Um show em Cascavel acende telas em cidades que nunca teriam aquela banda — e um show a mais de mil quilômetros chega na sua rua.</p>
-      <div class="tags"><span>Casa transmissora</span><span>Casa receptora</span><span>Selo AO VIVO no evento</span></div>
+      <div class="chnum">PASSO 05 — O SHOW ACONTECE</div>
+      <h3>Você estava aqui. A transmissão registra você.</h3>
+      <p>A ShowLink transmite ao vivo (pra quem não conseguiu ir). Você que validou aparece nos créditos como Fundador. Quantos shows você já validou? Sua lista de créditos cresce — é seu histórico de fã.</p>
+      <div class="flow">
+        <span>SEGUINDO</span><span>CAMPANHA ABRIU</span><span>VALIDANDO</span><span>CONFIRMADO</span><span class="hot">REALIZADO</span>
+      </div>
+      <div class="tags"><span>Transmissão ao vivo</span><span>Você aparece nos créditos</span><span>Histórico público</span></div>
     </div>
   </article>
 
   <article class="chapter" style="--tone:var(--artista)">
     <figure class="chvid">
       <video src="videos/04_fa_palco.mp4" poster="videos/04_fa_palco_poster.jpg" muted loop playsinline preload="metadata"></video>
-      <figcaption>ETAPA 06 · 4s</figcaption>
+      <figcaption>PASSO 06 · 4s</figcaption>
     </figure>
     <div>
-      <div class="chnum">ETAPA 06 — O PALCO É SEU</div>
+      <div class="chnum">PASSO 06 — O PALCO É SEU</div>
       <h3>De espectador, você virou a estrela principal.</h3>
       <p>O show que você trouxe fica no seu nome. Fundador daquela campanha, com prioridade na fila, camarote e foto com a banda quando ela chegar na sua cidade. Quem puxou o show entra por outra porta.</p>
-      <div class="gauge" data-fill="74">
-        <div class="lbl"><span>CURADOR ESPECIAL</span><b>2.480 PTS</b></div>
+      <div class="gauge" data-fill="100">
+        <div class="lbl"><span>VOCÊ É FUNDADOR</span><b>100%</b></div>
         <div class="track"><i></i></div>
       </div>
       <div class="tags"><span>Selo de fundador</span><span>Camarote</span><span>Foto com a banda</span></div>
     </div>
   </article>
+
 </section>
-
-<section class="modes" id="modos">
-  <h2 class="secttl">SOU:</h2>
-  <p class="secsub">A primeira pergunta da plataforma. Cada perfil vê e preenche só o que é dele — depois daqui ninguém cai numa home genérica, cada um entra na ShowLink dele.</p>
-  <div class="modegrid">
-    <a class="mode" style="--tone:var(--artista)" href="modo-fa.html" data-mode="fa">
-      <div class="k">MODO 01</div>
-      <h4>Fã</h4>
-      <p>Siga até 5 bandas, indique até 5 novas, vote e reserve o pré-ingresso.</p>
-      <div class="go">Sou fã →</div>
-    </a>
-    <a class="mode" style="--tone:var(--artista)" href="modo-artista.html" data-mode="artista">
-      <div class="k">MODO 02</div>
-      <h4>Artista</h4>
-      <p>Mantenha agenda e produtos vivos, entre em campanhas e apadrinhe até 5 bandas.</p>
-      <div class="go">Sou artista →</div>
-    </a>
-    <a class="mode" style="--tone:var(--artista)" href="modo-produtor.html" data-mode="produtor">
-      <div class="k">MODO 03</div>
-      <h4>Produtor</h4>
-      <p>Represente bandas com ficha completa e opere o encaixe de datas na região.</p>
-      <div class="go">Sou produtor →</div>
-    </a>
-    <a class="mode" style="--tone:var(--artista)" href="modo-patrocinador.html" data-mode="patrocinador">
-      <div class="k">MODO 04</div>
-      <h4>Patrocinador</h4>
-      <p>Escolha artistas por faixa etária e sinalize cotas em dinheiro ou serviço.</p>
-      <div class="go">Sou patrocinador →</div>
-    </a>
-    <a class="mode" style="--tone:var(--artista)" href="modo-realizador.html" data-mode="realizador">
-      <div class="k">MODO 05</div>
-      <h4>Casa ou secretaria</h4>
-      <p>Publique sua agenda, entre no rateio da região e aceite cotas de patrocínio.</p>
-      <div class="go">Sou casa ou secretaria →</div>
-    </a>
-  </div>
-</section>
-
-<footer>
-  <div class="fwrap">
-    <div class="logo">SHOW<em>LINK</em></div>
-    <p>O hub da música ao vivo · Cascavel, Paraná</p>
-  </div>
-</footer>
-
-<div id="bubble" role="dialog" aria-label="Shoowme">
-  <div class="who">SHOOWME 🦝</div>
-  <p id="btxt"></p>
-  <button onclick="fecha()">Fechar</button>
-</div>
-<button id="hoo" aria-label="Falar com o Shoowme" onclick="tap()">🦝</button>
 
 <script>
-(function(){
-  var bar = document.querySelector('#meter i');
-  function onScroll(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
-    bar.style.width = p.toFixed(1) + '%';
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-
-  var links = document.querySelectorAll('nav a');
-  var obsNav = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(!e.isIntersecting) return;
-      links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
-    });
-  }, {rootMargin:'-45% 0px -50% 0px'});
-  ['como','modos','numeros'].forEach(function(id){ var el=document.getElementById(id); if(el) obsNav.observe(el); });
-
-  var obsG = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(!e.isIntersecting) return;
-      e.target.querySelector('.track i').style.width = e.target.dataset.fill + '%';
-      obsG.unobserve(e.target);
-    });
-  }, {threshold:.4});
-  document.querySelectorAll('.gauge').forEach(function(g){ obsG.observe(g); });
-
-  var obsM = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(!e.isIntersecting) return;
-      e.target.style.width = e.target.dataset.fill + '%';
-      obsM.unobserve(e.target);
-    });
-  }, {threshold:.4});
-  document.querySelectorAll('.motor .track i').forEach(function(i){ obsM.observe(i); });
-
-  // capítulos: vídeo toca ao entrar na tela, pausa ao sair
-  var obsV = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      var v = e.target.querySelector('video');
-      if(!v) return;
-      if(e.isIntersecting){ v.play().catch(function(){}); } else { v.pause(); }
-    });
-  }, {threshold:.35});
-  document.querySelectorAll('.chvid').forEach(function(f){ obsV.observe(f); });
-})();
-
-// hero: vídeo geral com som (só o hero tem botão de play, por ter narração)
 function playHero(){
-  var modal = document.createElement('div');
-  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
-
-  var box = document.createElement('div');
-  box.style.cssText = 'background:var(--navy);border:1px solid var(--line);border-radius:20px;padding:40px;max-width:320px;text-align:center;font-family:var(--body)';
-
-  var title = document.createElement('h3');
-  title.textContent = 'Quer assistir?';
-  title.style.cssText = 'font-family:var(--display);font-weight:800;font-size:1.3rem;margin-bottom:12px;color:var(--paper)';
-
-  var desc = document.createElement('p');
-  desc.textContent = 'O filme tem som e narração. São 2 minutos que explicam o todo.';
-  desc.style.cssText = 'color:var(--mut);font-size:0.95rem;margin-bottom:28px;line-height:1.6';
-
-  var btnYes = document.createElement('button');
-  btnYes.textContent = 'Assistir com som';
-  btnYes.style.cssText = 'background:var(--lime);color:var(--ink);border:0;padding:12px 28px;border-radius:999px;font-weight:600;font-size:0.9rem;cursor:pointer;margin-right:10px;transition:transform 0.15s';
-  btnYes.onmouseover = function(){ this.style.transform = 'translateY(-2px)'; };
-  btnYes.onmouseout = function(){ this.style.transform = 'none'; };
-  btnYes.onclick = function(){
-    document.body.removeChild(modal);
-    var v = document.getElementById('herovideo');
-    var w = document.getElementById('playwrap');
-    v.muted = false; v.currentTime = 0;
-    v.play().catch(function(){ v.muted = true; v.play(); });
-    w.classList.add('hidden');
-  };
-
-  var btnNo = document.createElement('button');
-  btnNo.textContent = 'Cancelar';
-  btnNo.style.cssText = 'background:transparent;border:1.5px solid var(--line);color:var(--paper);padding:12px 28px;border-radius:999px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.15s';
-  btnNo.onmouseover = function(){ this.style.borderColor = 'var(--lime)'; this.style.color = 'var(--lime)'; };
-  btnNo.onmouseout = function(){ this.style.borderColor = 'var(--line)'; this.style.color = 'var(--paper)'; };
-  btnNo.onclick = function(){ document.body.removeChild(modal); };
-
-  var btns = document.createElement('div');
-  btns.style.cssText = 'display:flex;gap:8px;justify-content:center';
-  btns.appendChild(btnYes);
-  btns.appendChild(btnNo);
-
-  box.appendChild(title);
-  box.appendChild(desc);
-  box.appendChild(btns);
-  modal.appendChild(box);
-  document.body.appendChild(modal);
+  const vid=document.getElementById('herovideo');
+  const wrap=document.getElementById('playwrap');
+  vid.play();
+  wrap.style.display='none';
 }
-
-var falas = {
-  fa:'O fã segue até 5 bandas e indica até 5 novas. Quem indica primeiro tem preferência para construir a página — e vira Fundador daquela banda.',
-  artista:'O artista mantém agenda, lançamentos e produtos vivos, e pode apadrinhar até 5 bandas — 5% de cada nova contratação delas por um ano.',
-  produtor:'O produtor mantém a ficha técnica completa de cada banda que representa e encaixa datas próximas para baratear a rota.',
-  patrocinador:'A marca acompanha bandas pela faixa etária do público. Quando abre campanha na área do fã, um card espelhado abre aqui — e só aqui se compra cota.',
-  realizador:'Casa ou secretaria publica a agenda, entra no rateio da região por dia e decide se transmite, recebe, ou os dois.'
-};
-var bubble = document.getElementById('bubble');
-var btxt = document.getElementById('btxt');
-function diz(t){ btxt.textContent = t; bubble.classList.add('on'); }
-function fecha(){ bubble.classList.remove('on'); }
-function tap(){
-  if(bubble.classList.contains('on')){ fecha(); return; }
-  diz('Opa! Sou o Shoowme, guia da casa. Role a página pra ver como um voto vira show — ou escolhe teu modo lá embaixo que eu te levo por dentro.');
-}
-document.querySelectorAll('.mode').forEach(function(m){
-  m.addEventListener('mouseenter', function(){ diz(falas[m.dataset.mode]); });
-});
-setTimeout(function(){
-  diz('E aí! Shoowme aqui 🦝 Aperta o play no filme lá em cima que eu te explico o todo — depois desce que eu abro em seis etapas.');
-}, 1400);
 </script>
+
 </body>
 </html>
